@@ -4,27 +4,27 @@ const mongoose = require('mongoose')
 const userSchema = mongoose.Schema({
     firstName:{
         type:String,
-        require:true,
+        required:true,
         trim:true
     },
     lastName:{
         type:String,
-        require:true,
+        required:true,
         trim:true
     },
     email:{
         type:String,
-        require:true,
+        required:true,
         trim:true
     },
     password:{
         type:String,
-        require:true,
+        required:true,
         trim:true
     },
     accountType:{
         type:String,
-        require:true,
+        required:true,
         enum: ["Admin", "User"]
     },
     active:{
@@ -37,7 +37,7 @@ const userSchema = mongoose.Schema({
     },
     additionalDetails:{
         type: mongoose.Schema.Types.ObjectId,
-        require:true,
+        required:true,
         ref:"Profile"
     },
     token:{
@@ -48,7 +48,7 @@ const userSchema = mongoose.Schema({
     },
     image:{
         type:String,
-        require:true
+        required:true
     },
     ratings:[
         {
