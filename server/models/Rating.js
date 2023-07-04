@@ -3,13 +3,14 @@ const mongoose = require("mongoose")
 const ratingSchema = new mongoose.Schema({
     userId:{
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref:"User"
     },
     rating:{
         type:Number,
         required:true
     },
-    anime:{
+    animeId:{
         type: mongoose.Schema.Types.ObjectId,
         required:true,
         ref:"Anime"
