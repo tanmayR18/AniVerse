@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mailSender = require('../utils/mailSender')
 
 
 const otpSchema = new mongoose.Schema({
@@ -19,6 +20,28 @@ const otpSchema = new mongoose.Schema({
 })
 
 
+//function to send email
+async function sendVerificationEmail(email, otp){
+    try{
+        const mailResponse = await mailSender(
+            email,
+            "Verification email from RateMyAnime",
+            `Here is you one time password for verification ${otp}`
+        )
+    } catch(error){
+        console.log("Error occured while sending mail")
+        throw error
+    }
+}
+
+
+otpSchema.pre("save", async function(next){
+    //Only send an email when a new website is created
+    if(this.isNew){
+        await sendVerificationEmail(this.email,this.otp)
+    }
+    next()
+})
 
 
 module.exports = mongoose.model("OTP",otpSchema)
