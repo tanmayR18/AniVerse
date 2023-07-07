@@ -59,3 +59,22 @@ exports.isAdmin = () => {
         })
     }
 }
+
+
+//Authorisation for Users
+exports.isAdmin = () => {
+    try {
+        if(req.user.accountType !== "User"){
+            return res.status(401).json({
+                sucess:false,
+                message: "This is a protected route for Users only",
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            sucess:false,
+            message:"User role cannot be verified, please try again"
+        })
+    }
+}
+
