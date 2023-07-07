@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 require('dotenv')
 const User = require('../models/User')
 
-//auth 
+//authentions of users
 exports.auth = (req,res,next) => {
     try{
 
@@ -38,6 +38,24 @@ exports.auth = (req,res,next) => {
         return res.status(401).json({
             sucess:false,
             message:"Something went wrong while validationg the token"
+        })
+    }
+}
+
+
+//Authorisation for admin
+exports.isAdmin = () => {
+    try {
+        if(req.user.accountType !== "Admin"){
+            return res.status(401).json({
+                sucess:false,
+                message: "This is a protected route for Admin only",
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            sucess:false,
+            message:"User role cannot be verified, please try again"
         })
     }
 }
