@@ -3,6 +3,7 @@ const OTP = require('../models/OTP')
 const bcrypt = require('bcrypt')
 const Profile = require('../models/Profile')
 const jwt = require('jsonwebtoken')
+const mailSender = require('../utils/mailSender')
 
 //sent otp
 exports.sendOTP = async(req, res) => {
@@ -233,6 +234,78 @@ exports.login = async(req, res) => {
         return res.status(500).json({
             success:false,
             message: "Login failed please try again"
+        })
+    }
+}
+
+//change password
+exports.changePassword = async(req, res) => {
+    try{
+        //fetch data from the body
+        const {email, oldPassword, confirmPassword, newPassword} = req.body
+
+        //validate 
+        if(!email || !oldPassword || !confirmPassword || !newPassword){
+            return res.status(401).json({
+                success:false,
+                message:"All the fields are required"
+            })
+        }
+
+        // compare the new and confirm password
+        if(newPassword !== confirmPassword){
+            return res.status(400).json({
+                success:false,
+                message:"Enter the new and confirm password correctly"
+            })
+        }
+
+        //compare the new password with existing password in the db
+        if(oldPassword !== newPassword){
+            return res.status(400).json({
+                success:false,
+                message:"Invalid Password"
+            })
+        }
+
+        //hashing the new password
+        try{
+            const hashedPassword = await bcrypt.hash(newPassword,10)
+            const updatedUser = await User.findOneAndUpdate(
+                                        {email:email},
+                                        {password:hashedPassword},
+                                        {new:true}
+            )
+            
+            //send notification to the user for changing of password
+            try{
+                const emailResponse = await mailSender(
+                    updatedUser.email,
+                    "Password updated - RateMyAnime",
+                    `Password updated succesfully for ${updatedUser.firstName} ${updatedUser.lastName}`
+                )
+
+                console.log("Email response for changing password", emailResponse)
+            } catch(error){
+                //Error while sending messagae
+                console.error(error)
+                return res.status(500).json({
+                    success:false,
+                    message:"Failed to send otp for password change "
+                })
+            }
+        } catch(error){
+            return res.status(500).json({
+                error:error,
+                success:false,
+                message:"Failed to hash and store the password"
+            })
+        }
+
+    } catch(error) {
+        return res.status(500).json({
+            success:false,
+            message:"Failed to change the password"
         })
     }
 }
