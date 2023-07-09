@@ -23,18 +23,24 @@ const animeSchema = new mongoose.Schema({
     myAnimeListId: {
         type:String,
     },
-    reviews:[
+    ratingAndReviews:[
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Review"
+            ref: "RatingAndReview"
         }
-    ],
-    ratings:[
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Rating"
-        }
-    ],
+    ]
+    // reviews:[
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: "Review"
+    //     }
+    // ],
+    // ratings:[
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: "Rating"
+    //     }
+    // ],
 
 })
 
