@@ -135,7 +135,7 @@ exports.updateDisplayPicture = async(req, res) => {
     }
 }
 
-//Get all ratings
+//Get all users ratings
 exports.getAllUserRating = async(req, res) => {
     try{
         const id = req.user.id;
@@ -155,7 +155,7 @@ exports.getAllUserRating = async(req, res) => {
     }
 }
 
-//Get all reviews
+//Get all users reviews
 exports.getAllUserReviews = async(req, res) => {
     try{
         const id = req.user.id;
