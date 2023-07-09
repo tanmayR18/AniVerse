@@ -81,79 +81,34 @@ exports.createReview = async(req, res) => {
     }
 }
 
-// get all average rating
-exports.getAverageRating = async(req, res) => {
-    try{
-        //get anime id
-        const animeId = req.body.animeId
-        //calculate average rating
-        const result = await Rating.aggregate([
-            {
-                $match:{
-                    animeId: new mongoose.Types.ObjectId(animeId)
-                }
-            },
-            {
-                $group:{
-                    _id:null,
-                    averageRating:{$avg:"$rating"}
-                }
-            }
-        ])
 
-        //return rating
-        if(result.length > 0){
-            return res.status(200).json({
-                success: true,
-                message:"Calulate the average rating of the anime",
-                averageRating:result[0].averageRating
-            })
-            
-        }
-
-        //if no rating exist
-        return res.status(200).json({
-            success:true,
-            message:"Average Rating is 0, no rating given till now",
-            averageRating:0
-        })
-
-    } catch(error){
-        console.log("Error while averaging the rating",error)
-        return res.status(500).json({
-            success:false,
-            message:error.message
-        })
-    }
-}
-
-// get all rating
-exports.getAllRating = async(req, res) => {
+// get all review
+exports.getAllReview = async(req, res) => {
     try{
         //fetch the data in the descending order
-        const allRating = await Rating.find({})
-                                .sort({rating:"desc"})
-                                .populate({
-                                    path:"userId",
-                                    select:"firstName lastName image"
-                                })
-                                .populate({
-                                    path:"animeId",
-                                    select:"title"
-                                })
-                                .exec()
+        const allReview = await Review.find({})
+                                // .sort({rating:"desc"})
+                                // .populate({
+                                //     path:"userId",
+                                //     select:"firstName lastName image"
+                                // })
+                                // .populate({
+                                //     path:"animeId",
+                                //     select:"title"
+                                // })
+                                // .exec()
 
         //return the response once the data is fetched
         return res.status(200).json({
             success:true,
             message:"All Review fetched successfully",
-            data:allRating
+            data:allReview
         })
     } catch(error){
-        console.log("Error while fetching all the rating",error)
+        console.log("Error while fetching all the reviews",error)
         return res.status(500).json({
             success:false,
-            message: "Unable to get the rating"
+            message: "Unable to get the Reviews"
         })
     }
 }
