@@ -147,10 +147,30 @@ exports.getAllUserRating = async(req, res) => {
             })
         }
     } catch(error) {
+        console.log(error)
         return res.status(500).json({
-            console.log(error),
             success: true,
             message:"Error while getting the users ratings"
+        })
+    }
+}
+
+//Get all reviews
+exports.getAllUserReviews = async(req, res) => {
+    try{
+        const id = req.user.id;
+        const user = await User.findById(id).populate("reviews").exec()
+        if(!user){
+            return res.status(400).json({
+                success: false,
+                message: `Couldn't find rating data of ${user.firstName} ${user.firstName}`
+            })
+        }
+    } catch(error) {
+        console.log(error)
+        return res.status(500).json({
+            success: true,
+            message:"Error while getting the users reviews"
         })
     }
 }
