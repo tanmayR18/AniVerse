@@ -83,4 +83,21 @@ exports.deleteAccount = async(req,res) => {
     }
 }
 
-//
+//Funtion for getting the user details
+exports.getAllUserDetails = async(req, res) => {
+    try{
+        const id = req.user.id
+        const userDetails = await User.findById(id).populate("additionalDetails").exec();
+        console.log(userDetails)
+        return res.status(200).json({
+            sucess: true,
+            message:"User data fetched successfully",
+            data:userDetails
+        })
+    } catch(error) {
+        return res.status(500).json({
+            success:false,
+            message:error.message
+        })
+    }
+}
