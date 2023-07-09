@@ -81,3 +81,50 @@ exports.createRatingAndReview = async(req, res) => {
     }
 }
 
+//Function for getting average of the rating of the anime
+exports.getAverageRating = async(req, res) => {
+    try{
+        //get anime id
+        const animeId = req.body.animeId
+        //calculate average rating
+        const result = await RatingAndReview.aggregate([
+            {
+                $match:{
+                    animeId: new mongoose.Types.ObjectId(animeId)
+                }
+            },
+            {
+                $group:{
+                    _id:null,
+                    averageRating:{$avg:"$rating"}
+                }
+            }
+        ])
+
+        //return rating
+        if(result.length > 0){
+            return res.status(200).json({
+                success: true,
+                message:"Calulate the average rating of the anime",
+                averageRating:result[0].averageRating
+            })
+            
+        }
+
+        //if no rating exist
+        return res.status(200).json({
+            success:true,
+            message:"Average Rating is 0, no rating given till now",
+            averageRating:0
+        })
+
+    } catch(error){
+        console.log("Error while averaging the rating",error)
+        return res.status(500).json({
+            success:false,
+            message:error.message
+        })
+    }
+}
+
+
