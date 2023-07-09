@@ -127,4 +127,33 @@ exports.getAverageRating = async(req, res) => {
     }
 }
 
+//Function for getting all the rating and reviews
+exports.getAllRatingAndReviews = async(req, res) => {
+    try{
+        //fetch the data in the descending order
+        const allRatingAndReviews = await RatingAndReview.find({})
+                                .sort({rating:"desc"})
+                                .populate({
+                                    path:"userId",
+                                    select:"firstName lastName image"
+                                })
+                                .populate({
+                                    path:"animeId",
+                                    select:"title"
+                                })
+                                .exec()
 
+        //return the response once the data is fetched
+        return res.status(200).json({
+            success:true,
+            message:"All Review fetched successfully",
+            data:allRatingAndReviews
+        })
+    } catch(error){
+        console.log("Error while fetching all the rating",error)
+        return res.status(500).json({
+            success:false,
+            message: "Unable to get the rating"
+        })
+    }
+}
