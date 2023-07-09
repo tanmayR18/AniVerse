@@ -101,3 +101,36 @@ exports.getAllUserDetails = async(req, res) => {
         })
     }
 }
+
+//Function for updating profile picture
+exports.updateDisplayPicture = async(req, res) => {
+    try{
+        const displayPicture = req.files.displayPicture
+        const userId = req.user.id
+
+        const image = await updateImageToCloudinary(
+            displayPicture,
+            process.env.FOLDER_NAME,
+            1000,
+            1000
+        )
+        console.log(image)
+        const updatedProfile = await User.findByIdAndUpdate(
+            userId,
+            {image: image.secure_url},
+            {new:true}
+        )
+
+        return res.status(200).json({
+            success: true,
+            message: "Image Updated Successfully",
+            data:updatedProfile
+        })
+    } catch(error) {
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            message: "Error will updating the profile picture"
+        })
+    }
+}
