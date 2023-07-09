@@ -29,7 +29,7 @@ const animeSchema = new mongoose.Schema({
             ref: "Review"
         }
     ],
-    rating:[
+    ratings:[
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Rating"
