@@ -53,3 +53,34 @@ exports.updatedProfile = async(req, res) => {
 		});
     }
 }
+
+//function for deleting the account
+exports.deleteAccount = async(req,res) => {
+    try{
+        const id = req.user.id
+        const user = await User.findById(id)
+        if(!user){
+            return res.status(404).json({
+                success:false,
+                message: "User not found"
+            })
+        }
+        //delete assosiate profile with the user
+        await Profile.findByIdAndDelete(user.additionalDetails)
+
+        //Think whether we should delete the rating and review of the deleted users or not?
+        await User.findByIdAndDelete(id)
+        res.status(200).json({
+            success:true,
+            message:"User deleted successfully"
+        })  
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            message:"Unable to Delete the user please try later"
+        })
+    }
+}
+
+//
