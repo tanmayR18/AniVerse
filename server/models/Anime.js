@@ -15,13 +15,17 @@ const animeSchema = new mongoose.Schema({
     },
     genres:{
         type: String,
-        required:true
     },
     animeDbId:{
         type: String,
     },
     myAnimeListId: {
         type:String,
+    },
+    adminId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true
     },
     ratingAndReviews:[
         {
