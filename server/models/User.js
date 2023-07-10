@@ -50,18 +50,25 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    ratings:[
+    ratingAndReviews:[
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref:"Rating"
-        }
-    ],
-    reviews:[
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref:"Review"
+            ref: "RatingAndReview"
         }
     ]
+    // ratings:[
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref:"Rating"
+    //     }
+    // ],
+    // reviews:[
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref:"Review"
+    //     }
+    // ]
+
 },
 //Add timestamps for when the document is created and last modified
 {timestamps:true})

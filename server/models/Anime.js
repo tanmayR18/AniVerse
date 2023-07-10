@@ -15,7 +15,6 @@ const animeSchema = new mongoose.Schema({
     },
     genres:{
         type: String,
-        required:true
     },
     animeDbId:{
         type: String,
@@ -23,18 +22,32 @@ const animeSchema = new mongoose.Schema({
     myAnimeListId: {
         type:String,
     },
-    reviews:[
+    createdAdminId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User",
+    },
+    updatedAdminId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User",
+    },
+    ratingAndReviews:[
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Review"
+            ref: "RatingAndReview"
         }
-    ],
-    ratings:[
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Rating"
-        }
-    ],
+    ]
+    // reviews:[
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: "Review"
+    //     }
+    // ],
+    // ratings:[
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: "Rating"
+    //     }
+    // ],
 
 })
 
