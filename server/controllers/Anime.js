@@ -87,4 +87,50 @@ exports.getAllRatedAnime = async(req, res) => {
     }
 }
 
+//Get Anime Details
+exports.getAnimeRatedAnime = async(req, res) => {
+    try{
+        //fetch the data
+        const {title} = req.body
+
+        //validate 
+        if(!title){
+            return res.status(404).json({
+                success:false,
+                message:"Enter the anime name"
+            })
+        }
+
+        //search the anime in the db
+        const animeDetail = await Anime.find({title})
+
+        if(!animeDetail){
+            return res.status(200).json({
+                success:true,
+                message:"Specified anime not found",
+                data: false
+            })
+        }
+
+        //send the response to the user
+        return res.status(200).json({
+            success:true,
+            message:"Fetched the anime Details successfully",
+            data: animeDetail
+        })
+        
+    } catch(error) {
+        console.log(error)
+        return res.status(500).json({
+            success:true,
+            message:"Unable to fetch the data from db",
+            data:false,
+        })
+    }
+}
+
+//update anime post
+
+//Delete anime post
+
 
