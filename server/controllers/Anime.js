@@ -66,3 +66,25 @@ exports.createAnimePost = async(req, res) => {
 }
 
 
+//Get all rated anime post
+exports.getAllRatedAnime = async(req, res) => {
+    try{
+        const animeDetails = await Anime.find({})
+                                    .populate("ratingAndReview")
+                                    .exec()
+        
+        return res.status(200).json({
+            success:true,
+            message:"All the rated anime fetched successfully",
+            data: animeDetails
+        })
+    } catch(error) {
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            message:"Failed to fetch all the rated anime"
+        })
+    }
+}
+
+
