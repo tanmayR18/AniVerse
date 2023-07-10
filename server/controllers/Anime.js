@@ -195,3 +195,39 @@ exports.updateAnimePost = async(req, res) => {
 }
 
 
+//Delete anime post
+exports.deleteAnimePost = async(req, res) => {
+    try{
+        //fetch the data
+        const {animeID} = req.body
+        const adminId = req.user.id
+
+        //check if the anime Post existed
+        const animeDetail = await Anime.findById(animeID)
+
+        if(!animeDetail){
+            return res.status(404).json({
+                success:false,
+                message:"Anime post not found"
+            })
+        }
+
+        //DB call for deleting the anime
+        const deletedAnime = await Anime.findByIdAndDelete(animeID)
+
+        //send response after deleting
+        if(deletedAnime){
+            return res.status(200).json({
+                success:true,
+                message:"Anime post delete successfully"
+            })
+        }
+        
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            message:"Failed to deleted anime post"
+        })
+    }
+}
