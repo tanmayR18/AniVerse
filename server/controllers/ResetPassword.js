@@ -60,3 +60,66 @@ exports.resetPasswordToken = async(req, res) => {
 }
 
 //reset password
+exports.resetPassword = async(req, res) => {
+    try{
+        //fetch the data
+        const {password, confirmPassword, token} = req.body
+
+        //validation
+        if(password !== confirmPassword) {
+            return res.status(401).json({
+                success:false,
+                message:"Passwords does not match"
+            })
+        }
+
+        //get the user detials
+        const userDetails = await User.find({token:token})
+
+        //if no user existed
+        if(!userDetails){
+            return res.status(404).json({
+                success:false,
+                message:"Token is invalid"
+            })
+        }
+
+        //check token expire time
+        if(userDetails.resetPasswordExpires < Date.now()){
+            return res.status(401).json({
+                success:false,
+                message:"Token is expired, please regenerate your token"
+            })
+        }
+
+        // hash the password
+        const hashedPassword = await bcrypt.hash(password,10)
+
+        //update the password in the db
+        const updatedUser = await User.findOneAndUpdate(
+                {token:token},
+                {password:hashedPassword},
+                {new:true}
+        )
+
+        //send email 
+        await mailSender(
+            email,
+            "Password Updated - RateMyAnime",
+            `Your password was updated at ${date.toString().split(" ").splice(0,5).join(" ")} .
+            Infrom the Admin or Developer if it wasn't you`
+        )
+
+        //return response
+        res.status(200).json({
+            success:true,
+            message:"Password reset successfully"
+        })
+
+    } catch(error){
+        return res.status(500).json({
+            success:false,
+            message:"Something went wrong while reseting the password"
+        })
+    }
+}
