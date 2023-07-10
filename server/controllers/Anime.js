@@ -43,7 +43,7 @@ exports.createAnimePost = async(req, res) => {
             genres:genres,
             animeDbId:animeDbId,
             myAnimeListId:myAnimeListId,
-            adminId:adminId,
+            createdAdminId:adminId,
             ratingAndReviews:ratingAndReviews
         })
 
@@ -71,6 +71,8 @@ exports.getAllRatedAnime = async(req, res) => {
     try{
         const animeDetails = await Anime.find({})
                                     .populate("ratingAndReview")
+                                    .populate("createdAdminId")
+                                    .populate("updatedAdminId")
                                     .exec()
         
         return res.status(200).json({
@@ -91,7 +93,7 @@ exports.getAllRatedAnime = async(req, res) => {
 exports.getAnimeRatedAnime = async(req, res) => {
     try{
         //fetch the data
-        const {title} = req.body
+        const {animeId} = req.body
 
         //validate 
         if(!title){
@@ -102,7 +104,11 @@ exports.getAnimeRatedAnime = async(req, res) => {
         }
 
         //search the anime in the db
-        const animeDetail = await Anime.find({title})
+        const animeDetail = await Anime.findById(animeId)
+                                        .populate("ratingAndReview")
+                                        .populate("createdAdminId")
+                                        .populate("updatedAdminId")
+                                        .exec()
 
         if(!animeDetail){
             return res.status(200).json({
@@ -130,7 +136,62 @@ exports.getAnimeRatedAnime = async(req, res) => {
 }
 
 //update anime post
+exports.updateAnimePost = async(req, res) => {
+    try{
+        //fetch data
+        const {
+            animeId,
+            title,
+            description,
+            image,
+            genres = "",
+            animeDbId = "",
+            myAnimeListId = "",
+            ratingAndReviews = "",
+        } = req.body
 
-//Delete anime post
+        const adminId = req.user.id
+
+        //check is the anime present
+        const animeDetail = await Anime.findById(animeId)
+
+        if(!animeDetail){
+            return res.status(404).json({
+                success: false,
+                message:"Anime post not found"
+            })
+        }
+
+        //update the anime post
+        const updatedAnimePost = await Anime.findByIdAndUpdate(
+                                            animeId,
+                                            {
+                                                title:title,
+                                                description:description,
+                                                image:image,
+                                                genres:genres,
+                                                animeDbId:animeDbId,
+                                                myAnimeListId:myAnimeListId,
+                                                updatedAdminId:adminId,
+                                                ratingAndReviews:ratingAndReviews
+                                            },
+                                            {new:true}
+                                )
+
+        //send response
+        return res.status(200).json({
+            success:true,
+            message: "Anime post updated successfully",
+            data: updatedAnimePost
+        })
+
+    } catch(error) {
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            message: "Unable to update the anime post",
+        })
+    }
+}
 
 

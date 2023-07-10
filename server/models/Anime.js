@@ -22,10 +22,13 @@ const animeSchema = new mongoose.Schema({
     myAnimeListId: {
         type:String,
     },
-    adminId:{
+    createdAdminId:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"User",
-        required:true
+    },
+    updatedAdminId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User",
     },
     ratingAndReviews:[
         {
