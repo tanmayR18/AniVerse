@@ -20,22 +20,6 @@ const {
 
 
 
-//***************************************************************//
-//                     Authentication Routes
-//***************************************************************//
-
-router.post("/login",login)
-router.post("/signup",signup)
-router.post("/sendOTP",sendOTP)
-router.post("/changePassword",changePassword)
-
-
-
-
-//***************************************************************//
-//                      Profile Routes
-//***************************************************************//
-
 //api for updating the profile
 router.post("/updateProfile",auth,updatedProfile)
 
@@ -50,3 +34,5 @@ router.post("/updateDisplayPicture",auth,updateDisplayPicture)
 
 //api for getting all users rating and review
 router.get("/getAllUserRatingAndReviews",auth,getAllUserRatingAndReviews)
+
+module.exports = router
