@@ -40,4 +40,4 @@ router.put("/updateAnimePost",auth,isAdmin,updateAnimePost)
 router.put("/deleteAnimePost",auth,isAdmin,deleteAnimePost)
 
 
-module.exports = router
+module.exports = r

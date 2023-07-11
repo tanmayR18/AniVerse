@@ -136,16 +136,21 @@ exports.updateDisplayPicture = async(req, res) => {
 }
 
 //Get all users ratings
-exports.getAllUserRating = async(req, res) => {
+exports.getAllUserRatingAndReviews = async(req, res) => {
     try{
         const id = req.user.id;
-        const user = await User.findById(id).populate("ratings").exec()
+        const user = await User.findById(id).populate("ratingAndReviews").exec()
         if(!user){
             return res.status(400).json({
                 success: false,
                 message: `Couldn't find rating data of ${user.firstName} ${user.firstName}`
             })
         }
+        return res.status(200).json({
+            success:true,
+            message:"Rating and review fetched successfully",
+            data:user
+        })
     } catch(error) {
         console.log(error)
         return res.status(500).json({
@@ -156,21 +161,21 @@ exports.getAllUserRating = async(req, res) => {
 }
 
 //Get all users reviews
-exports.getAllUserReviews = async(req, res) => {
-    try{
-        const id = req.user.id;
-        const user = await User.findById(id).populate("reviews").exec()
-        if(!user){
-            return res.status(400).json({
-                success: false,
-                message: `Couldn't find rating data of ${user.firstName} ${user.firstName}`
-            })
-        }
-    } catch(error) {
-        console.log(error)
-        return res.status(500).json({
-            success: true,
-            message:"Error while getting the users reviews"
-        })
-    }
-}
+// exports.getAllUserReviews = async(req, res) => {
+//     try{
+//         const id = req.user.id;
+//         const user = await User.findById(id).populate("reviews").exec()
+//         if(!user){
+//             return res.status(400).json({
+//                 success: false,
+//                 message: `Couldn't find rating data of ${user.firstName} ${user.firstName}`
+//             })
+//         }
+//     } catch(error) {
+//         console.log(error)
+//         return res.status(500).json({
+//             success: true,
+//             message:"Error while getting the users reviews"
+//         })
+//     }
+// }
