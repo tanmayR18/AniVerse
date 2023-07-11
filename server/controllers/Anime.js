@@ -90,7 +90,7 @@ exports.getAllRatedAnime = async(req, res) => {
 }
 
 //Get Anime Details
-exports.getAnimeRatedAnime = async(req, res) => {
+exports.getRatedAnime = async(req, res) => {
     try{
         //fetch the data
         const {animeId} = req.body
