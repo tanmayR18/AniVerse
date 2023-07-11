@@ -62,7 +62,7 @@ exports.isAdmin = () => {
 
 
 //Authorisation for Users
-exports.isAdmin = () => {
+exports.isUser = () => {
     try {
         if(req.user.accountType !== "User"){
             return res.status(401).json({
