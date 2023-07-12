@@ -40,9 +40,9 @@ app.use(
 cloudinaryConnect();
 
 //define routes
-app.use("api/v1/auth",userRouter)
-app.use("api/v1/profile",profileRouter)
-app.use("api/v1/anime",animeRouter)
+app.use("/api/v1/auth",userRouter)
+app.use("/api/v1/profile",profileRouter)
+app.use("/api/v1/anime",animeRouter)
 
 app.get("/", (req, res) => {
     res.send("<h1>Yee Buddy Light Weight</h1>")

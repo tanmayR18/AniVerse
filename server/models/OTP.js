@@ -37,9 +37,11 @@ async function sendVerificationEmail(email, otp){
 
 otpSchema.pre("save", async function(next){
     //Only send an email when a new website is created
+    console.log("Inside pre")
     if(this.isNew){
         await sendVerificationEmail(this.email,this.otp)
     }
+    console.log("Before this")
     next()
 })
 

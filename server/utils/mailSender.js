@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer')
+require("dotenv").config()
 
-const mailSender = async({email, title, body}) => {
+const mailSender = async(email, title, body) => {
     try{
         let transporter = nodemailer.createTransport({
             host: process.env.MAIL_HOST,
@@ -17,7 +18,7 @@ const mailSender = async({email, title, body}) => {
             html:body
         })
 
-        console.log(info)
+        console.log("Infor of mail", info)
         return info
     } catch(error){
         console.log("Error while sending mail",error.message)

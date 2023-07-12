@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const Profile = require('../models/Profile')
 const jwt = require('jsonwebtoken')
 const mailSender = require('../utils/mailSender')
+const otpGenerator = require("otp-generator")
 
 //sent otp
 exports.sendOTP = async(req, res) => {
@@ -31,7 +32,9 @@ exports.sendOTP = async(req, res) => {
             specialChars:false
         });
 
+        console.log("Before db Call")
         const result = await OTP.findOne({ otp: otp });
+        console.log("after db Call")
 
         while (result && attempts < maxAttempts) {
         otp = otpGenerator.generate(6, { 

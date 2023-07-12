@@ -14,8 +14,7 @@ const {
     updatedProfile,
     deleteAccount,
     getAllUserDetails,
-    getAllUserRating,
-    getAllUserReviews,
+    getAllUserRatingAndReviews,
 } = require("../controllers/Profile")
 
 

@@ -29,7 +29,7 @@ const {
 
 router.post("/login",login)
 router.post("/signup",signup)
-router.post("/sendOTP",sendOTP)
+router.post("/sendotp",sendOTP)
 router.post("/changePassword",changePassword)
 
 //***************************************************************//
