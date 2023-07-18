@@ -29,14 +29,14 @@ const {
 
 router.post("/login",login)
 router.post("/signup",signup)
-router.post("/sendOTP",sendOTP)
+router.post("/sendotp",sendOTP)
 router.post("/changePassword",changePassword)
 
 //***************************************************************//
 //                     Reset-Password Routes
 //***************************************************************//
 
-router.post("reset-password-token",resetPasswordToken)
-router.post("reset-password",resetPassword)
+router.post("/reset-password-token",resetPasswordToken)
+router.post("/reset-password",resetPassword)
 
 module.exports = router

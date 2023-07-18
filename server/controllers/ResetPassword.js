@@ -103,8 +103,9 @@ exports.resetPassword = async(req, res) => {
         )
 
         //send email 
+        const date = new Date(Date.now())
         await mailSender(
-            email,
+            updatedUser.email,
             "Password Updated - RateMyAnime",
             `Your password was updated at ${date.toString().split(" ").splice(0,5).join(" ")} .
             Infrom the Admin or Developer if it wasn't you`
@@ -119,7 +120,8 @@ exports.resetPassword = async(req, res) => {
     } catch(error){
         return res.status(500).json({
             success:false,
-            message:"Something went wrong while reseting the password"
+            message:"Something went wrong while reseting the password",
+            error:error.message
         })
     }
 }

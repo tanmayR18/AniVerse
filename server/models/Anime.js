@@ -30,6 +30,10 @@ const animeSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:"User",
     },
+    updatedAt:{
+        type:Date,
+        default:Date.now()
+    },
     ratingAndReviews:[
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -49,6 +53,7 @@ const animeSchema = new mongoose.Schema({
     //     }
     // ],
 
-})
+},
+{timestamps:true})
 
 module.exports = mongoose.model("Anime", animeSchema)

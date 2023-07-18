@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const Profile = require('../models/Profile')
 const jwt = require('jsonwebtoken')
 const mailSender = require('../utils/mailSender')
+const otpGenerator = require("otp-generator")
 
 //sent otp
 exports.sendOTP = async(req, res) => {
@@ -31,7 +32,9 @@ exports.sendOTP = async(req, res) => {
             specialChars:false
         });
 
+        console.log("Before db Call")
         const result = await OTP.findOne({ otp: otp });
+        console.log("after db Call")
 
         while (result && attempts < maxAttempts) {
         otp = otpGenerator.generate(6, { 
@@ -111,13 +114,15 @@ exports.signup = async(req, res) => {
         }
 
         //check the most recent otp for the user's email
-        const recentOTP = await OTP.findOne({email}).sort({createdAt:-1}).limit(1)
+        const recentOTP = await OTP.find({email}).sort({createdAt:-1}).limit(1)
+        console.log("Recent otp",recentOTP)
+        console.log("User otp",otp)
         if (recentOTP.lenght == 0){
             return res.status(400).json({
                 success: false,
                 message: "OTP not found"
             })
-        } else if(recentOTP !== otp){
+        } else if(recentOTP[0].otp !== otp){
             return res.status(400).json({
                 success:false,
                 message:"Invalid OTP"
@@ -187,16 +192,19 @@ exports.login = async(req, res) => {
         }
 
         // check if the user present 
+        
         const user = await User.findOne({email}).populate("additionalDetails")
+        
         if(!user){
-            return res.status(401).status({
+            console.log("Inside the return response of user not registered")
+            return res.status(401).json({
                 success:false,
                 message: "User is not registered, please signup first"
             })
         }
 
         //check the passoword from the db and generate jwt token 
-        if(bcrypt.compare(password, user.password)){
+        if(await bcrypt.compare(password, user.password)){
             const payload = {
                 email: user.email,
                 id: user._id,

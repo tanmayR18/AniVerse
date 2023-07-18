@@ -14,9 +14,11 @@ const {
     updatedProfile,
     deleteAccount,
     getAllUserDetails,
-    getAllUserRating,
-    getAllUserReviews,
+    getAllUserRatingAndReviews,
 } = require("../controllers/Profile")
+
+//fetch the change Password controller from AUth 
+const {changePassword} = require("../controllers/Auth")
 
 
 
@@ -34,5 +36,8 @@ router.post("/updateDisplayPicture",auth,updateDisplayPicture)
 
 //api for getting all users rating and review
 router.get("/getAllUserRatingAndReviews",auth,getAllUserRatingAndReviews)
+
+//api for changing the password after login in inside the profile section
+router.post("/changePassword",changePassword)
 
 module.exports = router

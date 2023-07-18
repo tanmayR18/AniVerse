@@ -22,9 +22,8 @@ exports.auth = (req,res,next) => {
         //verify the token
         try{
             const decode = jwt.verify(token, process.env.JWT_SECRET)
-            console.log(decode)
+            console.log("Value from user's token",decode)
             req.user = decode
-            console.log("Inside auth", req.user)
         } catch(err){
             //verfication issue
             return res.status(401).json({
@@ -32,7 +31,7 @@ exports.auth = (req,res,next) => {
                 message:"Token is invalid",
             })
         }
-
+        console.log("Authentication successfully")
         next()
     } catch(error) {
         return res.status(401).json({
@@ -44,7 +43,7 @@ exports.auth = (req,res,next) => {
 
 
 //Authorisation for admin
-exports.isAdmin = () => {
+exports.isAdmin = (req, res, next) => {
     try {
         if(req.user.accountType !== "Admin"){
             return res.status(401).json({
@@ -58,11 +57,13 @@ exports.isAdmin = () => {
             message:"User role cannot be verified, please try again"
         })
     }
+    console.log("Authorization completed for Admin")
+    next()
 }
 
 
 //Authorisation for Users
-exports.isUser = () => {
+exports.isUser = (req, res, next) => {
     try {
         if(req.user.accountType !== "User"){
             return res.status(401).json({
@@ -76,5 +77,7 @@ exports.isUser = () => {
             message:"User role cannot be verified, please try again"
         })
     }
+    console.log("Authorization completed for User")
+    next()
 }
 

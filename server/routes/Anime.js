@@ -15,7 +15,8 @@ const {
     getAllRatedAnime,
     getRatedAnime,
     updateAnimePost,
-    deleteAnimePost
+    deleteAnimePost,
+    getLatestAnime
 } = require("../controllers/Anime")
 
 
@@ -39,16 +40,19 @@ const {
 router.post("/createAnimePost",auth,isAdmin,createAnimePost)
 
 //api for getting all the rated anime details
-router.get("/getAllRatedAnime",auth,isAdmin,getAllRatedAnime)
+router.get("/getAllRatedAnime",getAllRatedAnime)
 
 //api for getting a single anime details
-router.post("/getRatedAnime",auth,isAdmin,getRatedAnime)
+router.post("/getRatedAnime",getRatedAnime)
 
 //api for updating anime posts
 router.put("/updateAnimePost",auth,isAdmin,updateAnimePost)
 
 //api for deleting anime post
-router.put("/deleteAnimePost",auth,isAdmin,deleteAnimePost)
+router.delete("/deleteAnimePost",auth,isAdmin,deleteAnimePost)
+
+//api for getting 5 latest anime post
+router.get("/getLatestAnime",getLatestAnime)
 
 
 //***************************************************************//
