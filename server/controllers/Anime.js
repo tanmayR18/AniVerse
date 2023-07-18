@@ -1,5 +1,8 @@
 const Anime = require('../models/Anime')
 const ratingAndReview = require("../models/RatingAndReview")
+const { uploadImageToCloudinary } = require('../utils/imageUploader')
+
+require("dotenv").config()
 
 
 //create an Anime post
@@ -9,15 +12,16 @@ exports.createAnimePost = async(req, res) => {
         const {
             title,
             description,
-            image,
+            // image,
             genres = "",
             animeDbId = "",
             myAnimeListId = "",
             //ratingAndReviews = "",
         } = req.body
 
-        const adminId = req.user.id
+        const image = req.files.imageFile
 
+        const adminId = req.user.id
 
         //validate the data
         if(!title || !description || !image){
@@ -37,11 +41,22 @@ exports.createAnimePost = async(req, res) => {
             })
         }
 
+
+        //Upload Anime post image to cloudinary
+        const animePostImage = await uploadImageToCloudinary(
+            image,
+            process.env.FOLDER_NAME,
+            1000,
+            1000
+        )
+        
+        console.log("Image uploaded to cloudinary", animePostImage)
+
         //create an entry in the ANime document DB
         const animePost = await Anime.create({
             title:title,
             description:description,
-            image:image,
+            image:animePostImage.secure_url,
             genres:genres,
             animeDbId:animeDbId,
             myAnimeListId:myAnimeListId,
@@ -62,7 +77,8 @@ exports.createAnimePost = async(req, res) => {
         console.log(error)
         return res.status(500).json({
             success:false,
-            message:"Failed to create the anime post"
+            message:"Failed to create the anime post",
+            error:error.message
         })
     }
 }
