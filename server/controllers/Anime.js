@@ -87,7 +87,7 @@ exports.createAnimePost = async(req, res) => {
 exports.getAllRatedAnime = async(req, res) => {
     try{
         const animeDetails = await Anime.find({})
-                                    .populate("ratingAndReview")
+                                    // .populate("ratingAndReview")
                                     .populate("createdAdminId")
                                     .populate("updatedAdminId")
                                     .exec()
@@ -160,16 +160,17 @@ exports.updateAnimePost = async(req, res) => {
         //fetch data
         const {
             animeId,
-            title,
-            description,
-            image,
+            title="",
+            description="",
+            // image,
             genres = "",
             animeDbId = "",
             myAnimeListId = "",
-            ratingAndReviews = "",
         } = req.body
 
         const adminId = req.user.id
+
+        const image = req.files.imageFile || ""
 
         //check is the anime present
         const animeDetail = await Anime.findById(animeId)
@@ -181,18 +182,25 @@ exports.updateAnimePost = async(req, res) => {
             })
         }
 
+        //updloading image to cloudinary
+            const animePostImage = await uploadImageToCloudinary(
+                image,
+                process.env.FOLDER_NAME,
+                1000,
+                1000
+            ) 
+
         //update the anime post
         const updatedAnimePost = await Anime.findByIdAndUpdate(
                                             animeId,
                                             {
                                                 title:title,
                                                 description:description,
-                                                image:image,
+                                                image:animePostImage.secure_url,
                                                 genres:genres,
                                                 animeDbId:animeDbId,
                                                 myAnimeListId:myAnimeListId,
                                                 updatedAdminId:adminId,
-                                                ratingAndReviews:ratingAndReviews
                                             },
                                             {new:true}
                                 )
@@ -209,6 +217,7 @@ exports.updateAnimePost = async(req, res) => {
         return res.status(500).json({
             success: false,
             message: "Unable to update the anime post",
+            error:error.message
         })
     }
 }
@@ -218,11 +227,11 @@ exports.updateAnimePost = async(req, res) => {
 exports.deleteAnimePost = async(req, res) => {
     try{
         //fetch the data
-        const {animeID} = req.body
-        const adminId = req.user.id
+        const {animeId} = req.body
+        // const adminId = req.user.id
 
         //check if the anime Post existed
-        const animeDetail = await Anime.findById(animeID)
+        const animeDetail = await Anime.findById(animeId)
 
         if(!animeDetail){
             return res.status(404).json({
@@ -232,13 +241,14 @@ exports.deleteAnimePost = async(req, res) => {
         }
 
         //DB call for deleting the anime
-        const deletedAnime = await Anime.findByIdAndDelete(animeID)
+        const deletedAnime = await Anime.findByIdAndDelete(animeId)
 
         //send response after deleting
         if(deletedAnime){
             return res.status(200).json({
                 success:true,
-                message:"Anime post delete successfully"
+                message:"Anime post delete successfully",
+                anime:deletedAnime
             })
         }
         
@@ -250,3 +260,37 @@ exports.deleteAnimePost = async(req, res) => {
         })
     }
 }
+
+
+//Get TOp 5 latest added anime post
+exports.getLatestAnime = async(req, res) => {
+    try{
+
+        const latestAnimes = await Anime.find({})
+                                    .sort({createdAt:-1})
+                                    .limit(5)
+                                    .exec()
+
+        return res.status(200).json({
+            success:true,
+            message:"Top 5 latest anime fetched successfully",
+            data:latestAnimes
+        })
+
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            message:"Unable to fetch top 5 latest Anime",
+            error:error.message
+        })
+    }
+}
+
+//Get Top 10 Anime of the week 
+
+// Get Top 10 Anime of the month 
+
+//Get Top 10 Anime of the year
+
+//Get TOp 10 Anime of All times
