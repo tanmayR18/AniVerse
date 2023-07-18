@@ -61,7 +61,6 @@ exports.createAnimePost = async(req, res) => {
             animeDbId:animeDbId,
             myAnimeListId:myAnimeListId,
             createdAdminId:adminId,
-            ratingAndReviews:null
         })
 
         //Return the response
@@ -111,7 +110,7 @@ exports.getAllRatedAnime = async(req, res) => {
 exports.getRatedAnime = async(req, res) => {
     try{
         //fetch the data
-        const {animeId} = req.body
+        const {title} = req.body
 
         //validate 
         if(!title){
@@ -122,7 +121,8 @@ exports.getRatedAnime = async(req, res) => {
         }
 
         //search the anime in the db
-        const animeDetail = await Anime.findById(animeId)
+        //If there is no rating and review the populate function gives an error
+        const animeDetail = await Anime.find({title:title})
                                         .populate("ratingAndReview")
                                         .populate("createdAdminId")
                                         .populate("updatedAdminId")
@@ -148,6 +148,7 @@ exports.getRatedAnime = async(req, res) => {
         return res.status(500).json({
             success:true,
             message:"Unable to fetch the data from db",
+            error:error.message,
             data:false,
         })
     }
