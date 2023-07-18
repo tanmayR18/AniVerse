@@ -192,16 +192,19 @@ exports.login = async(req, res) => {
         }
 
         // check if the user present 
+        
         const user = await User.findOne({email}).populate("additionalDetails")
+        
         if(!user){
-            return res.status(401).status({
+            console.log("Inside the return response of user not registered")
+            return res.status(401).json({
                 success:false,
                 message: "User is not registered, please signup first"
             })
         }
 
         //check the passoword from the db and generate jwt token 
-        if(bcrypt.compare(password, user.password)){
+        if(await bcrypt.compare(password, user.password)){
             const payload = {
                 email: user.email,
                 id: user._id,

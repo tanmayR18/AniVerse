@@ -1,4 +1,5 @@
 const Anime = require('../models/Anime')
+const ratingAndReview = require("../models/RatingAndReview")
 
 
 //create an Anime post
@@ -12,10 +13,11 @@ exports.createAnimePost = async(req, res) => {
             genres = "",
             animeDbId = "",
             myAnimeListId = "",
-            ratingAndReviews = "",
+            //ratingAndReviews = "",
         } = req.body
 
         const adminId = req.user.id
+
 
         //validate the data
         if(!title || !description || !image){
@@ -44,7 +46,7 @@ exports.createAnimePost = async(req, res) => {
             animeDbId:animeDbId,
             myAnimeListId:myAnimeListId,
             createdAdminId:adminId,
-            ratingAndReviews:ratingAndReviews
+            ratingAndReviews:null
         })
 
         //Return the response
