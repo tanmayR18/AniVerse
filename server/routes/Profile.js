@@ -23,16 +23,16 @@ const {changePassword} = require("../controllers/Auth")
 
 
 //api for updating the profile
-router.post("/updateProfile",auth,updatedProfile)
+router.put("/updateProfile",auth,updatedProfile)
 
 //api for deleting the account
 router.delete("/deleteAccount",auth,deleteAccount)
 
 //api for getting all the user detials
-router.post("/getAllUserDetails",auth,getAllUserDetails)
+router.get("/getAllUserDetails",auth,getAllUserDetails)
 
 //api for updating the profile picture
-router.post("/updateDisplayPicture",auth,updateDisplayPicture)
+router.put("/updateDisplayPicture",auth,updateDisplayPicture)
 
 //api for getting all users rating and review
 router.get("/getAllUserRatingAndReviews",auth,getAllUserRatingAndReviews)

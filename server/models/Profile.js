@@ -29,9 +29,6 @@ const profileSchema = new  mongoose.Schema({
     favFemaleChar:{
         type:String,
     },
-    favSideChar:{
-        type:String
-    }
 })
 
 module.exports = mongoose.model("Profile",profileSchema)
