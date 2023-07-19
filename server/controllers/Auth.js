@@ -54,10 +54,13 @@ exports.sendOTP = async(req, res) => {
             })
         } 
 
-        const otpPayload = {email, otp}
+        // const otpPayload = {email, otp}
 
         //create an for an otp
-        const otpBody = await OTP.create(otpPayload)
+        const otpBody = await OTP.create({
+            email:email,
+            otp:otp
+        })
         console.log("OTP body", otpBody)
 
         //return response for successful otp register

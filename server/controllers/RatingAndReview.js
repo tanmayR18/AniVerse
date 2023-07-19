@@ -22,10 +22,12 @@ exports.createRatingAndReview = async(req, res) => {
         //TODO: If the anime that the user is trying to rate do not exit then What?
 
         //check is the user has already rated the anime
-        const alreadyRated = await RatingAndReview.find({
+        const alreadyRated = await RatingAndReview.findOne({
             animeId:animeId,
             userId:userId
         })
+
+        console.log("Already exited user", alreadyRated)
 
         if(alreadyRated){
             return res.status(401).json({
@@ -38,6 +40,7 @@ exports.createRatingAndReview = async(req, res) => {
         const ratingAndReviewDetails = await RatingAndReview.create({
             userId:userId,
             rating:rating,
+            review:review,
             animeId:animeId
         })
 
@@ -61,7 +64,7 @@ exports.createRatingAndReview = async(req, res) => {
                                             userId,
                                             {
                                                 $push:{
-                                                    ratingAndReviews:ratingDetails._id
+                                                    ratingAndReviews:ratingAndReviewDetails._id
                                                 }
                                             },
                                             {new:true}
@@ -157,3 +160,88 @@ exports.getAllRatingAndReviews = async(req, res) => {
         })
     }
 }
+
+//Function for deleting the rating nd review
+exports.deleteRatingAndReview = async(req, res) => {
+    try{    
+        //fetch the data
+        const {ratingAndReviewId} = req.body
+        const userId = req.user.id
+
+        const deletedRatingAndReview = await RatingAndReview.findByIdAndDelete(ratingAndReviewId)
+        console.log("Deleted Rating And Review model", deletedRatingAndReview)
+
+        const updatedAnimeRatingAndReview = await Anime.findByIdAndUpdate(
+                                                deletedRatingAndReview.animeId,
+                                                {
+                                                    $pull:{ratingAndReviews:ratingAndReviewId}
+                                                },
+                                                {new:true}
+                                            )
+
+        console.log("Updated anime rating and review", updatedAnimeRatingAndReview)
+
+        const updatedUserRatingAndReview = await User.findByIdAndUpdate(
+                                                userId,
+                                                {
+                                                    $pull:{ratingAndReviews:ratingAndReviewId}
+                                                },
+                                                {new:true}
+                                            ) 
+
+        console.log("Updated User rating and review", updatedUserRatingAndReview)
+        
+        if(deletedRatingAndReview && updatedAnimeRatingAndReview && updatedUserRatingAndReview){
+            return res.status(200).json({
+                success:true,
+                message:"Rating and review deleted successfully",
+                data: deletedRatingAndReview
+            })
+        } else{
+            return res.status(500).json({
+                success:false,
+                message:"Cannot deleted Rating and review",
+            })
+        }
+
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            message:"Unable to delete the Rating And Review",
+            error:error.message
+        })
+    }
+}
+
+//Function for updating Rating and review
+exports.updateRatingAndReview = async(req, res) => {
+    try{
+        const {ratingAndReviewId, rating, review} = req.body
+
+        const updatedRatingAndReview = await RatingAndReview.findByIdAndUpdate(
+                                                    ratingAndReviewId,
+                                                    {
+                                                        rating:rating,
+                                                        review:review
+                                                    },
+                                                    {new:true}
+                                                )
+
+        return res.status(200).json({
+            success:true,
+            message:"Rating And review updated successfully",
+            data:updatedRatingAndReview
+        })
+
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            message:"Unable to update the rating and review",
+            error:error.message
+        })
+    }
+}
+
+//Function for getting latest 10 rating and reviews

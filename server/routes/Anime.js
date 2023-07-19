@@ -16,7 +16,7 @@ const {
     getRatedAnime,
     updateAnimePost,
     deleteAnimePost,
-    getLatestAnime
+    getLatestAnime,
 } = require("../controllers/Anime")
 
 
@@ -24,7 +24,9 @@ const {
 const {
     createRatingAndReview,
     getAllRatingAndReviews,
-    getAverageRating
+    getAverageRating,
+    deleteRatingAndReview,
+    updateRatingAndReview
 } = require("../controllers/RatingAndReview")
 
 
@@ -60,12 +62,18 @@ router.get("/getLatestAnime",getLatestAnime)
 //***************************************************************//
 
 //api for creating rating and review
-router.put("/createRatingAndReview",auth,isUser,createRatingAndReview)
+router.post("/createRatingAndReview",auth,isUser,createRatingAndReview)
 
 //api for getting average rating of the anime
-router.put("/getAllRatingAndReviews",getAllRatingAndReviews)
+router.get("/getAllRatingAndReviews",getAllRatingAndReviews)
 
 //api for getting all the details of the anime
-router.put("/getAverageRating",getAverageRating)
+router.post("/getAverageRating",getAverageRating)
+
+//api for deleting rating and review of the anime
+router.delete("/deleteRatingAndReview",auth,deleteRatingAndReview)
+
+//api for Updating rating and review of the anime
+router.put("/updateRatingAndReview",auth,updateRatingAndReview)
 
 module.exports = router

@@ -139,7 +139,7 @@ exports.updateDisplayPicture = async(req, res) => {
 exports.getAllUserRatingAndReviews = async(req, res) => {
     try{
         const id = req.user.id;
-        const user = await User.findById(id).populate("ratingAndReviews").exec()
+        const user = await User.findById(id,{ratingAndReviews:true, firstName:true, lastName:true, email:true}).populate("ratingAndReviews").exec()
         if(!user){
             return res.status(400).json({
                 success: false,
@@ -155,7 +155,8 @@ exports.getAllUserRatingAndReviews = async(req, res) => {
         console.log(error)
         return res.status(500).json({
             success: true,
-            message:"Error while getting the users ratings"
+            message:"Error while getting the users ratings",
+            error:error.message
         })
     }
 }
