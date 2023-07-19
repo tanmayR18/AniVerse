@@ -270,7 +270,12 @@ exports.changePassword = async(req, res) => {
         }
 
         //compare the new password with existing password in the db
-        if(oldPassword !== newPassword){
+
+        const user = await User.findOne({email})
+        
+        
+
+        if(! await bcrypt.compare(oldPassword, user.password)){
             return res.status(400).json({
                 success:false,
                 message:"Invalid Password"
@@ -295,6 +300,11 @@ exports.changePassword = async(req, res) => {
                 )
 
                 console.log("Email response for changing password", emailResponse)
+
+                return res.status(200).json({
+                    success: true,
+                    message:"Password changed successfully"
+                })
             } catch(error){
                 //Error while sending messagae
                 console.error(error)
@@ -312,9 +322,11 @@ exports.changePassword = async(req, res) => {
         }
 
     } catch(error) {
+        console.log(error)
         return res.status(500).json({
             success:false,
-            message:"Failed to change the password"
+            message:"Failed to change the password",
+            error:error.message
         })
     }
 }
