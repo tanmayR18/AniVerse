@@ -245,3 +245,24 @@ exports.updateRatingAndReview = async(req, res) => {
 }
 
 //Function for getting latest 10 rating and reviews
+exports.getLatestRatingAndReview = async(req, res) => {
+    try{
+        const latestRatingAndReview = await RatingAndReview.find({})
+                                                        .sort({createdAt:-1})
+                                                        .limit(10)
+                                                        .exec()
+        return res.status(200).json({
+            success:true,
+            message:"Successfully fetched the latest rating and review",
+            data:latestRatingAndReview
+        })
+        
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            message:"Unable to get 10 latest rating and review",
+            error:error.message
+        })
+    }
+}

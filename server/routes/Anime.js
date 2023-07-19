@@ -26,7 +26,8 @@ const {
     getAllRatingAndReviews,
     getAverageRating,
     deleteRatingAndReview,
-    updateRatingAndReview
+    updateRatingAndReview,
+    getLatestRatingAndReview
 } = require("../controllers/RatingAndReview")
 
 
@@ -75,5 +76,8 @@ router.delete("/deleteRatingAndReview",auth,deleteRatingAndReview)
 
 //api for Updating rating and review of the anime
 router.put("/updateRatingAndReview",auth,updateRatingAndReview)
+
+//api for getting top 10 latest rating and review
+router.get("/getLatestRatingAndReview",getLatestRatingAndReview)
 
 module.exports = router
