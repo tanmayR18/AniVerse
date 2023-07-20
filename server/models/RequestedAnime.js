@@ -5,6 +5,9 @@ const requestedAnimeSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         required: true
     },
+    userEmail:{
+        type: String
+    },
     title:{
         type: String,
         required: true,

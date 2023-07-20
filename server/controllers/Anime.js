@@ -277,7 +277,7 @@ exports.requestAnime = async(req, res) => {
 
         //fetching of data
         const { title, description } = req.body
-        const userId = req.user.id
+        const {id, email} = req.user
 
         //validation of data
         if(!title){
@@ -309,12 +309,13 @@ exports.requestAnime = async(req, res) => {
 
         //Create and entry of the request in the db
         const requestEntry = await RequestedAnime.create({
-            userId: userId,
+            userId: id,
             title: title,
-            description: description
+            description: description,
+            userEmail:email
         })
 
-        const userDetails = await User.findById(userId,{firstName:true, lastName:true, email:true})
+        const userDetails = await User.findById(id,{firstName:true, lastName:true, email:true})
 
         await mailSender(
             userDetails.email,
@@ -334,6 +335,47 @@ exports.requestAnime = async(req, res) => {
             success:false,
             message:"Unable to send the request for anime post",
             error:error.messag
+        })
+    }
+}
+
+//Delete the requested Anime
+exports.deleteRequestedAnime = async(req, res) => {
+    try{
+
+        //fetch the data
+        const { requestId } = req.body
+
+        //check weather the request Exist
+        const requestIdExist = await RequestedAnime.findById(requestId)
+
+        if(!requestIdExist){
+            return res.status(404).json({
+                success:false,
+                message:"Requested Id not found"
+            })
+        }
+
+        const deleteRequest = await RequestedAnime.findByIdAndDelete(requestId)
+
+        await mailSender(
+            requestIdExist.userEmail,
+            "Requested anime post added",
+            `Dear User the anime post (${requestIdExist.title}) that you requested has been added, you can now give your rating and review`
+        )
+
+        return res.status(200).json({
+            success: true,
+            message:"Request deleted succussfully and email sent to the requested user",
+            deleteRequest
+        })
+
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            message:"Unable to delete the Requested anime",
+            error: error.message
         })
     }
 }
