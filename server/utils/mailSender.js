@@ -21,7 +21,7 @@ const mailSender = async(email, title, body) => {
         console.log("Infor of mail", info)
         return info
     } catch(error){
-        console.log("Error while sending mail",error.message)
+        console.log("Error while sending mail ->",error.message)
     }
 }
 

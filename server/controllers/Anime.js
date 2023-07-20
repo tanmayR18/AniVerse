@@ -344,7 +344,7 @@ exports.deleteRequestedAnime = async(req, res) => {
     try{
 
         //fetch the data
-        const { requestId } = req.body
+        const { requestId, added } = req.body
 
         //check weather the request Exist
         const requestIdExist = await RequestedAnime.findById(requestId)
@@ -358,12 +358,14 @@ exports.deleteRequestedAnime = async(req, res) => {
 
         const deleteRequest = await RequestedAnime.findByIdAndDelete(requestId)
 
-        await mailSender(
-            requestIdExist.userEmail,
-            "Requested anime post added",
-            `Dear User the anime post (${requestIdExist.title}) that you requested has been added, you can now give your rating and review`
-        )
-
+        if(added){
+            await mailSender(
+                requestIdExist.userEmail,
+                "Requested anime post added",
+                `Dear User the anime post (${requestIdExist.title}) that you requested has been added, you can now give your rating and review`
+            )
+        }
+        
         return res.status(200).json({
             success: true,
             message:"Request deleted succussfully and email sent to the requested user",
