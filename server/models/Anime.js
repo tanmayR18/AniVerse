@@ -30,10 +30,15 @@ const animeSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:"User",
     },
-    updatedAt:{
-        type:Date,
-        default:Date.now()
+    rating:{
+        type:Number,
+        default:null
     },
+    // Since the timestamp is applied to the model there is no need for adding updateAt manually
+    // updatedAt:{
+    //     type:Date,
+    //     default:Date.now()
+    // },
     ratingAndReviews:[
         {
             type: mongoose.Schema.Types.ObjectId,

@@ -19,6 +19,7 @@ const ratingAndReviewSchema = mongoose.Schema({
         required:true,
         ref:"Anime"
     }
-})
+},
+{timestamps:true})
 
 module.exports = mongoose.model("RatingAndReview",ratingAndReviewSchema)

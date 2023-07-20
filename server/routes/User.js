@@ -30,7 +30,7 @@ const {
 router.post("/login",login)
 router.post("/signup",signup)
 router.post("/sendotp",sendOTP)
-router.post("/changePassword",changePassword)
+router.post("/changePassword",auth,changePassword)
 
 //***************************************************************//
 //                     Reset-Password Routes

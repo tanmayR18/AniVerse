@@ -1,6 +1,9 @@
 const Anime = require('../models/Anime')
 const ratingAndReview = require("../models/RatingAndReview")
+const RequestedAnime = require("../models/RequestedAnime")
+const User = require('../models/User')
 const { uploadImageToCloudinary } = require('../utils/imageUploader')
+const mailSender = require('../utils/mailSender')
 
 require("dotenv").config()
 
@@ -163,14 +166,15 @@ exports.updateAnimePost = async(req, res) => {
             title="",
             description="",
             // image,
-            genres = "",
-            animeDbId = "",
-            myAnimeListId = "",
+            genres="",
+            animeDbId,
+            myAnimeListId,
         } = req.body
 
         const adminId = req.user.id
 
-        const image = req.files.imageFile || ""
+        const image = req.files?.imageFile || null
+        
 
         //check is the anime present
         const animeDetail = await Anime.findById(animeId)
@@ -182,13 +186,19 @@ exports.updateAnimePost = async(req, res) => {
             })
         }
 
+        let animePostImage = ""
+
         //updloading image to cloudinary
-            const animePostImage = await uploadImageToCloudinary(
+        image !== null ? (
+            animePostImage = await uploadImageToCloudinary(
                 image,
                 process.env.FOLDER_NAME,
                 1000,
                 1000
-            ) 
+            )
+        ) : (
+            animePostImage = ""
+        )
 
         //update the anime post
         const updatedAnimePost = await Anime.findByIdAndUpdate(
@@ -261,6 +271,116 @@ exports.deleteAnimePost = async(req, res) => {
     }
 }
 
+//Requesting Anime 
+exports.requestAnime = async(req, res) => {
+    try{
+
+        //fetching of data
+        const { title, description } = req.body
+        const {id, email} = req.user
+
+        //validation of data
+        if(!title){
+            return res.status(401).json({
+                success:false,
+                message:"Enter the title of the Anime"
+            })
+        }
+
+        //check whether this anime is already exist
+        const alreadyExist = await Anime.findOne({title:title})
+        if(alreadyExist){
+            return res.status(401).json({
+                success:false,
+                message:"Requested anime already exist",
+                data: alreadyExist
+            })
+        }
+
+        //Check whether the anime is already requested 
+        const alreadyRequested = await RequestedAnime.findOne({title:title},{title:true,description:true})
+        if(alreadyRequested){
+            return res.status(400).json({
+                success:false,
+                message:"Anime is already requested by you or by other customer",
+                data:alreadyRequested
+            })
+        }
+
+        //Create and entry of the request in the db
+        const requestEntry = await RequestedAnime.create({
+            userId: id,
+            title: title,
+            description: description,
+            userEmail:email
+        })
+
+        const userDetails = await User.findById(id,{firstName:true, lastName:true, email:true})
+
+        await mailSender(
+            userDetails.email,
+            "Requesting anime post for rating and review",
+            `Thank You ${userDetails.firstName} ${userDetails.lastName} for taking concern and contacting us to request the Anime series/movie which is missing. Our admin will add  the series/movie that you are seeking as soon a possible. Once again arigatou :)` 
+        )
+
+        return res.status(200).json({
+            success: true,
+            message: "Request registered successfully",
+            data: requestEntry
+        })
+
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            message:"Unable to send the request for anime post",
+            error:error.messag
+        })
+    }
+}
+
+//Delete the requested Anime
+exports.deleteRequestedAnime = async(req, res) => {
+    try{
+
+        //fetch the data
+        const { requestId, added } = req.body
+
+        //check weather the request Exist
+        const requestIdExist = await RequestedAnime.findById(requestId)
+
+        if(!requestIdExist){
+            return res.status(404).json({
+                success:false,
+                message:"Requested Id not found"
+            })
+        }
+
+        const deleteRequest = await RequestedAnime.findByIdAndDelete(requestId)
+
+        if(added){
+            await mailSender(
+                requestIdExist.userEmail,
+                "Requested anime post added",
+                `Dear User the anime post (${requestIdExist.title}) that you requested has been added, you can now give your rating and review`
+            )
+        }
+        
+        return res.status(200).json({
+            success: true,
+            message:"Request deleted succussfully and email sent to the requested user",
+            deleteRequest
+        })
+
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            message:"Unable to delete the Requested anime",
+            error: error.message
+        })
+    }
+}
 
 //Get TOp 5 latest added anime post
 exports.getLatestAnime = async(req, res) => {

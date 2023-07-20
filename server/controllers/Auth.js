@@ -54,10 +54,13 @@ exports.sendOTP = async(req, res) => {
             })
         } 
 
-        const otpPayload = {email, otp}
+        // const otpPayload = {email, otp}
 
         //create an for an otp
-        const otpBody = await OTP.create(otpPayload)
+        const otpBody = await OTP.create({
+            email:email,
+            otp:otp
+        })
         console.log("OTP body", otpBody)
 
         //return response for successful otp register
@@ -241,7 +244,8 @@ exports.login = async(req, res) => {
         console.log(error)
         return res.status(500).json({
             success:false,
-            message: "Login failed please try again"
+            message: "Login failed please try again",
+            error:error.message
         })
     }
 }
@@ -269,7 +273,12 @@ exports.changePassword = async(req, res) => {
         }
 
         //compare the new password with existing password in the db
-        if(oldPassword !== newPassword){
+
+        const user = await User.findOne({email})
+        
+        
+
+        if(! await bcrypt.compare(oldPassword, user.password)){
             return res.status(400).json({
                 success:false,
                 message:"Invalid Password"
@@ -294,6 +303,11 @@ exports.changePassword = async(req, res) => {
                 )
 
                 console.log("Email response for changing password", emailResponse)
+
+                return res.status(200).json({
+                    success: true,
+                    message:"Password changed successfully"
+                })
             } catch(error){
                 //Error while sending messagae
                 console.error(error)
@@ -311,9 +325,11 @@ exports.changePassword = async(req, res) => {
         }
 
     } catch(error) {
+        console.log(error)
         return res.status(500).json({
             success:false,
-            message:"Failed to change the password"
+            message:"Failed to change the password",
+            error:error.message
         })
     }
 }

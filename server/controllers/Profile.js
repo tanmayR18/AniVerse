@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const Profile = require('../models/Profile')
+const {uploadImageToCloudinary} = require("../utils/imageUploader")
 
 
 //function for updating the users profile
@@ -15,7 +16,6 @@ exports.updatedProfile = async(req, res) => {
             favMaleChar="",
             favVillan="",
             favFemaleChar="",
-            favSideChar="",
         } = req.body
 
         const id = req.user.id
@@ -34,7 +34,6 @@ exports.updatedProfile = async(req, res) => {
         profile.favMaleChar = favMaleChar;
         profile.favVillan = favVillan;
         profile.favFemaleChar = favFemaleChar;
-        profile.favSideChar = favSideChar;
 
         //save the updated profile
         await profile.save()
@@ -108,7 +107,7 @@ exports.updateDisplayPicture = async(req, res) => {
         const displayPicture = req.files.displayPicture
         const userId = req.user.id
 
-        const image = await updateImageToCloudinary(
+        const image = await uploadImageToCloudinary(
             displayPicture,
             process.env.FOLDER_NAME,
             1000,
@@ -130,7 +129,8 @@ exports.updateDisplayPicture = async(req, res) => {
         console.log(error)
         return res.status(500).json({
             success: false,
-            message: "Error will updating the profile picture"
+            message: "Error will updating the profile picture",
+            error:error.message
         })
     }
 }
@@ -139,7 +139,7 @@ exports.updateDisplayPicture = async(req, res) => {
 exports.getAllUserRatingAndReviews = async(req, res) => {
     try{
         const id = req.user.id;
-        const user = await User.findById(id).populate("ratingAndReviews").exec()
+        const user = await User.findById(id,{ratingAndReviews:true, firstName:true, lastName:true, email:true}).populate("ratingAndReviews").exec()
         if(!user){
             return res.status(400).json({
                 success: false,
@@ -155,7 +155,8 @@ exports.getAllUserRatingAndReviews = async(req, res) => {
         console.log(error)
         return res.status(500).json({
             success: true,
-            message:"Error while getting the users ratings"
+            message:"Error while getting the users ratings",
+            error:error.message
         })
     }
 }
