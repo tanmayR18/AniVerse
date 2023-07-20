@@ -1,6 +1,9 @@
 const Anime = require('../models/Anime')
 const ratingAndReview = require("../models/RatingAndReview")
+const RequestedAnime = require("../models/RequestedAnime")
+const User = require('../models/User')
 const { uploadImageToCloudinary } = require('../utils/imageUploader')
+const mailSender = require('../utils/mailSender')
 
 require("dotenv").config()
 
@@ -160,21 +163,18 @@ exports.updateAnimePost = async(req, res) => {
         //fetch data
         const {
             animeId,
-            title,
-            description,
+            title="",
+            description="",
             // image,
-            genres,
+            genres="",
             animeDbId,
             myAnimeListId,
         } = req.body
 
         const adminId = req.user.id
 
-        // const image = (req.files.imageFile === null ? null : req.files.imageFile)  
-        //console.log(typeof(req.files.imageFile))
-        console.log("Before req.files")
         const image = req.files?.imageFile || null
-        console.log("After req.files")
+        
 
         //check is the anime present
         const animeDetail = await Anime.findById(animeId)
@@ -271,6 +271,72 @@ exports.deleteAnimePost = async(req, res) => {
     }
 }
 
+//Requesting Anime 
+exports.requestAnime = async(req, res) => {
+    try{
+
+        //fetching of data
+        const { title, description } = req.body
+        const userId = req.user.id
+
+        //validation of data
+        if(!title){
+            return res.status(401).json({
+                success:false,
+                message:"Enter the title of the Anime"
+            })
+        }
+
+        //check whether this anime is already exist
+        const alreadyExist = await Anime.findOne({title:title})
+        if(alreadyExist){
+            return res.status(401).json({
+                success:false,
+                message:"Requested anime already exist",
+                data: alreadyExist
+            })
+        }
+
+        //Check whether the anime is already requested 
+        const alreadyRequested = await RequestedAnime.findOne({title:title},{title:true,description:true})
+        if(alreadyRequested){
+            return res.status(400).json({
+                success:false,
+                message:"Anime is already requested by you or by other customer",
+                data:alreadyRequested
+            })
+        }
+
+        //Create and entry of the request in the db
+        const requestEntry = await RequestedAnime.create({
+            userId: userId,
+            title: title,
+            description: description
+        })
+
+        const userDetails = await User.findById(userId,{firstName:true, lastName:true, email:true})
+
+        await mailSender(
+            userDetails.email,
+            "Requesting anime post for rating and review",
+            `Thank You ${userDetails.firstName} ${userDetails.lastName} for taking concern and contacting us to request the Anime series/movie which is missing. Our admin will add  the series/movie that you are seeking as soon a possible. Once again arigatou :)` 
+        )
+
+        return res.status(200).json({
+            success: true,
+            message: "Request registered successfully",
+            data: requestEntry
+        })
+
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            message:"Unable to send the request for anime post",
+            error:error.messag
+        })
+    }
+}
 
 //Get TOp 5 latest added anime post
 exports.getLatestAnime = async(req, res) => {

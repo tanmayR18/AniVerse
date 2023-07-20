@@ -17,6 +17,7 @@ const {
     updateAnimePost,
     deleteAnimePost,
     getLatestAnime,
+    requestAnime
 } = require("../controllers/Anime")
 
 
@@ -56,6 +57,9 @@ router.delete("/deleteAnimePost",auth,isAdmin,deleteAnimePost)
 
 //api for getting 5 latest anime post
 router.get("/getLatestAnime",getLatestAnime)
+
+//api for requesting anime 
+router.post("/requestAnime",auth,requestAnime)
 
 
 //***************************************************************//
