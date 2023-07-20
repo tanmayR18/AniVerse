@@ -44,6 +44,20 @@ exports.createRatingAndReview = async(req, res) => {
             animeId:animeId
         })
 
+        const averageRatingResult = await RatingAndReview.aggregate([
+            {
+                $match:{
+                    animeId: new mongoose.Types.ObjectId(animeId)
+                }
+            },
+            {
+                $group:{
+                    _id:null,
+                    averageRating:{$avg:"$rating"}
+                }
+            }
+        ])
+
         console.log("Entry in the RatingAndReview document",ratingAndReviewDetails)
 
         //TO update the rating in the anime document
@@ -52,6 +66,9 @@ exports.createRatingAndReview = async(req, res) => {
                                             {
                                                 $push:{
                                                     ratingAndReviews:ratingAndReviewDetails._id
+                                                },
+                                                $set:{
+                                                    rating:averageRatingResult[0].averageRating
                                                 }
                                             },
                                             {new:true}
@@ -70,6 +87,7 @@ exports.createRatingAndReview = async(req, res) => {
                                             {new:true}
         )
         console.log("Entry updated in the User doument", updatedUserRatingAndReview)
+
 
         return res.status(200).json({
             success:true,

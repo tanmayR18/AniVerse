@@ -160,17 +160,21 @@ exports.updateAnimePost = async(req, res) => {
         //fetch data
         const {
             animeId,
-            title="",
-            description="",
+            title,
+            description,
             // image,
-            genres = "",
-            animeDbId = "",
-            myAnimeListId = "",
+            genres,
+            animeDbId,
+            myAnimeListId,
         } = req.body
 
         const adminId = req.user.id
 
-        const image = req.files.imageFile || ""
+        // const image = (req.files.imageFile === null ? null : req.files.imageFile)  
+        //console.log(typeof(req.files.imageFile))
+        console.log("Before req.files")
+        const image = req.files?.imageFile || null
+        console.log("After req.files")
 
         //check is the anime present
         const animeDetail = await Anime.findById(animeId)
@@ -182,13 +186,19 @@ exports.updateAnimePost = async(req, res) => {
             })
         }
 
+        let animePostImage = ""
+
         //updloading image to cloudinary
-            const animePostImage = await uploadImageToCloudinary(
+        image !== null ? (
+            animePostImage = await uploadImageToCloudinary(
                 image,
                 process.env.FOLDER_NAME,
                 1000,
                 1000
-            ) 
+            )
+        ) : (
+            animePostImage = ""
+        )
 
         //update the anime post
         const updatedAnimePost = await Anime.findByIdAndUpdate(
