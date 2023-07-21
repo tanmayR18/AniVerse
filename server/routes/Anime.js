@@ -18,7 +18,11 @@ const {
     deleteAnimePost,
     getLatestAnime,
     requestAnime,
-    deleteRequestedAnime
+    deleteRequestedAnime,
+    getTopAnimeOfAllTimes,
+    getTopAnimeOfTheMonth,
+    getTopAnimeOfTheWeek,
+    getTopAnimeOfTheYear
 } = require("../controllers/Anime")
 
 
@@ -64,6 +68,18 @@ router.post("/requestAnime",auth,requestAnime)
 
 //api for deleting the requested anime
 router.delete("/deleteRequestedAnime",auth, isAdmin, deleteRequestedAnime)
+
+//api for getting top 10 animes of all times
+router.get("/getTopAnimeOFAllTimes",getTopAnimeOfAllTimes)
+
+//api for getting top 10 anime of the current month
+router.get("/getTopAnimeOfTheMonth",getTopAnimeOfTheMonth)
+
+//api for getting top 10 anime of the current week
+router.get("/getTopAnimeOfTheWeek",getTopAnimeOfTheWeek)
+
+//api for getting top 10 anime of the current year 
+router.get("/getTopAnimeOfTheYear",getTopAnimeOfTheYear)
 
 
 //***************************************************************//
