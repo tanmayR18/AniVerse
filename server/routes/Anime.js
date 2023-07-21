@@ -18,7 +18,8 @@ const {
     deleteAnimePost,
     getLatestAnime,
     requestAnime,
-    deleteRequestedAnime
+    deleteRequestedAnime,
+    getTopAnimeOFAllTimes
 } = require("../controllers/Anime")
 
 
@@ -64,6 +65,9 @@ router.post("/requestAnime",auth,requestAnime)
 
 //api for deleting the requested anime
 router.delete("/deleteRequestedAnime",auth, isAdmin, deleteRequestedAnime)
+
+//api for getting top 10 animes of all times
+router.get("/getTopAnimeOFAllTimes",getTopAnimeOFAllTimes)
 
 
 //***************************************************************//

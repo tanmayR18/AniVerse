@@ -32,7 +32,7 @@ const animeSchema = new mongoose.Schema({
     },
     rating:{
         type:Number,
-        default:null
+        default:0
     },
     // Since the timestamp is applied to the model there is no need for adding updateAt manually
     // updatedAt:{

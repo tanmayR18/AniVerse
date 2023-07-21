@@ -414,3 +414,28 @@ exports.getLatestAnime = async(req, res) => {
 //Get Top 10 Anime of the year
 
 //Get TOp 10 Anime of All times
+exports.getTopAnimeOFAllTimes = async(req, res) => {
+    try{
+
+        //Make a Db call for fetching the data
+        const topAnimes = await Anime.find()
+                                .sort({rating: -1})
+                                .limit(0)
+
+        if(topAnimes.length > 0 ){
+            return res.status(200).json({
+                success: true, 
+                message:"Top 10 anime of all time fetched successfully",
+                data: topAnimes
+            })
+        }
+
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            message:"Unable to fetch the top 10 anime of all times",
+            error:error.message
+        })
+    }
+}
