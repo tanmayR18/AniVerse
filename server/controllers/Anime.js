@@ -409,6 +409,67 @@ exports.getLatestAnime = async(req, res) => {
 }
 
 //Get Top 10 Anime of the week 
+exports.getTopAnimeOfTheWeek = async(req, res) => {
+    try{
+
+        //Get the current data 
+        const currentDate = new Date();
+
+        //Calculate the first day of the current week (Sunday)
+        const firstDayOfWeek = new Date(currentDate);
+        firstDayOfWeek.setDate(currentDate.getDate() - currentDate.getDate())
+
+        //Calculate the last day of the current week (Saturday)
+        const lastDayOfWeek = new Date(currentDate);
+        lastDayOfWeek.setDate(currentDate.getDate() + (6 - currentDate.getDate()))
+
+        const result = await RatingAndReview.aggregate([
+            //Filter the records that are created between first day of this month and the current date of this months
+            {
+                $match:{
+                    createdAt:{
+                        $gte: firstDayOfWeek,
+                        $lte: currentDate,
+                    },
+                },
+            },
+            //Group the record on the basis of title and calculate average rating of each group
+            {
+                $group: {
+                    _id:"$animeId",
+                    averageRating: {$avg: "$rating"},
+                    //FOllowing query push the record of the respected group
+                    //Since we already get the animeId in the output we do not require the put the additional records to recognize the anime
+                    // records: { $push: "$$ROOT" }, 
+                },
+            },
+            //Sort the group in descending order based on the average rating
+            {
+                $sort: {
+                    averageRating: -1
+                },
+            },
+            //Limit the group to get only top 10 averageRating
+            {
+                $limit: 10
+            }
+        ])
+
+        return res.status(200).json({
+            success: true,
+            message: "Fetched top 10 anime of the week",
+            data: result
+        })
+
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            message: "Unable to fetch the top 10 anime of the Week",
+            error: error.message
+        })
+    }
+}
 
 // Get Top 10 Anime of the month 
 exports.getTopAnimeOfTheMonths = async(req, res) => {
@@ -447,6 +508,9 @@ exports.getTopAnimeOfTheMonths = async(req, res) => {
                 },
             },
             //Limit the group to get only top 10 averageRating
+            {
+                $limit: 10
+            }
         ])
 
         return res.status(200).json({
@@ -474,7 +538,7 @@ exports.getTopAnimeOFAllTimes = async(req, res) => {
         //Make a Db call for fetching the data
         const topAnimes = await Anime.find()
                                 .sort({rating: -1})
-                                .limit(0)
+                                .limit(10)
 
         if(topAnimes.length > 0 ){
             return res.status(200).json({

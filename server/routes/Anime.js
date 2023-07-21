@@ -20,7 +20,8 @@ const {
     requestAnime,
     deleteRequestedAnime,
     getTopAnimeOFAllTimes,
-    getTopAnimeOfTheMonths
+    getTopAnimeOfTheMonths,
+    getTopAnimeOfTheWeek
 } = require("../controllers/Anime")
 
 
@@ -72,6 +73,8 @@ router.get("/getTopAnimeOFAllTimes",getTopAnimeOFAllTimes)
 
 //api for getting top 10 anime of the current month
 router.get("/getTopAnimeOfTheMonths",getTopAnimeOfTheMonths)
+
+router.get("/getTopAnimeOfTheWeek",getTopAnimeOfTheWeek)
 
 
 //***************************************************************//
