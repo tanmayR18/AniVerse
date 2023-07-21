@@ -1,4 +1,5 @@
 const Anime = require('../models/Anime')
+const RatingAndReview = require('../models/RatingAndReview')
 const ratingAndReview = require("../models/RatingAndReview")
 const RequestedAnime = require("../models/RequestedAnime")
 const User = require('../models/User')
@@ -410,6 +411,59 @@ exports.getLatestAnime = async(req, res) => {
 //Get Top 10 Anime of the week 
 
 // Get Top 10 Anime of the month 
+exports.getTopAnimeOfTheMonths = async(req, res) => {
+    try{
+
+        //Get the current data 
+        const currentDate = new Date();
+
+        //Calculate the first day of the current month
+        const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
+        const result = await RatingAndReview.aggregate([
+            //Filter the records that are created between first day of this month and the current date of this months
+            {
+                $match:{
+                    createdAt:{
+                        $gte: firstDayOfMonth,
+                        $lte: currentDate,
+                    },
+                },
+            },
+            //Group the record on the basis of title and calculate average rating of each group
+            {
+                $group: {
+                    _id:"$animeId",
+                    averageRating: {$avg: "$rating"},
+                    //FOllowing query push the record of the respected group
+                    //Since we already get the animeId in the output we do not require the put the additional records to recognize the anime
+                    // records: { $push: "$$ROOT" }, 
+                },
+            },
+            //Sort the group in descending order based on the average rating
+            {
+                $sort: {
+                    averageRating: -1
+                },
+            },
+            //Limit the group to get only top 10 averageRating
+        ])
+
+        return res.status(200).json({
+            success: true,
+            message: "Fetched top 10 anime of the months",
+            data: result
+        })
+
+    } catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            message: "Unable to fetch the top 10 anime of the months",
+            error: error.message
+        })
+    }
+}
 
 //Get Top 10 Anime of the year
 
