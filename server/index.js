@@ -27,8 +27,12 @@ database.connect();
 //middleware
 app.use(express.json())
 app.use(cookieParser())
-//add the cors once frontend started
-//See what is the use of fileUpload
+app.use(
+    cors({
+        origin:"http://localhost:3000",
+        credentials:true
+    })
+)
 app.use(
     fileUpload({
         useTempFiles:true,
