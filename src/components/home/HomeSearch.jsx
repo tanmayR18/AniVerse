@@ -4,24 +4,30 @@ import logo from "../../assets/full_logo.png"
 import charImage from "../../assets/home-anime-characters.png"
 import {FaSearch} from "react-icons/fa"
 import { NavLink } from 'react-router-dom'
+import { useContext } from 'react'
+import { AppContext } from '../../context/AppContext'
 
 const HomeSearch = () => {
 
-    const topSearchAPi = "https://api.jikan.moe/v4/anime?status=airing&order_by=popularity&sort=asc"
+    // const topSearchAPi = "https://api.jikan.moe/v4/anime?status=airing&order_by=popularity&sort=asc"
     const [topSearch, setTopSearch] = useState([])
 
-    const fetchTopAiring = async () => {
-        try{
-            const response = await fetch(topSearchAPi)
-            const result = await response.json()
-            setTopSearch(result.data)
-        } catch(error){
-            console.log("error occured while fetching top search", error)
-        }
-    }
+    // const fetchTopAiring = async () => {
+    //     try{
+    //         const response = await fetch(topSearchAPi)
+    //         const result = await response.json()
+    //         setTopSearch(result.data)
+    //     } catch(error){
+    //         console.log("error occured while fetching top search", error)
+    //     }
+    // }
+
+    const {fetchGeneralAnimeApi} = useContext(AppContext)
  
     useEffect( () => {
-        fetchTopAiring();
+        fetchGeneralAnimeApi({status: "airing", order_by: "popularity", sort: "asc"})
+            .then( (result) => setTopSearch(result.data))
+            .catch( (error) => console.log(error))
     },[])
 
   return (
@@ -52,6 +58,8 @@ const HomeSearch = () => {
                     <FaSearch/>
                 </button>
             </form>
+
+            
 
             {/* Top Search */}
             <div className=''>
