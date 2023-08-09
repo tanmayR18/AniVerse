@@ -292,7 +292,7 @@ exports.getTop10Review = async (req, res) => {
         const sevenDaysAgo = new Date(today);
         sevenDaysAgo.setDate(today.getDate() - 7);
 
-        const result = await RatingAndReview.aggregate([
+        const latestAndLikedReview = await RatingAndReview.aggregate([
         // Match documents from the past 7 days
         {
             $match: {
@@ -315,21 +315,37 @@ exports.getTop10Review = async (req, res) => {
         {
             $limit: 10
         },
-        // Lookup to populate the userId field in the likes array
+        // Lookup to populate the likes array with user information
         {
             $lookup: {
-            from: "User", // Replace with your actual user collection name
+            from: "users", 
             localField: "likes",
             foreignField: "_id",
-            as: "populatedLikes"
+            as: "populateUser"
             }
-        }
+        },
         ]);
+
+          
+
+        // const latestAndLikedReview = await RatingAndReview.find({
+        //     "createdAt": {
+        //       "$gte": new Date(new Date() - 7 * 24 * 60 * 60 * 1000)
+        //     },
+        //     "likes": {
+        //       "$ne": []
+        //     }
+        //   })
+        //   .sort({
+        //     "likes.length": -1
+        //   }).limit(10)
+        
+
 
         return res.status(200).json({
             success: true,
             message: "Top 10 review fetched successfully",
-            data: result
+            data: latestAndLikedReview
         })
 
     } catch(error){
