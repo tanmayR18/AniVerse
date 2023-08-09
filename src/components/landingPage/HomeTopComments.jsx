@@ -24,13 +24,16 @@ const HomeTopComments = () => {
     },[])
 
   return (
-    <div className='text-richwhite-100'>
-        <h3>Top Comments</h3>
+    <div className='text-richwhite-100 w-[35%]'>
+        <h3
+        className='text-[1.8rem] font-semibold mb-5'
+        >Trending Reviews</h3>
         
-        <div>
+        <div className='flex flex-col gap-3'>
             {
                 topReviews.map( (review, index) => (
-                    <div key={index}>
+                    <div
+                    key={index}>
                         <TopCommentCard review={review} />
                     </div>
                 ))

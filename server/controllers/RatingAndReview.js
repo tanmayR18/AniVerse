@@ -324,6 +324,15 @@ exports.getTop10Review = async (req, res) => {
             as: "populatedUser"
             }
         },
+        // Lookup to populate the animeId field
+        {
+            $lookup: {
+                from: "animes", // Replace with the actual collection name
+                localField: "animeId",
+                foreignField: "_id",
+                as: "populatedAnime"
+            }
+        }
         ]);
 
           

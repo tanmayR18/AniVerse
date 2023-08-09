@@ -1,15 +1,15 @@
 import { Route, Routes } from "react-router-dom"
-import Home from "./pages/Home"
+import LandingPage from "./pages/LandingPage"
 
 const App = () => {
 
     
 
   return (
-    <div className=' overflow-x-hidden bg-richblack-50 h-full min-h-screen'>
+    <div className=' overflow-x-hidden bg-richblack-50 h-full min-h-screen font-poppins'>
         
         <Routes>
-            <Route path = "/" element = {<Home/>} />
+            <Route path = "/" element = {<LandingPage/>} />
         </Routes>
 
     </div>

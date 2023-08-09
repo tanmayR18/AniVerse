@@ -2,7 +2,7 @@ import React from 'react'
 
 const HomeShare = () => {
   return (
-    <div className=' bg-richblack-90 h-full p-4 w-10/12 max-w-1200px mx-auto  rounded-xl
+    <div className=' bg-richblack-90 h-full p-4 w-10/12 max-w-1200px mx-auto  rounded-xl mb-14
     '>
         <div className='flex gap-4'>
 

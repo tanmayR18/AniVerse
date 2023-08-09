@@ -27,12 +27,12 @@ const HomeSearch = () => {
     
 
     <div className=''>
-        <div className='bg-richwhite-10 '>
-            <div className=' py-16 w-10/12 mx-auto max-w-[1200px] relative '>
+        <div className='bg-richwhite-10 z-40'>
+            <div className=' py-16 pb-28 w-10/12 mx-auto max-w-[1200px] relative '>
 
                 {/* Anime Character Image */}
                 <img 
-                className='absolute w-[55%] right-0 bottom-0'
+                className='absolute w-[55%] -right-4 bottom-10 z-20'
                 src={charImage} alt='anime characters' />
 
                 {/* Navbar */}
@@ -42,7 +42,9 @@ const HomeSearch = () => {
 
                 <div className='flex flex-col mt-36 w-[50%] gap-4'>
                     {/* Logo */}
-                    <img className='h-[90px] w-[180px]'  src={logo} alt='Aniverse logo' />
+                    <NavLink to={"/"}>
+                        <img className='h-[90px] w-[150px]'  src={logo} alt='Aniverse logo' />
+                    </NavLink>
 
                     {/* Input Field */}
                     <form className='flex items-center gap-2'>
