@@ -10,7 +10,8 @@ module.exports = {
     colors: {
         richblack:{
             50: "#242428",
-            80: "#121315"
+            80: "#121315",
+            90: "#121315"
         },
         richwhite:{
             100: "#FFFFFF",
