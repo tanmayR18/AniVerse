@@ -18,7 +18,13 @@ const ratingAndReviewSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required:true,
         ref:"Anime"
-    }
+    },
+    likes:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"User"
+        }
+    ]
 },
 {timestamps:true})
 

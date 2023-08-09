@@ -33,7 +33,8 @@ const {
     getAverageRating,
     deleteRatingAndReview,
     updateRatingAndReview,
-    getLatestRatingAndReview
+    getLatestRatingAndReview,
+    getTop10Review
 } = require("../controllers/RatingAndReview")
 
 
@@ -103,5 +104,8 @@ router.put("/updateRatingAndReview",auth,updateRatingAndReview)
 
 //api for getting top 10 latest rating and review
 router.get("/getLatestRatingAndReview",getLatestRatingAndReview)
+
+//api for getting top 10 latest as well a liked review reviews of this week
+router.get("/getTop10Review",getTop10Review)
 
 module.exports = router

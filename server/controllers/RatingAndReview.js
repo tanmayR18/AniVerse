@@ -284,3 +284,107 @@ exports.getLatestRatingAndReview = async(req, res) => {
         })
     }
 }
+
+//Function for gettig top and reviews of this week
+exports.getTop10Review = async (req, res) => {
+    try{
+        const today = new Date();
+        const sevenDaysAgo = new Date(today);
+        sevenDaysAgo.setDate(today.getDate() - 7);
+
+        const result = await RatingAndReview.aggregate([
+        // Match documents from the past 7 days
+        {
+            $match: {
+            createdAt: { $gte: sevenDaysAgo, $lte: today }
+            }
+        },
+        // Add a field with the count of likes
+        {
+            $addFields: {
+            likeCount: { $size: "$likes" }
+            }
+        },
+        // Sort by the likeCount field in descending order
+        {
+            $sort: {
+            likeCount: -1
+            }
+        },
+        // Limit to the top 10 records
+        {
+            $limit: 10
+        },
+        // Lookup to populate the userId field in the likes array
+        {
+            $lookup: {
+            from: "User", // Replace with your actual user collection name
+            localField: "likes",
+            foreignField: "_id",
+            as: "populatedLikes"
+            }
+        }
+        ]);
+
+        return res.status(200).json({
+            success: true,
+            message: "Top 10 review fetched successfully",
+            data: result
+        })
+
+    } catch(error){
+        console.log("Error while fetching the top 5 reviews",error)
+        return res.status(505).json({
+            success: false,
+            message:"Error while fetching the top 5 reviews",
+            error: error.message
+        })
+    }
+}
+
+//Function for adding the like in the comment / reivew
+exports.addAndRemoveLike = async (req, res) => {
+    try{
+        // fetch the ID from the cookie
+        const userId = req.user.id
+        const reviewId = req.body.reviewId
+
+        //Push the user Id to the review
+        const alreadyLiked = await RatingAndReview.find({_id:reviewId, userId:userId})
+
+        //If already liked then remove the like
+        if(alreadyLiked){
+            const unLikedReview = await RatingAndReview.findByIdAndUpdate(reviewId,
+                                                    {
+                                                        $pull:{likes:userId}
+                                                    },{new:true})
+
+            return res.status(200).json({
+                success: true,
+                message: "Liked removed successfully",
+                data: unLikedReview
+            })
+        }
+
+        const likedReview = await RatingAndReview.findByIdAndUpdate(reviewId,
+                                                    {
+                                                        $push:{likes:userId}
+                                                    },
+                                                    {new:true}
+                                                )
+
+            return res.status(200).json({
+            success: true,
+            message: "Liked Added successfully",
+            data: likedReview
+            })
+
+    } catch(error){
+        console.log("Error while adding the likes to the review",error)
+        return res.status(500).json({
+            success: false,
+            message: "Error while adding the likes to the review",
+            error: error.message
+        })
+    }
+}
