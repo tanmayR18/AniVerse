@@ -347,38 +347,46 @@ exports.addAndRemoveLike = async (req, res) => {
     try{
         // fetch the ID from the cookie
         const userId = req.user.id
-        const reviewId = req.body.reviewId
+        const userObjectId = new mongoose.Types.ObjectId(userId)
+        const {reviewId} = req.body
+        console.log("User ID ", userId)
 
-        //Push the user Id to the review
-        const alreadyLiked = await RatingAndReview.find({_id:reviewId, userId:userId})
 
-        //If already liked then remove the like
-        if(alreadyLiked){
+        const alreadyLiked = await RatingAndReview.find({likes: userObjectId, _id: reviewId})
+
+        console.log(alreadyLiked)
+
+        if(alreadyLiked.length !== 0){
             const unLikedReview = await RatingAndReview.findByIdAndUpdate(reviewId,
-                                                    {
-                                                        $pull:{likes:userId}
-                                                    },{new:true})
-
-            return res.status(200).json({
+                {
+                    $pull:{likes:userId}
+                },{new:true})
+    
+                return res.status(200).json({
                 success: true,
                 message: "Liked removed successfully",
                 data: unLikedReview
-            })
-        }
-
-        const likedReview = await RatingAndReview.findByIdAndUpdate(reviewId,
-                                                    {
-                                                        $push:{likes:userId}
-                                                    },
-                                                    {new:true}
-                                                )
+                })
+        } else{
+            const likedReview = await RatingAndReview.findByIdAndUpdate(reviewId,
+                {
+                    $push:{likes:userId}
+                },
+                {new:true}
+            )
 
             return res.status(200).json({
             success: true,
             message: "Liked Added successfully",
             data: likedReview
             })
+        }
 
+        // return res.status(400).json({
+        //     message:"Fetched",
+        //     data: alreadyLiked
+        // })
+        
     } catch(error){
         console.log("Error while adding the likes to the review",error)
         return res.status(500).json({

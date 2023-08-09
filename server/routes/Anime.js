@@ -34,7 +34,8 @@ const {
     deleteRatingAndReview,
     updateRatingAndReview,
     getLatestRatingAndReview,
-    getTop10Review
+    getTop10Review,
+    addAndRemoveLike
 } = require("../controllers/RatingAndReview")
 
 
@@ -107,5 +108,9 @@ router.get("/getLatestRatingAndReview",getLatestRatingAndReview)
 
 //api for getting top 10 latest as well a liked review reviews of this week
 router.get("/getTop10Review",getTop10Review)
+
+//api for adding and removing like from the user reviews
+router.put("/addAndRemoveLike",auth, isUser, addAndRemoveLike)
+
 
 module.exports = router
