@@ -315,13 +315,13 @@ exports.getTop10Review = async (req, res) => {
         {
             $limit: 10
         },
-        // Lookup to populate the likes array with user information
+        // Lookup to directly populate the userId field
         {
             $lookup: {
-            from: "users", 
-            localField: "likes",
+            from: "users",
+            localField: "userId",
             foreignField: "_id",
-            as: "populateUser"
+            as: "populatedUser"
             }
         },
         ]);
