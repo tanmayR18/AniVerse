@@ -284,3 +284,140 @@ exports.getLatestRatingAndReview = async(req, res) => {
         })
     }
 }
+
+//Function for gettig top and reviews of this week
+exports.getTop10Review = async (req, res) => {
+    try{
+        const today = new Date();
+        const sevenDaysAgo = new Date(today);
+        sevenDaysAgo.setDate(today.getDate() - 7);
+
+        const latestAndLikedReview = await RatingAndReview.aggregate([
+        // Match documents from the past 7 days
+        {
+            $match: {
+            createdAt: { $gte: sevenDaysAgo, $lte: today }
+            }
+        },
+        // Add a field with the count of likes
+        {
+            $addFields: {
+            likeCount: { $size: "$likes" }
+            }
+        },
+        // Sort by the likeCount field in descending order
+        {
+            $sort: {
+            likeCount: -1
+            }
+        },
+        // Limit to the top 10 records
+        {
+            $limit: 10
+        },
+        // Lookup to directly populate the userId field
+        {
+            $lookup: {
+            from: "users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "populatedUser"
+            }
+        },
+        // Lookup to populate the animeId field
+        {
+            $lookup: {
+                from: "animes", // Replace with the actual collection name
+                localField: "animeId",
+                foreignField: "_id",
+                as: "populatedAnime"
+            }
+        }
+        ]);
+
+          
+
+        // const latestAndLikedReview = await RatingAndReview.find({
+        //     "createdAt": {
+        //       "$gte": new Date(new Date() - 7 * 24 * 60 * 60 * 1000)
+        //     },
+        //     "likes": {
+        //       "$ne": []
+        //     }
+        //   })
+        //   .sort({
+        //     "likes.length": -1
+        //   }).limit(10)
+        
+
+
+        return res.status(200).json({
+            success: true,
+            message: "Top 10 review fetched successfully",
+            data: latestAndLikedReview
+        })
+
+    } catch(error){
+        console.log("Error while fetching the top 5 reviews",error)
+        return res.status(505).json({
+            success: false,
+            message:"Error while fetching the top 5 reviews",
+            error: error.message
+        })
+    }
+}
+
+//Function for adding the like in the comment / reivew
+exports.addAndRemoveLike = async (req, res) => {
+    try{
+        // fetch the ID from the cookie
+        const userId = req.user.id
+        const userObjectId = new mongoose.Types.ObjectId(userId)
+        const {reviewId} = req.body
+        console.log("User ID ", userId)
+
+
+        const alreadyLiked = await RatingAndReview.find({likes: userObjectId, _id: reviewId})
+
+        console.log(alreadyLiked)
+
+        if(alreadyLiked.length !== 0){
+            const unLikedReview = await RatingAndReview.findByIdAndUpdate(reviewId,
+                {
+                    $pull:{likes:userId}
+                },{new:true})
+    
+                return res.status(200).json({
+                success: true,
+                message: "Liked removed successfully",
+                data: unLikedReview
+                })
+        } else{
+            const likedReview = await RatingAndReview.findByIdAndUpdate(reviewId,
+                {
+                    $push:{likes:userId}
+                },
+                {new:true}
+            )
+
+            return res.status(200).json({
+            success: true,
+            message: "Liked Added successfully",
+            data: likedReview
+            })
+        }
+
+        // return res.status(400).json({
+        //     message:"Fetched",
+        //     data: alreadyLiked
+        // })
+        
+    } catch(error){
+        console.log("Error while adding the likes to the review",error)
+        return res.status(500).json({
+            success: false,
+            message: "Error while adding the likes to the review",
+            error: error.message
+        })
+    }
+}

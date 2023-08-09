@@ -1,36 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import {apiConnector} from './service/apiconnector'
-import {ratingAndReview} from './service/apis'
+import { Route, Routes } from "react-router-dom"
+import LandingPage from "./pages/LandingPage"
 
 const App = () => {
 
-    const [entries, setEntries] = useState([])
-
-    const fetchRatingAndReview = async () => {
-        try{
-
-            const response = await apiConnector( "GET", ratingAndReview.GET_ALL_RATINGANDREVIEW ) 
-            console.log(response.data.data)
-            setEntries(response.data.data)
-        } catch(error){
-            console.log("Error has been occured while fetching the rating and revire",error)
-        }
-    }
-
-    useEffect(() => {
-        fetchRatingAndReview()
-    },[])
+    
 
   return (
-    <div>
-
-        {
-            entries.map((entry) => (
-                <div key={entry._id} >
-                    <span>Title:</span><span>{entry.animeId.title}</span>
-                </div>
-            ) )
-        }
+    <div className=' overflow-x-hidden bg-richblack-50 h-full min-h-screen font-poppins'>
+        
+        <Routes>
+            <Route path = "/" element = {<LandingPage/>} />
+        </Routes>
 
     </div>
   )
