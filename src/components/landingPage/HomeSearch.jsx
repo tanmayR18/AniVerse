@@ -19,7 +19,7 @@ const HomeSearch = () => {
  
     useEffect( () => {
         fetchGeneralAnimeApi({status: "airing", order_by: "popularity", sort: "asc"})
-            .then( (result) => setTopSearch(result.data))
+            .then( (result) => setTopSearch(result.data.data))
             .catch( (error) => console.log(error))
     },[])
 
@@ -67,9 +67,10 @@ const HomeSearch = () => {
                         {
                             topSearch.slice(0,10).map( (search, index) => {
                                 const shortendTitle = search.title.length > 24 ? search.title.slice(0,25)+"..." : search.title
-                                const comma = index < topSearch.slice(0,10).length  - 1 ? ", " : ""
+                                const comma = index === topSearch.slice(0,10).length  - 1 || search.title.length > 24 ? " " : ", "
+                                const navigateTo = search.title.split(" ").join("-")
                                 return (
-                                    <NavLink to={`/${search.title}`} key={search.mal_id}>
+                                    <NavLink to={`/anime-details/${navigateTo}`} key={search.mal_id}>
                                         <li
                                         className=' text-richwhite-5 hover:text-richyellow-50 duration-200 my-[1px] mx-1'
                                         key={search.mal_id} >
