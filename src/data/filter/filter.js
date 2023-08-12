@@ -1,12 +1,207 @@
-export const status = ["airing", "complete", "upcoming"]
+export const status = [
+        {
+            "name": "All",
+            "value": ""
+        },
+        {
+            "name":"Airing",
+            "value": "airing"
+        },
+        {
+            "name":"Complete",
+            "value": "complete"
+        },
+        {
+            "name":"Upcoming",
+            "value": "upcoming"
+        },
+    ]
 
-export const rating	= ["g", "pg", "pg13", "r17", "r", "rx"]
+export const rating	= [
+        {
+            "name": "All",
+            "value": ""
+        },
+        {
+            "name": "All Ages",
+            "value": "g"
+        },
+        {
+            "name": "Children",
+            "value": "pg"
+        },
+        {
+            "name": "Teens 13 or older",
+            "value": "pg13"
+        },
+        {
+            "name": "17+ (violence & profanity)",
+            "value": "r17"
+        },
+        {
+            "name": "Mild Nudity",
+            "value": "r"
+        },
+        {
+            "name": "Hentai",
+            "value": "rx"
+        },
+    ]
 
-export const order_by = ["mal_id", "title", "start_date", "end_date", "episodes", "score", "scored_by", "rank", "popularity", "members", "favorites",]
+export const score = [
+    {
+        "name": "all",
+        "value": ""
+    },
+    {
+        "name": "(1) Appalling",
+        "value": 1
+    },
+    {
+        "name": "(2) Horrible",
+        "value": 2
+    },
+    {
+        "name": "(3) Very Bad",
+        "value": 3
+    },
+    {
+        "name": "(4) Bad",
+        "value": 4
+    },
+    {
+        "name": "(5) Average",
+        "value": 5
+    },
+    {
+        "name": "(6) Fine",
+        "value": 6
+    },
+    {
+        "name": "(7) Good",
+        "value": 7
+    },
+    {
+        "name": "(8) Very Goodl",
+        "value": 8
+    },
+    {
+        "name": "(9) Great",
+        "value": 9
+    },
+    {
+        "name": "(10) Masterpiece",
+        "value": 10
+    }
+]
 
-export const sort = ["asc", "desc"]
+export const order_by = [
+    {
+        "name": "All",
+        "value": ""
+    },
+    {
+        "name": "ID",
+        "value": "mal_id"
+    },
+    {
+        "name": "Title",
+        "value": "title"
+    },
+    {
+        "name": "Starting Date",
+        "value": "start_date"
+    },
+    {
+        "name": "Ending Date",
+        "value": "end_date"
+    },
+    {
+        "name": "Episodes",
+        "value": "episodes"
+    },
+    {
+        "name": "Score",
+        "value": "score"
+    },
+    {
+        "name": "Rank",
+        "value": "rank"
+    },
+    {
+        "name": "Popularity",
+        "value": "popularity"
+    },
+    {
+        "name": "Members",
+        "value": "members"
+    },
+    {
+        "name": "Favorites",
+        "value": "favorites"
+    },
+]
 
-export const type = ["tv", "movie", "ova", "special", "ona", "music", ]
+export const sort = [
+    {
+        "name": "Random",
+        "value": "All"
+    },
+    {
+        "name": "Asc",
+        "value": "asc"
+    },
+    {
+        "name": "Desc",
+        "value": "desc"
+    },
+]
+
+export const type = [
+        {
+            "name": "All",
+            "value": ""
+        },
+        {
+            "name": "TV",
+            "value": "tv"
+        },
+        {
+            "name": "Movie",
+            "value": "movie"
+        },
+        {
+            "name": "Ova",
+            "value": "ova"
+        },
+        {
+            "name": "Special",
+            "value": "special"
+        },
+        {
+            "name": "Ona",
+            "value": "ona"
+        },
+        {
+            "name": "Music",
+            "value": "music"
+        }
+]
+
+export const sfw = [
+    {
+        "name": "All",
+        "value":""
+    },
+    {
+        "name": "True",
+        "value": true
+    },
+    {
+        "name": "False",
+        "value": false
+    },
+]
  
 
 // see if necessary or you can do it on the filter card itself

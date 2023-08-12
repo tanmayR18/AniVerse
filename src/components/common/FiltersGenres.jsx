@@ -32,7 +32,7 @@ const Genres = ({formData, changeHandler}) => {
             {
                 genres.map( genre => (
                     <label 
-                    className={`${formData.genres.includes(genre.mal_id.toString()) ? "bg-richyellow-50": "bg-richwhite-50"}`}
+                    className={`${formData.genres.includes(genre.mal_id.toString()) ? "bg-richyellow-50": "bg-richwhite-50"} `}
                     key={genre.mal_id}>
                     {genre.name}
                         <input

@@ -14,6 +14,7 @@ export default function AppContextProvider({children}){
         // const baseUrl = "https://api.jikan.moe/v4/anime"; 
         const queryParams = new URLSearchParams(queryObject);
         const url = `${baseUrl}?${queryParams}`;
+        console.log(url)
 
         try {
             const response = await axios.get(url);
@@ -35,8 +36,6 @@ export default function AppContextProvider({children}){
 
             const concatedGenre = [...empytArry, ...genre.data.data, ...explicit_genres.data.data, ...demographics.data.data]
             console.log(concatedGenre)
-            
-
             // console.log(explicit_genres)
             // console.log(demographics)
 
