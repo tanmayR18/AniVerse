@@ -11,4 +11,19 @@ export const formatDateToDDMMYY = (inputDate) => {
   }
   
 
-  
+// Date function to convert 1999-10-20T00:00:00+00:00 to Oct 20, 1999
+
+export const toMMDDYYY = (inputDate) => {
+    const months = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ];
+    
+      const date = new Date(inputDate);
+      const monthAbbreviation = months[date.getMonth()];
+      const day = date.getDate();
+      const year = date.getFullYear();
+    
+      const formattedDate = `${monthAbbreviation} ${day}, ${year}`;
+      return formattedDate;
+}

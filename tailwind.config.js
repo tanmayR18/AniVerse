@@ -25,7 +25,12 @@ module.exports = {
             50: "#FFDD78",
             40: "#FFDD95"
         }
-    }
+    },
+    extend: {
+        aspectRatio: {
+          '3/5': '3 / 5',
+        },
+      }
   },
   plugins: [
   ],

@@ -7,12 +7,13 @@ import { useContext } from 'react'
 
 const Genres = ({formData, changeHandler}) => {
 
-    const [genres, setGenre] = useState([])
-    const {fetchGenresAndDemographics} = useContext(AppContext)
+    // const [genres, setGenre] = useState([])
+    // const {fetchGenresAndDemographics} = useContext(AppContext)
+    const {genres} = useContext(AppContext)
     // setGenre(result.data.data)
     useEffect( () => {
-        fetchGenresAndDemographics()
-            .then( result => setGenre( result ))
+        // fetchGenresAndDemographics()
+        //     .then( result => setGenre( result ))
         
         // fetchGenresAndDemographics("demographics")
         //     .then( result => setGenre( prevState => {
@@ -47,6 +48,7 @@ const Genres = ({formData, changeHandler}) => {
 
                 
             }
+            {console.log("Genres in the filterGenres",genres)}
         </div>
     </div>
   )

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { createContext } from "react";
 import axios from 'axios'
+import { useEffect } from "react";
 
 export const AppContext = createContext();
 
 export default function AppContextProvider({children}){
+    const [genres, setGenres] = useState([])
     const [loading, setLoading] = useState(false)
     const baseGenreUrl = "https://api.jikan.moe/v4/genres/anime?filter="
     const baseUrl = "https://api.jikan.moe/v4/anime"
@@ -21,7 +23,7 @@ export default function AppContextProvider({children}){
             return response;
         } catch (error) {
             console.error(`Error fetching data for query: ${queryObject}`, error);
-            return null;
+            return [];
         }
     }
 
@@ -35,20 +37,25 @@ export default function AppContextProvider({children}){
             const empytArry = []
 
             const concatedGenre = [...empytArry, ...genre.data.data, ...explicit_genres.data.data, ...demographics.data.data]
-            console.log("Here are all the genres",concatedGenre)
+            console.log("AppContext genres",concatedGenre)
             // console.log(explicit_genres)
             // console.log(demographics)
 
-            return concatedGenre
+             setGenres(concatedGenre)
         } catch( error ){
             console.log("Error while fetching the Genres")
             console.log(error)
             return []
         }
     }
+    
+    // useEffect(() => {
+    //     fetchGenresAndDemographics()
+    // },[])
 
     const value = {
         loading,
+        genres,
         setLoading,
         fetchGeneralAnimeApi,
         fetchGenresAndDemographics,
