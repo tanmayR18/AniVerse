@@ -35,7 +35,7 @@ export default function AppContextProvider({children}){
             const empytArry = []
 
             const concatedGenre = [...empytArry, ...genre.data.data, ...explicit_genres.data.data, ...demographics.data.data]
-            console.log(concatedGenre)
+            console.log("Here are all the genres",concatedGenre)
             // console.log(explicit_genres)
             // console.log(demographics)
 

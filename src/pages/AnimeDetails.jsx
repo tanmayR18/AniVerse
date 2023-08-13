@@ -23,7 +23,7 @@ const AnimeDetails = () => {
             </div>
 
             
-            <aside className=' flex  flex-col gap-10'>
+            <aside className=' flex  flex-col gap-10 '>
                 <MostPopular/>
                 <GenreSection />
             </aside>
