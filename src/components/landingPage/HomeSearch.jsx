@@ -4,7 +4,7 @@ import ViewAndShare from './ViewAndShare'
 import logo from "../../assets/full_logo.png"
 import charImage from "../../assets/home-anime-characters.png"
 import {FaSearch} from "react-icons/fa"
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { AppContext } from '../../context/AppContext'
 
@@ -12,14 +12,24 @@ const HomeSearch = () => {
 
     // const topSearchAPi = "https://api.jikan.moe/v4/anime?status=airing&order_by=popularity&sort=asc"
     const [topSearch, setTopSearch] = useState([])
+    const [search, setSearch] = useState("")
+    const navigate = useNavigate()
+    
+    // function changeHandler(newValue){
+    //     setSearch(newValue)
+    // }
 
+    function submitHandler(event){
+        event.preventDefault()
+        navigate(`/anime-details/${search.split(" ").join("-")}`)
+    }
     const {fetchGeneralAnimeApi} = useContext(AppContext)
 
     // bg-richwhite-10
  
     useEffect( () => {
         fetchGeneralAnimeApi({status: "airing", order_by: "popularity", sort: "asc"})
-            .then( (result) => setTopSearch(result.data))
+            .then( (result) => setTopSearch(result.data.data))
             .catch( (error) => console.log(error))
     },[])
 
@@ -40,22 +50,39 @@ const HomeSearch = () => {
 
                 {/* Search and Top Search seciton */}
 
-                <div className='flex flex-col mt-36 w-[50%] gap-4'>
+                <div className='flex flex-col mt-36 w-[50%] gap-4 '>
                     {/* Logo */}
                     <NavLink to={"/"}>
                         <img className='h-[90px] w-[150px]'  src={logo} alt='Aniverse logo' />
                     </NavLink>
 
                     {/* Input Field */}
-                    <form className='flex items-center gap-2'>
-                        <input className='w-full h-12 rounded-[2rem] outline-none text-lg px-5 text-richblack-50'
-                        placeholder='Search anime...'>
+                    <form onSubmit={submitHandler} className='flex items-center gap-2 z-30'>
+                        <input 
+                            className='w-full h-12 rounded-[2rem] outline-none text-lg px-5 text-richblack-50'
+                            name='search'
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            type='search'
+                            placeholder='Search anime...'
+                        />
 
-                        </input>
-
-                        <button className='p-4 bg-richyellow-40 rounded-full' >
+                        <button
+                            onClick={() => navigate(`/anime-details/${search.split(" ").join("-")}`)}
+                            className=' p-4 bg-richyellow-40 rounded-full'>
                             <FaSearch/>
                         </button>
+
+                        {/* <input
+                        type='submit'
+                        className='p-4 bg-richyellow-40 rounded-full'>
+                        </input> */}
+
+                        {/* <button
+                        type='submit'
+                        >
+                            submit
+                        </button> */}
                     </form>
 
                     {/* Top Search */}
@@ -67,9 +94,10 @@ const HomeSearch = () => {
                         {
                             topSearch.slice(0,10).map( (search, index) => {
                                 const shortendTitle = search.title.length > 24 ? search.title.slice(0,25)+"..." : search.title
-                                const comma = index < topSearch.slice(0,10).length  - 1 ? ", " : ""
+                                const comma = index === topSearch.slice(0,10).length  - 1 || search.title.length > 24 ? " " : ", "
+                                const navigateTo = search.title.split(" ").join("-")
                                 return (
-                                    <NavLink to={`/${search.title}`} key={search.mal_id}>
+                                    <NavLink to={`/anime-details/${navigateTo}`} key={search.mal_id}>
                                         <li
                                         className=' text-richwhite-5 hover:text-richyellow-50 duration-200 my-[1px] mx-1'
                                         key={search.mal_id} >

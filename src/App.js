@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom"
 import LandingPage from "./pages/LandingPage"
+import AnimeDetails from "./pages/AnimeDetails"
 
 const App = () => {
 
@@ -10,6 +11,7 @@ const App = () => {
         
         <Routes>
             <Route path = "/" element = {<LandingPage/>} />
+            <Route path = "/anime-details/:anime" element = {<AnimeDetails/>} />
         </Routes>
 
     </div>

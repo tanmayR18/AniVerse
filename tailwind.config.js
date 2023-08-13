@@ -2,6 +2,7 @@
 module.exports = {
     content: [
         "./src/**/*.{js,jsx,ts,tsx}",
+        "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
       ],
   theme: {
     fontFamily:{
@@ -9,6 +10,7 @@ module.exports = {
     },
     colors: {
         richblack:{
+            10: "rgba(0, 0, 0, 0.15)",
             40: "#2F2F33",
             50: "#242428",
             80: "#121315",
@@ -24,8 +26,14 @@ module.exports = {
             50: "#FFDD78",
             40: "#FFDD95"
         }
-    }
+    },
+    extend: {
+        aspectRatio: {
+          '3/5': '3 / 5',
+        },
+      }
   },
-  plugins: [],
+  plugins: [
+  ],
 }
 
