@@ -29,11 +29,13 @@ const HoveredAnimeCard = ({anime}) => {
                 </div>
                 <p>{anime.type}</p>
             </div>
-            <p className='text-sm'>
-                {
-                    anime.synopsis.length > 100 ? anime.synopsis.slice(0,200) + "..." : anime.synopsis
-                }
-            </p>
+            {
+                anime.synopsis && <p className='text-sm'>
+                                        {
+                                            anime.synopsis.length > 100 ? anime.synopsis.slice(0,200) + "..." : anime.synopsis
+                                        }
+                                </p>
+            }
             <div className='text-sm'>
                 <p>
                     Japanese: {

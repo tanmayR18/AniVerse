@@ -4,7 +4,7 @@ import ViewAndShare from './ViewAndShare'
 import logo from "../../assets/full_logo.png"
 import charImage from "../../assets/home-anime-characters.png"
 import {FaSearch} from "react-icons/fa"
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { AppContext } from '../../context/AppContext'
 
@@ -12,7 +12,17 @@ const HomeSearch = () => {
 
     // const topSearchAPi = "https://api.jikan.moe/v4/anime?status=airing&order_by=popularity&sort=asc"
     const [topSearch, setTopSearch] = useState([])
+    const [search, setSearch] = useState("")
+    const navigate = useNavigate()
+    
+    // function changeHandler(newValue){
+    //     setSearch(newValue)
+    // }
 
+    function submitHandler(event){
+        event.preventDefault()
+        navigate(`/anime-details/${search.split(" ").join("-")}`)
+    }
     const {fetchGeneralAnimeApi} = useContext(AppContext)
 
     // bg-richwhite-10
@@ -47,13 +57,17 @@ const HomeSearch = () => {
                     </NavLink>
 
                     {/* Input Field */}
-                    <form className='flex items-center gap-2'>
-                        <input className='w-full h-12 rounded-[2rem] outline-none text-lg px-5 text-richblack-50'
-                        placeholder='Search anime...'>
+                    <form onSubmit={submitHandler} className='flex items-center gap-2'>
+                        <input 
+                            className='w-full h-12 rounded-[2rem] outline-none text-lg px-5 text-richblack-50'
+                            name='search'
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            type='search'
+                            placeholder='Search anime...'
+                        />
 
-                        </input>
-
-                        <button className='p-4 bg-richyellow-40 rounded-full' >
+                        <button className='p-4 bg-richyellow-40 rounded-full cursor-pointer' type='submit'>
                             <FaSearch/>
                         </button>
                     </form>
