@@ -7,6 +7,7 @@ import { computeHeadingLevel } from '@testing-library/react'
 import { useEffect } from 'react'
 
 import AnimeCard from './AnimeCard'
+import Pagination from './Pagination'
 
 
 const AnimeSearchResult = () => {
@@ -33,6 +34,7 @@ const AnimeSearchResult = () => {
                 ))
             }
         </div>
+        <Pagination animes = {animes}/>
     </div>
   )
 }

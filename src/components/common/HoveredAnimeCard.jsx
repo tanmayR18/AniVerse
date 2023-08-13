@@ -1,7 +1,8 @@
 import React from 'react'
 // import {BsStarFill} from "react-icons/bs"
-import {FaStar} from "react-icons/fa"
+import {FaStar, FaPlus, FaPlay} from "react-icons/fa"
 import { toMMDDYYY } from '../../service/inFormalDate'
+import { NavLink } from 'react-router-dom'
 
 const HoveredAnimeCard = ({anime}) => {
     
@@ -17,7 +18,7 @@ const HoveredAnimeCard = ({anime}) => {
 
     
   return (
-    <div className=' bg-richwhite-10 backdrop-blur-lg p-4 rounded-lg text-richwhite-50 flex flex-col gap-4'>
+    <div className=' bg-richblack-10 backdrop-blur-lg p-4 rounded-3xl text-richwhite-50 flex flex-col gap-4'>
         <h5>
             {anime.title}
         </h5>
@@ -52,6 +53,15 @@ const HoveredAnimeCard = ({anime}) => {
                 <p>Genres:{getAnimeGenre()}
                 </p>
             </div>
+        </div>
+        <div className='flex  text-richblack-90 items-center justify-between '>
+            <NavLink to={`/full-anime-detials/${anime.name}`} className={" w-4/5"}>
+                <div className='flex justify-center rounded-3xl gap-2  items-center py-2 px-10 bg-richyellow-50'>
+                    <FaPlay />
+                    <p>View Now</p>
+                </div>
+            </NavLink>
+            <div className='h-10 w-10 flex cursor-pointer items-center justify-center text-sm rounded-full bg-richwhite-100'><FaPlus/></div>
         </div>
     </div>
   )
