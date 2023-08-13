@@ -3,13 +3,15 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { AppContext } from '../../context/AppContext'
 import { useContext } from 'react'
+import { genres } from '../../data/filter/filter'
 
 
 const Genres = ({formData, changeHandler}) => {
 
+    // const [genre, setGenre] = useState(genres)
     // const [genres, setGenre] = useState([])
     // const {fetchGenresAndDemographics} = useContext(AppContext)
-    const {genres} = useContext(AppContext)
+    // const {genres} = useContext(AppContext)
     // setGenre(result.data.data)
     useEffect( () => {
         // fetchGenresAndDemographics()

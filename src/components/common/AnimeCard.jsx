@@ -24,7 +24,7 @@ const AnimeCard = ({anime}) => {
             </div>
             {/* For creating hover card */}
             <div className='w-[140%] rounded-lg absolute scale-0 -top-1/2 -right-3/4 group-hover:scale-100 transition-all duration-200 z-20'>
-                <HoveredAnimeCard  anime = {anime} /> 
+                {/* <HoveredAnimeCard  anime = {anime} />  */}
             </div>
             
         </div>

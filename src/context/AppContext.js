@@ -27,7 +27,7 @@ export default function AppContextProvider({children}){
         }
     }
 
-    const fetchGenresAndDemographics = async (category) => {
+    const fetchGenresAndDemographics = async () => {
         try{
             // console.log("Here is the api link",baseGenreUrl+category)
             const genre = await axios.get(baseGenreUrl+"genres")

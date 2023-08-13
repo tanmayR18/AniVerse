@@ -12,15 +12,21 @@ import Pagination from './Pagination'
 
 const AnimeSearchResult = () => {
     const location = useLocation()
+    const [paginationData, setPaginartionData] = useState("")
     const [animes, setAnimes] = useState([])
+    const [page, setPage] = useState(1)
     const {fetchGeneralAnimeApi} = useContext(AppContext)
     const animeName = location.pathname.split("/").at(-1).split("-").join(" ")
    
 
     useEffect(()=>{
-        fetchGeneralAnimeApi({q:animeName,order_by:"popularity",sort:"asc"})
-        .then( result => setAnimes(result.data.data))
-    },[])
+        fetchGeneralAnimeApi({q:animeName,order_by:"popularity",sort:"asc",page:page})
+        .then( result => {
+            setAnimes(result.data.data)
+            setPaginartionData(result.data.pagination)
+        })
+        .catch( error => console.log(error))
+    },[page])
         
   return (
     <div>
@@ -34,7 +40,9 @@ const AnimeSearchResult = () => {
                 ))
             }
         </div>
-        <Pagination animes = {animes}/>
+        <Pagination paginationData = {paginationData}
+        page = {page} setPage = {setPage} 
+        setAnimes = {setAnimes}/>
     </div>
   )
 }

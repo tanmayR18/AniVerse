@@ -5,6 +5,7 @@ import FilterSection from '../components/common/FilterSection'
 import AnimeSearchResult from '../components/common/AnimeSearchResult'
 import MostPopular from '../components/common/MostPopular'
 import GenreSection from '../components/common/GenreSection'
+import Footer from '../components/common/Footer'
 
 const AnimeDetails = () => {
     const location = useLocation()
@@ -29,6 +30,8 @@ const AnimeDetails = () => {
             </aside>
 
         </div>
+
+        <Footer />
     </div>
   )
 }

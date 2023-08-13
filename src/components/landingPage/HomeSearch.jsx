@@ -50,14 +50,14 @@ const HomeSearch = () => {
 
                 {/* Search and Top Search seciton */}
 
-                <div className='flex flex-col mt-36 w-[50%] gap-4'>
+                <div className='flex flex-col mt-36 w-[50%] gap-4 '>
                     {/* Logo */}
                     <NavLink to={"/"}>
                         <img className='h-[90px] w-[150px]'  src={logo} alt='Aniverse logo' />
                     </NavLink>
 
                     {/* Input Field */}
-                    <form onSubmit={submitHandler} className='flex items-center gap-2'>
+                    <form onSubmit={submitHandler} className='flex items-center gap-2 z-30'>
                         <input 
                             className='w-full h-12 rounded-[2rem] outline-none text-lg px-5 text-richblack-50'
                             name='search'
@@ -67,9 +67,22 @@ const HomeSearch = () => {
                             placeholder='Search anime...'
                         />
 
-                        <button className='p-4 bg-richyellow-40 rounded-full cursor-pointer' type='submit'>
+                        <button
+                            onClick={() => navigate(`/anime-details/${search.split(" ").join("-")}`)}
+                            className=' p-4 bg-richyellow-40 rounded-full'>
                             <FaSearch/>
                         </button>
+
+                        {/* <input
+                        type='submit'
+                        className='p-4 bg-richyellow-40 rounded-full'>
+                        </input> */}
+
+                        {/* <button
+                        type='submit'
+                        >
+                            submit
+                        </button> */}
                     </form>
 
                     {/* Top Search */}
