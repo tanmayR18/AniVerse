@@ -1,8 +1,7 @@
 import React from 'react'
 import logo  from '../../assets/full_logo.png'
 import {FaDiscord, FaRedditAlien, FaTelegramPlane, FaTwitter} from 'react-icons/fa'
-import { copyRights, footerIcons, headings, otherInfo, sortBy } from '../../data/footer/footerData'
-import { filter } from 'reducers'
+import { copyRights, headings, otherInfo, sortBy } from '../../data/footer/footerData'
 import { NavLink } from 'react-router-dom'
 
 
