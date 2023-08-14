@@ -21,6 +21,7 @@
     "react-type-animation": "^3.1.0",
     "reducers": "^3.0.0-alpha",
     "swiper": "^10.1.0",
+    "util": "^0.12.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
