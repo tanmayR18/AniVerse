@@ -25,6 +25,12 @@ module.exports = {
         richyellow:{
             50: "#FFDD78",
             40: "#FFDD95"
+        },
+        socialMedia:{
+            discord: "#6F85D5",
+            telegram: "#0088CC",
+            reddit: "#FF3C1F",
+            twitter: "#1D9BF0"
         }
     },
     extend: {
