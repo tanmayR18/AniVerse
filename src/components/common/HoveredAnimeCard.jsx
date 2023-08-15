@@ -12,7 +12,7 @@ const HoveredAnimeCard = ({anime}) => {
             animeGenres.push(anime.genres[i].name)
 
         }
-        return animeGenres.join(",")
+        return animeGenres.join(", ")
     }
     
 

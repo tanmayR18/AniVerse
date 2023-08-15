@@ -20,13 +20,14 @@ const AnimeSearchResult = () => {
    
 
     useEffect(()=>{
+        
         fetchGeneralAnimeApi({q:animeName,order_by:"popularity",sort:"asc",page:page})
         .then( result => {
             setAnimes(result.data.data)
             setPaginartionData(result.data.pagination)
         })
         .catch( error => console.log(error))
-    },[page])
+    },[page, animeName])
         
   return (
     <div>
