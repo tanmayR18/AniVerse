@@ -79,11 +79,15 @@ const Navbar = () => {
                 }}
                 className='outline-none h-10 px-3 w-34 bg-richwhite-100'
             />
-            <div className='p-3 bg-richwhite-100 cursor-pointer'>
+            <div 
+            onClick={() => navigate(`/anime-details/${search.split(" ").join("-")}`)}
+            className='p-3 bg-richwhite-100 cursor-pointer'>
                 <FaSearch/>
             </div>
             <div className=' bg-richwhite-100 h-10 flex items-center justify-center pr-2 cursor-pointer'>
-                <div className=' bg-richblack-30 hover:bg-richblack-20 hover:opacity-70 text-richwhite-100 text-sm py-1 px-2 rounded-sm'>
+                <div 
+                onClick={ () => navigate("/filter")}
+                className=' bg-richblack-30 hover:bg-richblack-20 hover:opacity-70 text-richwhite-100 text-sm py-1 px-2 rounded-sm'>
                     Filter
                 </div>
             </div>
