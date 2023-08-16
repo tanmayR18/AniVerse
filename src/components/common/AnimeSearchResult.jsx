@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 
 import AnimeCard from './AnimeCard'
 import Pagination from './Pagination'
+import { genres } from '../../data/filter/filter'
 
 
 const AnimeSearchResult = ({filteresUrl}) => {
@@ -36,16 +37,17 @@ const AnimeSearchResult = ({filteresUrl}) => {
         //         })
         //         .catch( error => console.log(error))
         // }
-        fetchGeneralAnimeApi( location.pathname === "/filter" ? 
-                                Object.assign({},filteresUrl,{page:page}) : 
-                                Object.assign({},{q:animeName,order_by:"popularity",sort:"asc",page:page},filteresUrl) )
+        fetchGeneralAnimeApi( heading === "anime-details" ?  
+                                Object.assign({},{q:animeName,order_by:"popularity",sort:"asc",page:page},filteresUrl):
+                                Object.assign({},filteresUrl,{page:page})  ) 
 
                 .then( result => {
                     setAnimes(result.data.data)
                     setPaginartionData(result.data.pagination)
                 })
                 .catch( error => console.log(error))
-    },[page,filteresUrl, animeName])
+    },[page,filteresUrl])
+    // page, filteresUrl, animeName, heading
         
   return (
     <div className='flex flex-col gap-10'>
@@ -68,9 +70,11 @@ const AnimeSearchResult = ({filteresUrl}) => {
         }
         {/* For Genre page */}
         {
-            heading === "Genre" && (
+            heading === "genre" && (
                 <span className=' font-bold text-richyellow-40 text-[1.8rem]'>
-                    {animeName} Anime
+                    {
+                        genres.filter(genre => genre.mal_id == animeName)[0].name
+                    } Anime
                 </span>
             )
         }
