@@ -28,7 +28,7 @@ const AnimeDetails = () => {
             
             <aside className=' flex  flex-col gap-10 w-[23%]'>
                 <MostPopular/>
-                <GenreSection />
+                <GenreSection setGenres={""} />
             </aside>
 
         </div>

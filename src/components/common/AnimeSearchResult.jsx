@@ -36,16 +36,17 @@ const AnimeSearchResult = ({filteresUrl}) => {
         //         })
         //         .catch( error => console.log(error))
         // }
-        fetchGeneralAnimeApi( location.pathname === "/filter" ? 
-                                Object.assign({},filteresUrl,{page:page}) : 
-                                Object.assign({},{q:animeName,order_by:"popularity",sort:"asc",page:page},filteresUrl) )
+        fetchGeneralAnimeApi( heading === "anime-details" ?  
+                                Object.assign({},{q:animeName,order_by:"popularity",sort:"asc",page:page},filteresUrl):
+                                Object.assign({},filteresUrl,{page:page})  ) 
 
                 .then( result => {
                     setAnimes(result.data.data)
                     setPaginartionData(result.data.pagination)
                 })
                 .catch( error => console.log(error))
-    },[page,filteresUrl, animeName])
+    },[page,filteresUrl])
+    // page, filteresUrl, animeName, heading
         
   return (
     <div className='flex flex-col gap-10'>
