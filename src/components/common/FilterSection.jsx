@@ -6,7 +6,7 @@ import { useContext } from 'react'
 import { AppContext } from '../../context/AppContext'
 
 
-const Filter = () => {
+const Filter = ({setFilteresUrl}) => {
 
     const {fetchGeneralAnimeApi} = useContext(AppContext)
 
@@ -81,6 +81,7 @@ const Filter = () => {
         finalData.start_date = start.startDate
         finalData.end_date = end.startDate
         console.log(removeKeyValuePair(finalData))
+        setFilteresUrl(finalData)
         fetchGeneralAnimeApi(finalData)
             .then( result => console.log(result.data.data))
             .catch( error => console.log(error))
@@ -88,15 +89,17 @@ const Filter = () => {
     }
 
   return (
-    <div className=' bg-richwhite-10 p-7 rounded-2xl'>
-        <form onSubmit={submitHandler}>
+    <div className=' bg-richwhite-10 p-7 rounded-2xl '>
+        <form
+        className='flex flex-col gap-5'
+        onSubmit={submitHandler}>
             <Filters formData={formData} changeHandler={changeHandler} start = {start} 
             setStart = {setStart} end = {end} setEnd = {setEnd}  />
 
             <Genres formData={formData} changeHandler={changeHandler} />
 
             {/* Submit Button */}
-            <button className='py-2 px-4 bg-richyellow-50 font-semibold mt-3 rounded-lg' >
+            <button className='py-2 px-4 bg-richyellow-50 w-fit font-semibold mt-3 rounded-lg' >
                 Filter
             </button>
         </form>

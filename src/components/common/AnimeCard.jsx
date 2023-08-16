@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {FaPlay} from 'react-icons/fa'
 import {GoDotFill} from 'react-icons/go'
 import HoveredAnimeCard from './HoveredAnimeCard'

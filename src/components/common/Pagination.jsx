@@ -27,7 +27,7 @@ const Pagination = ({paginationData, page, setPage, setAnimes}) => {
             {Array.from({ length: paginationData.last_visible_page }, (_, index) => (
                 <div 
                 onClick={() => setPage(index + 1)}
-                className={`w-10 flex justify-center items-center h-10 cursor-pointer text-sm  rounded-full ${index + 1 === page ? 
+                className={`w-10  justify-center ${page === index - 1 || page === index || page === index + 1 ? "flex": "hidden" } items-center h-10 cursor-pointer text-sm  rounded-full ${index + 1 === page ? 
                 " bg-richyellow-50" : " bg-richblack-40"} ${page !== index + 1 ? "hover:text-richyellow-50": "cursor-default"}`}
                 key={index}>
                     {index + 1}
@@ -50,7 +50,6 @@ const Pagination = ({paginationData, page, setPage, setAnimes}) => {
                                                                 <MdKeyboardDoubleArrowRight />
                                                             </div>
         }
-        {console.log(page)}
     </div>
 
   )

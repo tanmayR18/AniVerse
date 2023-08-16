@@ -28,18 +28,18 @@ const Genres = ({formData, changeHandler}) => {
 
 
   return (
-    <div>
+    <div className='flex flex-col gap-6'>
         <h3 className='text-[1.1rem] font-bold text-richwhite-100 opacity-90 tracking-wide'>Genre</h3>
 
-        <div className='flex gap-1 flex-wrap'>
+        <div className='flex gap-2 flex-wrap'>
             {
                 genres.map( genre => (
                     <label 
-                    className={`${formData.genres.includes(genre.mal_id.toString()) ? "bg-richyellow-50": "bg-richwhite-50"} `}
+                    className={`${formData.genres.includes(genre.mal_id.toString()) ? "text-richyellow-50 bg-richyellow-10": "text-richwhite-50"}  text-sm border border-richwhite-20 cursor-pointer hover:text-richyellow-40 rounded-md p-1`}
                     key={genre.mal_id}>
                     {genre.name}
                         <input
-                            className=' hidden'
+                            className=' hidden '
                             type = 'checkbox'
                             onChange = {changeHandler}
                             name = {genre.mal_id.toString()} // Use mal_id as the name
