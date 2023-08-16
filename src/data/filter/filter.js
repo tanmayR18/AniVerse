@@ -50,7 +50,7 @@ export const rating	= [
 
 export const score = [
     {
-        "name": "all",
+        "name": "All",
         "value": ""
     },
     {
@@ -204,8 +204,7 @@ export const sfw = [
 ]
 
 // Genres are exported with the api
-export const genres =
-[
+export const genres = [
     {
         "mal_id": 1,
         "name": "Action",

@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom"
 import LandingPage from "./pages/LandingPage"
 import AnimeDetails from "./pages/AnimeDetails"
+import FilterPage from "./pages/FilterPage"
 
 const App = () => {
 
@@ -12,6 +13,7 @@ const App = () => {
         <Routes>
             <Route path = "/" element = {<LandingPage/>} />
             <Route path = "/anime-details/:anime" element = {<AnimeDetails/>} />
+            <Route path = "/filter" element = {<FilterPage/>} />
         </Routes>
 
     </div>

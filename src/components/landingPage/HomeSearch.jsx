@@ -50,7 +50,7 @@ const HomeSearch = () => {
 
                 {/* Search and Top Search seciton */}
 
-                <div className='flex flex-col mt-36 w-[50%] gap-4 '>
+                <div className='flex flex-col mt-36 w-[50%] gap-6 '>
                     {/* Logo */}
                     <NavLink to={"/"}>
                         <img className='h-[90px] w-[150px]'  src={logo} alt='Aniverse logo' />
