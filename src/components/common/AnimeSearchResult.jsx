@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 
 import AnimeCard from './AnimeCard'
 import Pagination from './Pagination'
+import { genres } from '../../data/filter/filter'
 
 
 const AnimeSearchResult = ({filteresUrl}) => {
@@ -69,9 +70,11 @@ const AnimeSearchResult = ({filteresUrl}) => {
         }
         {/* For Genre page */}
         {
-            heading === "Genre" && (
+            heading === "genre" && (
                 <span className=' font-bold text-richyellow-40 text-[1.8rem]'>
-                    {animeName} Anime
+                    {
+                        genres.filter(genre => genre.mal_id == animeName)[0].name
+                    } Anime
                 </span>
             )
         }

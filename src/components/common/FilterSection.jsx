@@ -6,7 +6,7 @@ import { useContext } from 'react'
 import { AppContext } from '../../context/AppContext'
 
 
-const Filter = ({setFilteresUrl}) => {
+const Filter = ({setFilteresUrl, filteresUrl}) => {
 
     const {fetchGeneralAnimeApi} = useContext(AppContext)
 
@@ -81,7 +81,8 @@ const Filter = ({setFilteresUrl}) => {
         finalData.start_date = start.startDate
         finalData.end_date = end.startDate
         console.log(removeKeyValuePair(finalData))
-        setFilteresUrl(finalData)
+        console.log("Abbhi ka he ", Object.assign({},filteresUrl, finalData))
+        setFilteresUrl(Object.assign({},filteresUrl, finalData))
         fetchGeneralAnimeApi(finalData)
             .then( result => console.log(result.data.data))
             .catch( error => console.log(error))
