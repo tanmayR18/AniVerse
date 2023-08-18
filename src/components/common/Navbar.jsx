@@ -8,13 +8,16 @@ import {IoMdNotifications, IoMdSettings} from "react-icons/io"
 import {AiFillHeart} from "react-icons/ai"
 import { profileData } from '../../data/Profile/profile'
 import { socialMedia } from '../../data/social media/socialMediaInfo'
+import LoginOverLayer from "../LoginAndSignUp/LoginOverlayer"
+
 
 
 const Navbar = () => {
 
-    const [user, setUser] = useState(true)
+    const [user, setUser] = useState(false)
     const [navbar, setNavbar] = useState(false)
     const [search, setSearch] = useState("")
+    const [loginVisible, setLoginVisible] = useState(false)
     const navigate = useNavigate()
 
     function submitHandler(event){
@@ -36,6 +39,9 @@ const Navbar = () => {
             navbar === 0 ? "" : "backdrop-blur bg-richblack-20"
         }
     `}>
+        
+        <LoginOverLayer loginVisible = {loginVisible} setLoginVisible = {setLoginVisible}/>
+
         {/* Hamberger menu and logo */}
         <div className='flex items-center gap-6 text-richwhite-100'>
             <GiHamburgerMenu size={28} className=' cursor-pointer'/>
@@ -95,7 +101,9 @@ const Navbar = () => {
 
         {/* Login */}
         {
-            !user && <div className=' bg-richyellow-40 text-richblack-90 px-5 py-[10px] rounded-[3px] text-sm font-bold'>
+            !user && <div
+                    onClick={() => setLoginVisible(true)}
+                    className=' cursor-pointer bg-richyellow-40 text-richblack-90 px-5 py-[10px] rounded-[3px] text-sm font-bold'>
                         Login
                     </div>
         }
@@ -103,44 +111,45 @@ const Navbar = () => {
         {/* Notfication */}
        
         {/* Profile and notification*/}
-        <div className='flex items-center gap-4'>
-            {
-                user && <NavLink to={"/user/notification"}>
-                            <div className=' text-richwhite-100 p-3 text-xl cursor-pointer bg-richwhite-10 rounded-full border-b-richblack-40'>
-                                <IoMdNotifications/>
+        {
+            user && (
+                <div className='flex items-center gap-4'>
+                    <NavLink to={"/user/notification"}>
+                                <div className=' text-richwhite-100 p-3 text-xl cursor-pointer bg-richwhite-10 rounded-full border-b-richblack-40'>
+                                    <IoMdNotifications/>
+                                </div>
+                            </NavLink>
+
+                    <div className='relative text-richwhite-100 group p-3 text-xl bg-richwhite-10 rounded-full border-b-richblack-40 '>
+                        <BsFillPersonFill />
+
+                        {/* Dropdown */}
+                        <div className=' hidden group-hover:flex flex-col gap-3 absolute top-10  right-0 bg-richblack-20 border border-richwhite-10 rounded-xl p-4 w-72'>
+                            <p className=' text-base text-richyellow-40'>Tanmay Rane</p>
+                            <p className=' text-base text-richwhite-100'>tanmayrane51@gmail.com</p>
+                            <div className='flex flex-col gap-2 '>
+                                {
+                                    profileData.map( (item, index) => (
+                                        <NavLink 
+                                        className={"flex gap-2 hover:text-richyellow-40  bg-richwhite-10 hover:bg-richwhite-20 rounded-2xl text-[14px] font-semibold items-center py-[6px] px-3"}
+                                        key={index} to={`/user/${item.value}`}>
+                                            {item.icon}
+                                            <p>{item.name}</p>
+                                        </NavLink>
+                                    ))
+                                }
                             </div>
-                        </NavLink>
-            }
-
-            {
-                user && <div className='relative text-richwhite-100 group p-3 text-xl bg-richwhite-10 rounded-full border-b-richblack-40 '>
-                            <BsFillPersonFill />
-
-                            {/* Dropdown */}
-                            <div className=' hidden group-hover:flex flex-col gap-3 absolute top-10  right-0 bg-richblack-20 border border-richwhite-10 rounded-xl p-4 w-72'>
-                                <p className=' text-base text-richyellow-40'>Tanmay Rane</p>
-                                <p className=' text-base text-richwhite-100'>tanmayrane51@gmail.com</p>
-                                <div className='flex flex-col gap-2 '>
-                                    {
-                                        profileData.map( (item, index) => (
-                                            <NavLink 
-                                            className={"flex gap-2 hover:text-richyellow-40  bg-richwhite-10 hover:bg-richwhite-20 rounded-2xl text-[14px] font-semibold items-center py-[6px] px-3"}
-                                            key={index} to={`/user/${item.value}`}>
-                                                {item.icon}
-                                                <p>{item.name}</p>
-                                            </NavLink>
-                                        ))
-                                    }
-                                </div>
-                                
-                                <div className='flex justify-end items-center text-[14px] cursor-pointer gap-2 my-2 hover:text-richyellow-40'>
-                                    <p>Logout</p>
-                                    <FaArrowRight/>
-                                </div>
+                                    
+                            <div className='flex justify-end items-center text-[14px] cursor-pointer gap-2 my-2 hover:text-richyellow-40'>
+                                <p>Logout</p>
+                                <FaArrowRight/>
                             </div>
                         </div>
-            }
-        </div>
+                    </div>
+                
+            </div>
+            )
+        }
 
     </nav>
   )
