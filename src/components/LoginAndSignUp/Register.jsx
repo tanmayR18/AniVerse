@@ -3,10 +3,14 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import ReCAPTCHA from "react-google-recaptcha";
+import { apiConnector } from '../../service/apiconnector';
+import { auth } from '../../service/apis';
+import { toast } from 'react-hot-toast';
 
 const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
+    const [errorMsg, setErrorMsg] = useState(null)
 
     function onChange(value) {
         console.log("Captcha value:", value);
@@ -15,8 +19,13 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
 
       const submitHandler = async (data) => {
         try{
-            const response = {status: "Ok", code: 404, data:data}
+            console.log("Register data",data)
+            const response = await apiConnector("POST", auth.SIGN_UP, data)
             console.log("Login Resonse",response)
+            if(response.data.success === true){
+                toast.success("Registered successfully")
+                setRegister("false")
+            }
         } catch(error){
             console.log("Login Error", error)
         }   
@@ -25,10 +34,12 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
     useEffect(() => {
         if(isSubmitSuccessful){
             reset({
-                name: "",
+                userName: "",
                 password: "",
                 confirmPassword: "",
-                email: ""
+                email: "",
+                otp: "",
+                accountType: ""
             })
         }
     },[reset, isSubmitSuccessful])
@@ -38,6 +49,13 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
         <h1>Create an account</h1>
 
         {/* For error display */}
+        {
+            errorMsg && <p>
+                            {
+                                errorMsg.message
+                            }
+                        </p>
+        }
 
         <form
         className='flex flex-col'
@@ -50,13 +68,13 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                 <input
                     className=' text-richblack-90'
                         type='text'
-                        name='name'
+                        name='userName'
                         required
-                        id='name'
+                        id='userName'
                         // value={name}
                         // onChange={(event) => setName(event.target.value)}
                         placeholder='Enter Your Name'
-                    {...register("name",{required:true})}
+                    {...register("userName",{required:true})}
                 />
             </div>
 
@@ -109,6 +127,46 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                         placeholder='Confirm Password'
                     {...register("confirmPassword",{required:true})}
                 />
+            </div>
+
+            <div className='flex flex-col'>
+                <label>
+                    OTP
+                </label>
+                <input
+                    className=' text-richblack-90'
+                        type='text'
+                        name='otp'
+                        required
+                        id='otp'
+                        // value={name}
+                        // onChange={(event) => setName(event.target.value)}
+                        placeholder='Eg. 193524'
+                    {...register("otp",{required:true})}
+                />
+            </div>
+
+            <div className='flex flex-col'>
+                <label>
+                    Type
+                </label>
+                <select
+                    className=' text-richblack-90'
+                        name='accountType'
+                        required
+                        id='accountType'
+                        // value={name}
+                        // onChange={(event) => setName(event.target.value)}
+                        placeholder='Eg. 193524'
+                    {...register("accountType",{required:true})}
+                >
+                    <option value={"Admin"}>
+                        Admin
+                    </option>
+                    <option value={"User"}>
+                        User
+                    </option>
+                </select>
             </div>
 
             <ReCAPTCHA

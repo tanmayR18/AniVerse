@@ -3,8 +3,11 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form'
 import ReCAPTCHA from "react-google-recaptcha";
+import { apiConnector } from '../../service/apiconnector';
+import { auth } from '../../service/apis';
+import { toast } from 'react-hot-toast';
 
-const Login = ({setIsLogin, setForgotPassword, setEmailVerify}) => {
+const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
     // const recaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
@@ -16,8 +19,13 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify}) => {
      
     const submitHandler = async (data) => {
         try{
-            const response = {status: "Ok", code: 404, data:data}
+            const response = await apiConnector("POST", auth.LOG_IN, data)
             console.log("Login Resonse",response)
+            if(response.data.success === true){
+                toast.success("Logged In")
+                setLoginVisible(false)
+                
+            }
         } catch(error){
             console.log("Login Error", error)
         }   

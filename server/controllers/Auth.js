@@ -159,14 +159,15 @@ exports.signup = async(req, res) => {
 
         // Register the user in the DB
         const user = await User.create({
-            firstName,
-            lastName,
+            // firstName,
+            // lastName,
+            userName,
             email,
             password:hashedPassword,
             accountType:accountType,
             approved:approved,
             additionalDetails: profileDetails._id,
-            image:`https://api.dicebear.com/6.x/initials/svg?seed=${firstName} ${lastName}`
+            image:`https://api.dicebear.com/6.x/initials/svg?seed=${userName}`
         })
 
         return res.status(200).json({

@@ -11,4 +11,6 @@ export const ratingAndReview = {
 
 export const auth = {
     SEND_OTP: BASE_URL + "/auth/sendotp",
+    SIGN_UP: BASE_URL + "/auth/signup",
+    LOG_IN: BASE_URL + "/auth/login",
 }
