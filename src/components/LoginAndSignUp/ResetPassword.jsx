@@ -5,7 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from 'react-hook-form';
 
 
-const Verify = () => {
+const Verify = ({setIsLogin, setResetPassword, setForgotPassword}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
 
@@ -105,6 +105,24 @@ const Verify = () => {
                 Reset
             </button>
         </form>
+        
+        <div>
+            <p
+            onClick={() => {
+                setResetPassword(false)
+                setForgotPassword(true)
+            }}
+            >
+                Resent OTP
+            </p>
+            <p
+            onClick={() => {
+                setIsLogin(true)
+                setResetPassword(false)
+            }}
+            >Login</p>
+            
+        </div>
     </div>
   )
 }

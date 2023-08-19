@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form'
 import ReCAPTCHA from "react-google-recaptcha";
 
-const Login = ({setIsLogin, setRegister}) => {
+const Login = ({setIsLogin, setForgotPassword, setEmailVerify}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
     // const recaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
@@ -95,7 +95,12 @@ const Login = ({setIsLogin, setRegister}) => {
                     <label htmlFor='rememberMe'>Remember Me</label>
                 </div>
                 <div>
-                    <p>Forgot Password?</p>
+                    <p
+                    onClick={() => {
+                        setIsLogin(false)
+                        setForgotPassword(true)
+                    }}
+                    >Forgot Password?</p>
                 </div>
             </div>
             
@@ -114,7 +119,7 @@ const Login = ({setIsLogin, setRegister}) => {
                 <span
                 onClick={() => {
                     setIsLogin(false)
-                    setRegister(true)
+                    setEmailVerify(true)
                 }}
                 >
                     Register 

@@ -5,16 +5,18 @@ import ForgotPassword from './ForgotPassword'
 import Verify from './ResetPassword'
 import { useState } from 'react'
 import {ImCross} from "react-icons/im"
+import EmailVerification from './EmailVerification'
 
 
 
 const LoginOverlayer = ({loginVisible, setLoginVisible}) => {
     // const [isLogin, setIsLogin] = useState(true)
     const [fadeUp, setFadeUp] = useState(false)
-    const [isLogin, setIsLogin] = useState(true)
+    const [isLogin, setIsLogin] = useState(false)
     const [isRegister, setRegister] = useState(false)
     const [isforgotPassword, setForgotPassword] = useState(false)
-    const [isRestPassword, setResetPassword] = useState(false)
+    const [isResetPassword, setResetPassword] = useState(false)
+    const [isEmailVerify, setEmailVerify] = useState(true)
 
   return (
         <div className= {`${loginVisible ? "" : "hidden"} flex  justify-center items-center w-screen h-screen top-0 left-0 opacity-90 text-richwhite-100 bg-richblack-90 absolute`}>
@@ -26,16 +28,19 @@ const LoginOverlayer = ({loginVisible, setLoginVisible}) => {
                     <ImCross/>
                 </div>
                 {
-                    isLogin && <Login setIsLogin = {setIsLogin}  setRegister = {setRegister}/>
+                    isLogin && <Login setIsLogin = {setIsLogin}  setEmailVerify = {setEmailVerify} setForgotPassword = {setForgotPassword}/>
                 }
                 {
-                    isRegister && <Register setIsLogin = {setIsLogin} setRegister = {setRegister} />
+                    isRegister && <Register setIsLogin = {setIsLogin} setRegister = {setRegister} setEmailVerify = {setEmailVerify} />
                 }
                 {
-                    isforgotPassword && <ForgotPassword setIsLogin = {setIsLogin} setResetPassword = {setResetPassword} setRegister = {setRegister} />
+                    isforgotPassword && <ForgotPassword setIsLogin = {setIsLogin} setResetPassword = {setResetPassword} setForgotPassword = {setForgotPassword} />
                 }
                 {
-                    isRestPassword && <Verify setIsLogin = {setIsLogin} setForgotPassword = {setForgotPassword} setRegister = {setRegister} />
+                    isResetPassword && <Verify setIsLogin = {setIsLogin} setResetPassword = {setResetPassword} setForgotPassword = {setForgotPassword}/>
+                }
+                {
+                    isEmailVerify && <EmailVerification setIsLogin = {setIsLogin} setEmailVerify = {setEmailVerify}  setRegister = {setRegister}/>
                 }
             </div>
         </div>

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import ReCAPTCHA from "react-google-recaptcha";
 
-const Register = ({setIsLogin, setRegister}) => {
+const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
 
@@ -130,6 +130,15 @@ const Register = ({setIsLogin, setRegister}) => {
                 }}
                 >
                     Login
+                </span>
+                or
+                <span
+                onClick={() => {
+                    setRegister(false)
+                    setEmailVerify(true)
+                }}
+                >
+                    Resent OTP
                 </span>
                 </p>
             </div>

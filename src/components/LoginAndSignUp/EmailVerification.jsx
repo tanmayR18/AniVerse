@@ -3,8 +3,12 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { apiConnector } from '../../service/apiconnector';
+import { auth } from '../../service/apis';
 
-const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
+
+const EmailVerification = ({setIsLogin, setEmailVerify, setRegister}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
 
@@ -15,10 +19,16 @@ const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
 
       const submitHandler = async (data) => {
         try{
-            const response = {status: "Ok", code: 404, data:data}
-            console.log("Login Resonse",response)
-            setForgotPassword(false)
-            setResetPassword(true)
+           
+            const response = await apiConnector("POST", auth.SEND_OTP, data)
+            console.log(response)
+
+            if(response.data.success === true){
+                setEmailVerify(false)
+                setRegister(true)
+                toast.success("OTP Sent on the email")
+            }
+
         } catch(error){
             console.log("Login Error", error)
         }   
@@ -33,27 +43,26 @@ const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
     },[reset, isSubmitSuccessful])
   return (
     <div>
-
-        <h1>Reset Password</h1>
+        <h1>Email Verification</h1>
 
         <form
         onSubmit={handleSubmit(submitHandler)}
         >
-            <div className='flex flex-col'> 
+             <div className='flex flex-col'>
                 <label>
-                    Your email
+                    Email Address
                 </label>
-                    <input
-                        className=' text-richblack-90'
+                <input
+                    className=' text-richblack-90'
                         type='email'
                         name='email'
                         required
                         id='email'
-                        // value={password}
-                        // onChange={(event) => setPassword(event.target.value)}
-                        placeholder='Eg: abc@gmail.com'
-                        {...register("email",{required:true})}
-                    />
+                        // value={name}
+                        // onChange={(event) => setName(event.target.value)}
+                        placeholder='Eg. abc@gmail.com'
+                    {...register("email",{required:true})}
+                />
             </div>
 
             <ReCAPTCHA
@@ -65,21 +74,20 @@ const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
             <button disabled = {!verified}>
                 Send OTP
             </button>
+
+            <div>
+                <p>Have an account?
+                    <span
+                        onClick={() => {
+                            setEmailVerify(false)
+                            setIsLogin(true)
+                        }}
+                    >Login</span>
+                </p>
+            </div>
         </form>
-
-        <div>
-            <p 
-            onClick={() => {
-                setForgotPassword(false)
-                setIsLogin(true)
-            }}
-            >
-                Login
-            </p>
-        </div>
-
     </div>
   )
 }
 
-export default ForgotPassword
+export default EmailVerification
