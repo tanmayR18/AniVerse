@@ -44,7 +44,7 @@ module.exports = {
           '3/5': '3 / 5',
         },
         keyframes: {
-          "trans-right":{
+          "fadeDown":{
             "0%": {
                 transform: "translateY(-20%)",
                 opacity: 0
@@ -53,10 +53,10 @@ module.exports = {
                 transform: "translateY(0)",
                 opacity: 100
               }
-          }
+          },
         },
           animation: {
-            "trans-right": 'trans-right 1s ease-in-out',
+            "fadeDown": 'fadeDown 1s ease-in-out normal',
           }
       }
   },
