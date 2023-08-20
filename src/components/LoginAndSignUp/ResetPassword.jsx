@@ -3,11 +3,15 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from 'react-hook-form';
+import { apiConnector } from '../../service/apiconnector';
+import { auth } from '../../service/apis';
+import { toast } from 'react-hot-toast';
 
 
 const Verify = ({setIsLogin, setResetPassword, setForgotPassword}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
+    const [errorMsg, setErrorMsg] = useState(null)
 
     function onChange(value) {
         console.log("Captcha value:", value);
@@ -16,11 +20,21 @@ const Verify = ({setIsLogin, setResetPassword, setForgotPassword}) => {
 
       const submitHandler = async (data) => {
         try{
-            const response = {status: "Ok", code: 404, data:data}
+            toast.loading("Updating your password")
+            const response = await apiConnector("POST", auth.RESET_PASSWORD, data)
+            if(response.data.success === true){
+                toast.dismiss()
+                toast.success("Password Updated successfully")
+                setResetPassword(false)
+                setIsLogin(true)
+            }
             console.log("Login Resonse",response)
         } catch(error){
             console.log("Login Error", error)
+            setErrorMsg(error.response.data.message)
         }   
+        setTimeout(() => {toast.dismiss()},2500)
+        
     }
 
     useEffect(() => {
@@ -36,10 +50,12 @@ const Verify = ({setIsLogin, setResetPassword, setForgotPassword}) => {
     <div>
         <h1>Reset Password</h1>
 
-        For displaying the errors
-        <div>
-            
-        </div>
+        {/* For error display */}
+        {
+            <div>
+                errorMsg && <p>{errorMsg}</p>
+            </div>
+        }
 
         <form
         onSubmit={handleSubmit(submitHandler)}

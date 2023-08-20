@@ -11,6 +11,7 @@ import { auth } from '../../service/apis';
 const EmailVerification = ({setIsLogin, setEmailVerify, setRegister}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
+    const [errorMsg, setErrorMsg] = useState(null)
 
     function onChange(value) {
         console.log("Captcha value:", value);
@@ -19,11 +20,12 @@ const EmailVerification = ({setIsLogin, setEmailVerify, setRegister}) => {
 
       const submitHandler = async (data) => {
         try{
-           
+            toast.loading("Sending OTP")
             const response = await apiConnector("POST", auth.SEND_OTP, data)
             console.log(response)
 
             if(response.data.success === true){
+                toast.dismiss()
                 setEmailVerify(false)
                 setRegister(true)
                 toast.success("OTP Sent on the email")
@@ -31,7 +33,9 @@ const EmailVerification = ({setIsLogin, setEmailVerify, setRegister}) => {
 
         } catch(error){
             console.log("Login Error", error)
+            setErrorMsg(error.response.data.message)
         }   
+        setTimeout(() => {toast.dismiss()},2500)
     }
 
     useEffect(() => {
@@ -44,6 +48,13 @@ const EmailVerification = ({setIsLogin, setEmailVerify, setRegister}) => {
   return (
     <div>
         <h1>Email Verification</h1>
+
+        {/* For error display */}
+        {
+            <div>
+                errorMsg && <p>{errorMsg}</p>
+            </div>
+        }
 
         <form
         onSubmit={handleSubmit(submitHandler)}

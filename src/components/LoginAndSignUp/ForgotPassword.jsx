@@ -3,6 +3,9 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from 'react-hook-form';
+import { apiConnector } from '../../service/apiconnector';
+import { auth } from '../../service/apis';
+import { toast } from 'react-hot-toast';
 
 const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
@@ -15,13 +18,19 @@ const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
 
       const submitHandler = async (data) => {
         try{
-            const response = {status: "Ok", code: 404, data:data}
+            toast.loading("Sending reset token")
+            const response = await apiConnector("POST", auth.RESET_TOKEN, data)
             console.log("Login Resonse",response)
-            setForgotPassword(false)
-            setResetPassword(true)
+            if(response.data.success === true){
+                toast.dismiss()
+                toast.success("Reset token sent to your email")
+                setForgotPassword(false)
+                setResetPassword(true)
+            }
         } catch(error){
             console.log("Login Error", error)
-        }   
+        }
+        setTimeout(() => {toast.dismiss()},2500)
     }
 
     useEffect(() => {

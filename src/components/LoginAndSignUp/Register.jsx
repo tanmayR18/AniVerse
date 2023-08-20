@@ -19,16 +19,20 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
 
       const submitHandler = async (data) => {
         try{
+            toast.loading("Registering")
             console.log("Register data",data)
             const response = await apiConnector("POST", auth.SIGN_UP, data)
             console.log("Login Resonse",response)
             if(response.data.success === true){
+                toast.dismiss()
                 toast.success("Registered successfully")
                 setRegister("false")
             }
         } catch(error){
             console.log("Login Error", error)
+            setErrorMsg(error.response.data.message)
         }   
+        setTimeout(() => {toast.dismiss()},2500)
     }
 
     useEffect(() => {
@@ -50,11 +54,9 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
 
         {/* For error display */}
         {
-            errorMsg && <p>
-                            {
-                                errorMsg.message
-                            }
-                        </p>
+            <div>
+                errorMsg && <p>{errorMsg}</p>
+            </div>
         }
 
         <form

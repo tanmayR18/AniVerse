@@ -11,6 +11,8 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
     // const recaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
+    const [errorMsg, setErrorMsg] = useState(null)
+    
 
     function onChange(value) {
         console.log("Captcha value:", value);
@@ -28,6 +30,7 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
             }
         } catch(error){
             console.log("Login Error", error)
+            setErrorMsg(error.response.data.message)
         }   
     }
 
@@ -43,15 +46,13 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
   return (
     <div>
         <h1>Welcome Back!</h1>
-        <div>
+        
         {
-                    errors.rememberMe && (
-                        <span>
-                            Please click "I am not a robot"
-                        </span>
-                    )
+            <div>
+                errorMsg && <p>{errorMsg}</p>
+            </div>
         }
-        </div>
+        
         <form 
         className=' flex flex-col'
         onSubmit={handleSubmit(submitHandler)}> 

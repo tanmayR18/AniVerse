@@ -13,4 +13,6 @@ export const auth = {
     SEND_OTP: BASE_URL + "/auth/sendotp",
     SIGN_UP: BASE_URL + "/auth/signup",
     LOG_IN: BASE_URL + "/auth/login",
+    RESET_TOKEN: BASE_URL + "/auth/reset-password-token",
+    RESET_PASSWORD: BASE_URL + "/auth/reset-password",
 }
