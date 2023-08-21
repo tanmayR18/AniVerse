@@ -14,7 +14,7 @@ module.exports = {
             10: "rgba(0, 0, 0, 0.15)",
             20: "rgba(36,36,41,0.8)",
             30: "#757575",
-            40: "#2F2F33",
+            40: "#2F2F33", 
             50: "#242428",
             80: "#121315",
             90: "#121315"
@@ -42,6 +42,21 @@ module.exports = {
         aspectRatio: {
           '3/5': '3 / 5',
         },
+        keyframes: {
+          "fadeDown":{
+            "0%": {
+                transform: "translateY(-20%)",
+                opacity: 0
+              },
+              "100%": {
+                transform: "translateY(0)",
+                opacity: 100
+              }
+          },
+        },
+          animation: {
+            "fadeDown": 'fadeDown 1s ease-in-out normal',
+          }
       }
   },
   plugins: [

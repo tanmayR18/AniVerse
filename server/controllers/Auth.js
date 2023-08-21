@@ -83,8 +83,9 @@ exports.signup = async(req, res) => {
     try{
         //fetch data
         const {
-            firstName,
-            lastName,
+            // firstName,
+            // lastName,
+            userName,
             email,
             password,
             confirmPassword,
@@ -93,7 +94,10 @@ exports.signup = async(req, res) => {
         } = req.body
 
         //validate data
-        if(!firstName || !lastName || !email || !accountType || !otp || !password || !confirmPassword)
+        if(
+            // !firstName || !lastName || 
+            !userName ||
+            !email || !accountType || !otp || !password || !confirmPassword)
             return res.status(403).json({
                 success:false,
                 message:"All the field are required"
@@ -155,14 +159,15 @@ exports.signup = async(req, res) => {
 
         // Register the user in the DB
         const user = await User.create({
-            firstName,
-            lastName,
+            // firstName,
+            // lastName,
+            userName,
             email,
             password:hashedPassword,
             accountType:accountType,
             approved:approved,
             additionalDetails: profileDetails._id,
-            image:`https://api.dicebear.com/6.x/initials/svg?seed=${firstName} ${lastName}`
+            image:`https://api.dicebear.com/6.x/initials/svg?seed=${userName}`
         })
 
         return res.status(200).json({
