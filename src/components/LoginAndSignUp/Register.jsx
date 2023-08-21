@@ -7,6 +7,7 @@ import { apiConnector } from '../../service/apiconnector';
 import { auth } from '../../service/apis';
 import { toast } from 'react-hot-toast';
 
+
 const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
@@ -151,12 +152,12 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                 />
             </div>
 
-            <div className='flex flex-col'>
-                <label>
+            <div className='flex flex-col w-full gap-2'>
+                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Type
                 </label>
                 <select
-                    className=' text-richblack-90'
+                    className=' text-richblack-90 p-1 rounded-[4px] outline-none focus:border-2 focus:border-socialMedia-telegram'
                         name='accountType'
                         required
                         id='accountType'
@@ -175,18 +176,22 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
             </div>
 
             <ReCAPTCHA
+                className=' self-start'
                 sitekey= "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
                 onChange={onChange}
                 theme={"dark"}
             />
 
-            <button disabled = {!verified}>
+            <button 
+            className='w-full text-richblack-90 font-bold bg-richyellow-40 rounded-lg p-2'
+            disabled = {!verified}>
                 Register
             </button>
 
             <div>
-                <p>Have an account? 
+                <p>Have an account? {" "}
                 <span
+                className=' text-richyellow-40 cursor-pointer'
                 onClick={() => {
                     setIsLogin(true)
                     setRegister(false)
@@ -194,8 +199,11 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                 >
                     Login
                 </span>
+                {" "}
                 or
+                {" "}
                 <span
+                className=' text-richyellow-40 cursor-pointer'
                 onClick={() => {
                     setRegister(false)
                     setEmailVerify(true)

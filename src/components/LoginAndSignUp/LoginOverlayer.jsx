@@ -12,16 +12,18 @@ import EmailVerification from './EmailVerification'
 const LoginOverlayer = ({loginVisible, setLoginVisible}) => {
     // const [isLogin, setIsLogin] = useState(true)
     const [fadeUp, setFadeUp] = useState(false)
-    const [isLogin, setIsLogin] = useState(false)
-    const [isRegister, setRegister] = useState(true)
+    const [isLogin, setIsLogin] = useState(true)
+    const [isRegister, setRegister] = useState(false)
     const [isforgotPassword, setForgotPassword] = useState(false)
     const [isResetPassword, setResetPassword] = useState(false)
     const [isEmailVerify, setEmailVerify] = useState(false)
 
   return (
-        <div className= {`${loginVisible ? "" : "hidden"} flex  justify-center items-center w-screen overflow-y-auto h-auto min-h-screen top-0 left-0 opacity-90 text-richwhite-100 bg-richblack-90 absolute`}>
+            // overflow-y-auto was added below
+        <div className= {`${loginVisible ? "" : "hidden"} flex p-2  h-screen   justify-center items-center w-screen overflow-y-auto top-0 left-0 opacity-90 text-richwhite-100 bg-richblack-90 absolute`}>
             {/* Container */}
-            <div className = " bg-richblack-20 p-14 h-full   rounded-3xl w-[35%] animate-fadeDown  relative">
+            {/* overflow-y-auto was added below */}
+            <div className ={` bg-richblack-20 p-14  scrollbar  h-auto ${isRegister ? "mt-[40%] mb-[10%] ": ""} rounded-3xl w-[35%] animate-fadeDown  relative`}>
 
                 <div 
                 onClick={() => setLoginVisible(false)}
