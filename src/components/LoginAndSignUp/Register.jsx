@@ -48,31 +48,34 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
         }
     },[reset, isSubmitSuccessful])
   return (
-    <div>
+    <div className=' flex z-50 flex-col gap-6  w-full justify-center items-center'>
 
-        <h1>Create an account</h1>
+        <h1
+        className=' font-bold text-[1.3rem] tracking-wider '
+        >Create an account</h1>
 
         {/* For error display */}
         {
-            <div>
-                errorMsg && <p>{errorMsg}</p>
+            errorMsg &&  <div>
+                <p>{errorMsg}</p>
             </div>
         }
 
         <form
-        className='flex flex-col'
+        className=' flex flex-col gap-6 w-full justify-center items-center'
         onSubmit={handleSubmit(submitHandler)}
         >
-            <div className='flex flex-col'>
-                <label>
+            <div className='flex flex-col w-full gap-2'>
+                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Your name
                 </label>
                 <input
-                    className=' text-richblack-90'
+                    className=' text-richblack-90 p-1 rounded-[4px] outline-none focus:border-2 focus:border-socialMedia-telegram'
                         type='text'
                         name='userName'
                         required
                         id='userName'
+                        autoComplete="username"
                         // value={name}
                         // onChange={(event) => setName(event.target.value)}
                         placeholder='Enter Your Name'
@@ -80,12 +83,12 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                 />
             </div>
 
-            <div className='flex flex-col'>
-                <label>
+            <div className='flex flex-col w-full gap-2'>
+                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Email Address
                 </label>
                 <input
-                    className=' text-richblack-90'
+                    className=' text-richblack-90 p-1 rounded-[4px] outline-none focus:border-2 focus:border-socialMedia-telegram'
                         type='text'
                         name='email'
                         required
@@ -97,12 +100,12 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                 />
             </div>
 
-            <div className='flex flex-col'>
-                <label>
+            <div className='flex flex-col w-full gap-2'>
+                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Password
                 </label>
                 <input
-                    className=' text-richblack-90'
+                    className=' text-richblack-90 p-1 rounded-[4px] outline-none focus:border-2 focus:border-socialMedia-telegram'
                         type='password'
                         name='password'
                         required
@@ -114,12 +117,12 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                 />
             </div>
 
-            <div className='flex flex-col'>
-                <label>
+            <div className='flex flex-col w-full gap-2'>
+                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Confirm Password
                 </label>
                 <input
-                    className=' text-richblack-90'
+                    className=' text-richblack-90 p-1 rounded-[4px] outline-none focus:border-2 focus:border-socialMedia-telegram'
                         type='password'
                         name='confirmPassword'
                         required
@@ -131,12 +134,12 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                 />
             </div>
 
-            <div className='flex flex-col'>
-                <label>
+            <div className='flex flex-col w-full gap-2'>
+                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     OTP
                 </label>
                 <input
-                    className=' text-richblack-90'
+                    className=' text-richblack-90 p-1 rounded-[4px] outline-none focus:border-2 focus:border-socialMedia-telegram'
                         type='text'
                         name='otp'
                         required

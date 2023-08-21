@@ -6,12 +6,17 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { apiConnector } from '../../service/apiconnector';
 import { auth } from '../../service/apis';
 import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { logIn } from '../../slices/authSlice';
 
 const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
     // const recaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
     const [errorMsg, setErrorMsg] = useState(null)
+    const [user, setUser] = useState(null)
+    const dispatch = useDispatch()
+    
     
 
     function onChange(value) {
@@ -23,16 +28,24 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
         try{
             const response = await apiConnector("POST", auth.LOG_IN, data)
             console.log("Login Resonse",response)
+
             if(response.data.success === true){
                 toast.success("Logged In")
+                setUser(response.data)
                 setLoginVisible(false)
                 
             }
         } catch(error){
             console.log("Login Error", error)
-            setErrorMsg(error.response.data.message)
+            setErrorMsg(error.response.message)
         }   
     }
+
+    useEffect(() => {
+        console.log("User data inside LOGIN page", user)
+        dispatch(logIn(user))
+    },[user])
+ 
 
     useEffect(() => {
         if(isSubmitSuccessful){
@@ -44,24 +57,26 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
     },[reset, isSubmitSuccessful])
 
   return (
-    <div>
-        <h1>Welcome Back!</h1>
+    <div className=' flex flex-col gap-6  w-full justify-center items-center'>
+        <h1
+        className=' font-bold text-[1.3rem] tracking-wider '
+        >Welcome Back!</h1>
         
         {
-            <div>
-                errorMsg && <p>{errorMsg}</p>
-            </div>
+            errorMsg && <div>
+                            <p>{errorMsg}</p>
+                        </div>
         }
         
         <form 
-        className=' flex flex-col'
+        className=' flex flex-col gap-6 w-full justify-center items-center'
         onSubmit={handleSubmit(submitHandler)}> 
-            <div className='flex flex-col'>
-                <label>
-                    Email:
+            <div className='flex flex-col w-full gap-2'>
+                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
+                    Email Address   
                 </label>
                 <input
-                    className=' text-richblack-90'
+                    className=' text-richblack-90 p-1 rounded-[4px] outline-none focus:border-2 focus:border-socialMedia-telegram'
                         type='text'
                         name='email'
                         required
@@ -74,15 +89,16 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
             </div>
                 
             
-            <div className='flex flex-col'> 
-                <label>
-                    Password:
+            <div className='flex flex-col w-full gap-2'> 
+                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
+                    Password
                 </label>
                     <input
-                        className=' text-richblack-90'
+                        className=' text-richblack-90 p-1 rounded-[4px] outline-none focus:border-2 focus:border-socialMedia-telegram'
                         type='password'
                         name='password'
                         required
+                        autoComplete="current-password"
                         id='password'
                         // value={password}
                         // onChange={(event) => setPassword(event.target.value)}
@@ -93,18 +109,21 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
 
 
             
-            <div className='flex'>
-                <div>
+            <div className='flex w-full justify-between'>
+                <div className='flex gap-2'>
                     <input 
                         type='checkbox'
                         name='rememberMe'
                         id='rememberMe'
                         {...register("rememberMe")}
                     />
-                    <label htmlFor='rememberMe'>Remember Me</label>
+                    <label
+                    className='tracking-wide text-[17px]'
+                    htmlFor='rememberMe'>Remember Me</label>
                 </div>
                 <div>
                     <p
+                    className=' text-richyellow-40 cursor-pointer'
                     onClick={() => {
                         setIsLogin(false)
                         setForgotPassword(true)
@@ -114,18 +133,23 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
             </div>
             
             <ReCAPTCHA
+                className=' self-start'
                 sitekey= "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
                 onChange={onChange}
                 theme={"dark"}
             />
 
-            <button disabled = {!verified}>
-                Submit
+            <button
+            className='w-full text-richblack-90 font-bold bg-richyellow-40 rounded-lg p-2'
+            disabled = {!verified}>
+                Login
             </button>
 
-            <div>
-                <p>Don't have account? 
+            <div className=''>
+                Don't have account? 
+                {" "}
                 <span
+                className=' text-richyellow-40 cursor-pointer'
                 onClick={() => {
                     setIsLogin(false)
                     setEmailVerify(true)
@@ -133,7 +157,7 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
                 >
                     Register 
                 </span>
-                </p>
+                
             </div>
         </form>
     </div>

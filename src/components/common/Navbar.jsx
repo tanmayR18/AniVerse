@@ -9,16 +9,23 @@ import {AiFillHeart} from "react-icons/ai"
 import { profileData } from '../../data/Profile/profile'
 import { socialMedia } from '../../data/social media/socialMediaInfo'
 import LoginOverLayer from "../LoginAndSignUp/LoginOverlayer"
+import { useDispatch, useSelector } from 'react-redux'
+import { logOut } from '../../slices/authSlice'
 
 
 
 const Navbar = () => {
 
-    const [user, setUser] = useState(false)
+    const userData = useSelector( state => state.auth)
+    // const [user, setUser] = useState()
     const [navbar, setNavbar] = useState(false)
     const [search, setSearch] = useState("")
     const [loginVisible, setLoginVisible] = useState(false)
     const navigate = useNavigate()
+    const dispatch  = useDispatch()
+
+
+
 
     function submitHandler(event){
         event.preventDefault()
@@ -101,7 +108,7 @@ const Navbar = () => {
 
         {/* Login */}
         {
-            !user && <div
+            !userData && <div
                     onClick={() => setLoginVisible(true)}
                     className=' cursor-pointer bg-richyellow-40 text-richblack-90 px-5 py-[10px] rounded-[3px] text-sm font-bold'>
                         Login
@@ -112,7 +119,7 @@ const Navbar = () => {
        
         {/* Profile and notification*/}
         {
-            user && (
+            userData && (
                 <div className='flex items-center gap-4'>
                     <NavLink to={"/user/notification"}>
                                 <div className=' text-richwhite-100 p-3 text-xl cursor-pointer bg-richwhite-10 rounded-full border-b-richblack-40'>
@@ -140,7 +147,9 @@ const Navbar = () => {
                                 }
                             </div>
                                     
-                            <div className='flex justify-end items-center text-[14px] cursor-pointer gap-2 my-2 hover:text-richyellow-40'>
+                            <div 
+                            onClick={() => dispatch(logOut())}
+                            className='flex justify-end items-center text-[14px] cursor-pointer gap-2 my-2 hover:text-richyellow-40'>
                                 <p>Logout</p>
                                 <FaArrowRight/>
                             </div>

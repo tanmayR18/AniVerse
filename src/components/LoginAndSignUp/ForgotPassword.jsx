@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast';
 const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
+    const [errorMsg, setErrorMsg] = useState(null)
 
     function onChange(value) {
         console.log("Captcha value:", value);
@@ -41,19 +42,28 @@ const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
         }
     },[reset, isSubmitSuccessful])
   return (
-    <div>
+    <div className=' flex flex-col gap-6  w-full justify-center items-center'>
 
-        <h1>Reset Password</h1>
+        {
+            errorMsg && <div>
+                            <p>
+                                {errorMsg}
+                            </p>
+                        </div>
+        }
+
+        <h1 className=' font-bold text-[1.3rem] tracking-wider '>Reset Password</h1>
 
         <form
+        className=' flex flex-col gap-6 w-full justify-center items-center'
         onSubmit={handleSubmit(submitHandler)}
         >
-            <div className='flex flex-col'> 
-                <label>
+            <div className='flex flex-col w-full gap-2'> 
+                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Your email
                 </label>
                     <input
-                        className=' text-richblack-90'
+                        className=' text-richblack-90 p-1 rounded-[4px] outline-none focus:border-2 focus:border-socialMedia-telegram'
                         type='email'
                         name='email'
                         required
@@ -66,24 +76,31 @@ const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
             </div>
 
             <ReCAPTCHA
+                className=' self-start'
                 sitekey= "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
                 onChange={onChange}
                 theme={"dark"}
             />
 
-            <button disabled = {!verified}>
+            <button 
+            className='w-full text-richblack-90 font-bold bg-richyellow-40 rounded-lg p-2'
+            disabled = {!verified}>
                 Send OTP
             </button>
         </form>
 
         <div>
-            <p 
-            onClick={() => {
+            <p>
+                Have an account? {" "}
+                <span
+                className=' text-richyellow-40 cursor-pointer'
+                onClick={() => {
                 setForgotPassword(false)
                 setIsLogin(true)
             }}
-            >
-                Login
+                >
+                    LogIn 
+                </span>
             </p>
         </div>
 
