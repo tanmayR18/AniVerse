@@ -45,7 +45,7 @@ const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
     <div className=' flex flex-col gap-6  w-full justify-center items-center'>
 
         {
-            errorMsg && <div>
+            errorMsg && <div className=' bg-richpink-10 text-socialMedia-reddit w-full font-bold p-1'>
                             <p>
                                 {errorMsg}
                             </p>
@@ -58,6 +58,7 @@ const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
         className=' flex flex-col gap-6 w-full justify-center items-center'
         onSubmit={handleSubmit(submitHandler)}
         >
+            {/* Email Address */}
             <div className='flex flex-col w-full gap-2'> 
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Your email
@@ -68,8 +69,6 @@ const ForgotPassword = ({setIsLogin, setResetPassword, setForgotPassword}) => {
                         name='email'
                         required
                         id='email'
-                        // value={password}
-                        // onChange={(event) => setPassword(event.target.value)}
                         placeholder='Eg: abc@gmail.com'
                         {...register("email",{required:true})}
                     />

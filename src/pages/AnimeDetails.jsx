@@ -30,11 +30,15 @@ const AnimeDetails = () => {
             {/* Left Portion */}
 
             <div className='flex flex-col gap-10 w-9/12'>
+                {/* Section for creating the api url */}
                 <FilterSection filteresUrl = {filteresUrl} setFilteresUrl = {setFilteresUrl} />
+
+                {/* Section for fetching data accourding to url */}
                 <AnimeSearchResult filteresUrl = {filteresUrl}/>
             </div>
 
-            
+            {/* Right portion */}
+
             <aside className=' flex  flex-col gap-10 w-[23%]'>
                 <MostPopular/>
                 <GenreSection setGenres={""} />

@@ -36,6 +36,9 @@ module.exports = {
             telegram: "#0088CC",
             reddit: "#FF3C1F",
             twitter: "#1D9BF0"
+        },
+        richpink:{
+            10: "rgba(246,152,171,0.65)"
         }
     },
     extend: {

@@ -4,11 +4,13 @@ import Datepicker from 'react-tailwindcss-datepicker'
 
 const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
 
+    // Filter for starting date of anime
     const startHandleValueChange = (newValue) => {
         console.log("newValue:", newValue); 
         setStart(newValue); 
     }
     
+    // Filter for ending date of anime
     const endHandleValueChange = (newValue) => {
         console.log("newValue:", newValue); 
         setEnd(newValue); 
@@ -20,6 +22,7 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
 
         <div className='flex gap-3 flex-wrap'>
 
+            {/* Types  */}
             <div className=' p-[6px] rounded-md border flex items-center font-bold text-richwhite-100 gap-2 border-richwhite-20'>
                 <label
                     htmlFor='type'
@@ -42,6 +45,7 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                 
             </div>
 
+            {/* Status */}
            <div className=' p-[6px] rounded-md border flex items-center font-bold text-richwhite-100 gap-2 border-richwhite-20'>
                 <label className=' text-sm bg-richblack-5 font-semibold '>
                         Status
@@ -59,6 +63,7 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                     </label>
            </div>
 
+            {/* Rating */}
             <div className=' p-[6px] rounded-md border flex items-center font-bold text-richwhite-100 gap-4 border-richwhite-20'>
                 <label className=' text-sm bg-richblack-5 font-semibold '>
                     Rating</label>
@@ -73,9 +78,9 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                             ))
                         }
                     </select>
-                
             </div>
 
+            {/* Score */}
             <div className=' p-[6px] rounded-md border flex items-center font-bold text-richwhite-100 gap-4 border-richwhite-20'>
                 <label className=' text-sm bg-richblack-5 '>
                     Score </label>
@@ -90,9 +95,9 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                             ))
                         }
                     </select>
-                
             </div>
 
+            {/* Order By */}
             <div className=' p-[6px] rounded-md border flex items-center font-bold text-richwhite-100 gap-4 border-richwhite-20'>
                 <label className=' text-sm bg-richblack-5 '>
                     Order By </label>
@@ -107,9 +112,9 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                             ))
                         }
                     </select>
-                
             </div>
 
+            {/* Sort By */}
             <div className=' p-[6px] rounded-md border flex items-center font-bold text-richwhite-100 gap-4 border-richwhite-20'>
                 <label className=' text-sm bg-richblack-5'>
                     Sort </label>
@@ -124,9 +129,9 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                             ))
                         }
                     </select>
-                
             </div>    
 
+            {/* Filter 18+ content */}
             <div className=' p-[6px] rounded-md border flex items-center text-richwhite-100 gap-4 border-richwhite-20'>
                 <label className=' text-sm bg-richblack-5 font-semibold '>
                     Filter 18+ </label>
@@ -141,9 +146,9 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                             ))
                         }
                     </select>
-                
             </div>
 
+            {/* Starting date */}
             <div className=''>
                 <Datepicker 
                     // containerClassName="relative mt-8 hover:bg-richblack-40 text-richwhite-100 font-bold " 
@@ -154,6 +159,7 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                 />
             </div> 
 
+            {/* Ending Date */}
             <div className=''>
                 <Datepicker 
                     // containerClassName="relative mt-8 hover:bg-richblack-40 text-richwhite-100 font-bold " 
@@ -163,8 +169,6 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                     onChange={endHandleValueChange} 
                 />
             </div> 
-            {/* {value.startDate}
-            {console.log(value)} */}
         </div>
     </div>
   )

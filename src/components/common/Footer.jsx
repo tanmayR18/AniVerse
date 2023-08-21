@@ -60,6 +60,7 @@ const Footer = () => {
             }
         </div>
 
+        {/* Terms... */}
         <div className='flex gap-10'>
             {
                 otherInfo.map( (item, index) => (
@@ -74,6 +75,7 @@ const Footer = () => {
             }
         </div>
 
+        {/* copyRights */}
         <div>
             <p className=' text-richwhite-50 opacity-40'>
                 {

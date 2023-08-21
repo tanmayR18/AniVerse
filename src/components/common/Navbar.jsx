@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import {GiHamburgerMenu} from 'react-icons/gi'
 import logo from "../../assets/full_logo.png"
-import {FaDiscord, FaRedditAlien, FaTelegramPlane, FaTwitter, FaSearch, FaArrowRight} from 'react-icons/fa'
-import {BsCheckLg, BsFillPersonFill} from "react-icons/bs"
+import {FaSearch, FaArrowRight} from 'react-icons/fa'
+import {BsFillPersonFill} from "react-icons/bs"
 import { NavLink, useNavigate } from 'react-router-dom'
-import {IoMdNotifications, IoMdSettings} from "react-icons/io"
-import {AiFillHeart} from "react-icons/ai"
+import {IoMdNotifications} from "react-icons/io"
 import { profileData } from '../../data/Profile/profile'
 import { socialMedia } from '../../data/social media/socialMediaInfo'
 import LoginOverLayer from "../LoginAndSignUp/LoginOverlayer"
@@ -17,7 +16,6 @@ import { logOut } from '../../slices/authSlice'
 const Navbar = () => {
 
     const userData = useSelector( state => state.auth)
-    // const [user, setUser] = useState()
     const [navbar, setNavbar] = useState(false)
     const [search, setSearch] = useState("")
     const [loginVisible, setLoginVisible] = useState(false)
@@ -29,11 +27,11 @@ const Navbar = () => {
 
     function submitHandler(event){
         event.preventDefault()
-        // navigate(`/anime-details/${search.split(" ").join("-")}`)
         navigate(`/anime-details/${search.split(" ").join("-")}`)
         console.log(`/anime-details/${search.split(" ").join("-")}`)
     }
 
+    // For changing the navbar background when scrolled
     const changeBackground = () => {
         setNavbar(window.scrollY)
     }
@@ -92,11 +90,15 @@ const Navbar = () => {
                 }}
                 className='outline-none h-10 px-3 w-34 bg-richwhite-100'
             />
+
+            {/* Search icon */}
             <div 
             onClick={() => navigate(`/anime-details/${search.split(" ").join("-")}`)}
             className='p-3 bg-richwhite-100 cursor-pointer'>
                 <FaSearch/>
             </div>
+
+            {/* Filter button */}
             <div className=' bg-richwhite-100 h-10 flex items-center justify-center pr-2 cursor-pointer'>
                 <div 
                 onClick={ () => navigate("/filter")}
@@ -115,12 +117,12 @@ const Navbar = () => {
                     </div>
         }
 
-        {/* Notfication */}
        
         {/* Profile and notification*/}
         {
             userData && (
                 <div className='flex items-center gap-4'>
+                {/* Notification */}
                     <NavLink to={"/user/notification"}>
                                 <div className=' text-richwhite-100 p-3 text-xl cursor-pointer bg-richwhite-10 rounded-full border-b-richblack-40'>
                                     <IoMdNotifications/>
@@ -132,8 +134,11 @@ const Navbar = () => {
 
                         {/* Dropdown */}
                         <div className=' hidden group-hover:flex flex-col gap-3 absolute top-10  right-0 bg-richblack-20 border border-richwhite-10 rounded-xl p-4 w-72'>
+                            {/* Name and Email */}
                             <p className=' text-base text-richyellow-40'>Tanmay Rane</p>
                             <p className=' text-base text-richwhite-100'>tanmayrane51@gmail.com</p>
+
+                            {/* Profile Sections */}
                             <div className='flex flex-col gap-2 '>
                                 {
                                     profileData.map( (item, index) => (
@@ -146,7 +151,8 @@ const Navbar = () => {
                                     ))
                                 }
                             </div>
-                                    
+                            
+                            {/* Logout */}
                             <div 
                             onClick={() => dispatch(logOut())}
                             className='flex justify-end items-center text-[14px] cursor-pointer gap-2 my-2 hover:text-richyellow-40'>
@@ -155,7 +161,6 @@ const Navbar = () => {
                             </div>
                         </div>
                     </div>
-                
             </div>
             )
         }

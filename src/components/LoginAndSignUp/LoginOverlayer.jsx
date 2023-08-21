@@ -31,18 +31,27 @@ const LoginOverlayer = ({loginVisible, setLoginVisible}) => {
                     <ImCross/>
                 </div>
 
+                {/* Login page */}
                 {
                     isLogin && <Login setIsLogin = {setIsLogin}  setEmailVerify = {setEmailVerify} setForgotPassword = {setForgotPassword} setLoginVisible = {setLoginVisible}/>
                 }
+
+                {/* Register */}
                 {
                     isRegister && <Register setIsLogin = {setIsLogin} setRegister = {setRegister} setEmailVerify = {setEmailVerify} />
                 }
+
+                {/* Forgot password */}
                 {
                     isforgotPassword && <ForgotPassword setIsLogin = {setIsLogin} setResetPassword = {setResetPassword} setForgotPassword = {setForgotPassword} />
                 }
+
+                {/* Reset password */}
                 {
                     isResetPassword && <Verify setIsLogin = {setIsLogin} setResetPassword = {setResetPassword} setForgotPassword = {setForgotPassword}/>
                 }
+
+                {/* Email Verification for register */}
                 {
                     isEmailVerify && <EmailVerification setIsLogin = {setIsLogin} setEmailVerify = {setEmailVerify}  setRegister = {setRegister}/>
                 }

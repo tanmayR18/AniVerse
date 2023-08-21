@@ -49,13 +49,14 @@ const EmailVerification = ({setIsLogin, setEmailVerify, setRegister}) => {
     <div
     className=' flex flex-col gap-6  w-full justify-center items-center'
     >
+        {/* Heading */}
         <h1
         className=' font-bold text-[1.3rem] tracking-wider'ś
         >Email Verification</h1>
 
         {/* For error display */}
         {
-            errorMsg &&  <div>
+            errorMsg &&  <div className=' bg-richpink-10 text-socialMedia-reddit w-full font-bold p-1'>
                 <p>{errorMsg}</p>
             </div>
         }
@@ -64,6 +65,7 @@ const EmailVerification = ({setIsLogin, setEmailVerify, setRegister}) => {
         className=' flex flex-col gap-6 w-full justify-center items-center'
         onSubmit={handleSubmit(submitHandler)}
         >
+            {/* Email Address */}
              <div className='flex flex-col w-full gap-2'>
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Email Address
@@ -74,8 +76,6 @@ const EmailVerification = ({setIsLogin, setEmailVerify, setRegister}) => {
                         name='email'
                         required
                         id='email'
-                        // value={name}
-                        // onChange={(event) => setName(event.target.value)}
                         placeholder='Eg. abc@gmail.com'
                     {...register("email",{required:true})}
                 />

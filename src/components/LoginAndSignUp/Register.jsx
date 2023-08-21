@@ -51,21 +51,24 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
   return (
     <div className=' flex z-50 flex-col gap-6  w-full justify-center items-center'>
 
+        {/* Heading */}
         <h1
         className=' font-bold text-[1.3rem] tracking-wider '
         >Create an account</h1>
 
         {/* For error display */}
         {
-            errorMsg &&  <div>
+            errorMsg &&  <div className=' bg-richpink-10 text-socialMedia-reddit w-full font-bold p-1'>
                 <p>{errorMsg}</p>
             </div>
         }
 
+        {/* Register form */}
         <form
         className=' flex flex-col gap-6 w-full justify-center items-center'
         onSubmit={handleSubmit(submitHandler)}
         >
+            {/* User name */}
             <div className='flex flex-col w-full gap-2'>
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Your name
@@ -77,13 +80,12 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                         required
                         id='userName'
                         autoComplete="username"
-                        // value={name}
-                        // onChange={(event) => setName(event.target.value)}
                         placeholder='Enter Your Name'
                     {...register("userName",{required:true})}
                 />
             </div>
 
+            {/* Email address */}
             <div className='flex flex-col w-full gap-2'>
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Email Address
@@ -94,13 +96,12 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                         name='email'
                         required
                         id='email'
-                        // value={name}
-                        // onChange={(event) => setName(event.target.value)}
                         placeholder='Enter Your Email'
                     {...register("email",{required:true})}
                 />
             </div>
 
+            {/* Password */}
             <div className='flex flex-col w-full gap-2'>
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Password
@@ -111,13 +112,12 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                         name='password'
                         required
                         id='password'
-                        // value={name}
-                        // onChange={(event) => setName(event.target.value)}
                         placeholder='Password'
                     {...register("password",{required:true})}
                 />
             </div>
 
+            {/* Confirm Password */}
             <div className='flex flex-col w-full gap-2'>
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Confirm Password
@@ -128,13 +128,12 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                         name='confirmPassword'
                         required
                         id='confirmPassword'
-                        // value={name}
-                        // onChange={(event) => setName(event.target.value)}
                         placeholder='Confirm Password'
                     {...register("confirmPassword",{required:true})}
                 />
             </div>
 
+            {/* OTP */}
             <div className='flex flex-col w-full gap-2'>
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     OTP
@@ -145,13 +144,12 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                         name='otp'
                         required
                         id='otp'
-                        // value={name}
-                        // onChange={(event) => setName(event.target.value)}
                         placeholder='Eg. 193524'
                     {...register("otp",{required:true})}
                 />
             </div>
 
+            {/* Account type */}
             <div className='flex flex-col w-full gap-2'>
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Type
@@ -161,8 +159,6 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                         name='accountType'
                         required
                         id='accountType'
-                        // value={name}
-                        // onChange={(event) => setName(event.target.value)}
                         placeholder='Eg. 193524'
                     {...register("accountType",{required:true})}
                 >

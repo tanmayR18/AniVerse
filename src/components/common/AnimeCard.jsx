@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import {FaPlay} from 'react-icons/fa'
 import {GoDotFill} from 'react-icons/go'
 import HoveredAnimeCard from './HoveredAnimeCard'
@@ -22,12 +22,15 @@ const AnimeCard = ({anime}) => {
             flex items-center justify-center text-richwhite-50'>
                 <FaPlay size={30}/>
             </div>
+
             {/* For creating hover card */}
             <div className='w-[140%] rounded-lg absolute scale-0 -top-1/2 -right-3/4 group-hover:scale-100 transition-all duration-200 z-20'>
                 <HoveredAnimeCard  anime = {anime} /> 
             </div>
             
         </div>
+
+        {/* Content at the bottom of the Card */}
         <p className=' text-richwhite-100 font-semibold'>
         {
             anime.title.length > 25 ? anime.title.slice(0,25) + "..." : anime.title
