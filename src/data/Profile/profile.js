@@ -1,5 +1,5 @@
 import {IoMdNotifications, IoMdSettings} from "react-icons/io"
-import {BsCheckLg, BsFillPersonFill} from "react-icons/bs"
+import {BsFillPersonFill} from "react-icons/bs"
 import {AiFillHeart} from "react-icons/ai"
 
 export const profileData = [

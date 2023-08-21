@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import HomeNavbar from './HomeNavbar'
-import ViewAndShare from './ViewAndShare'
 import logo from "../../assets/full_logo.png"
 import charImage from "../../assets/home-anime-characters.png"
 import {FaSearch} from "react-icons/fa"
@@ -10,14 +9,9 @@ import { AppContext } from '../../context/AppContext'
 
 const HomeSearch = () => {
 
-    // const topSearchAPi = "https://api.jikan.moe/v4/anime?status=airing&order_by=popularity&sort=asc"
     const [topSearch, setTopSearch] = useState([])
     const [search, setSearch] = useState("")
     const navigate = useNavigate()
-    
-    // function changeHandler(newValue){
-    //     setSearch(newValue)
-    // }
 
     function submitHandler(event){
         event.preventDefault()
@@ -25,8 +19,6 @@ const HomeSearch = () => {
     }
     const {fetchGeneralAnimeApi} = useContext(AppContext)
 
-    // bg-richwhite-10
- 
     useEffect( () => {
         fetchGeneralAnimeApi({status: "airing", order_by: "popularity", sort: "asc"})
             .then( (result) => setTopSearch(result.data.data))
@@ -72,17 +64,6 @@ const HomeSearch = () => {
                             className=' p-4 bg-richyellow-40 rounded-full'>
                             <FaSearch/>
                         </button>
-
-                        {/* <input
-                        type='submit'
-                        className='p-4 bg-richyellow-40 rounded-full'>
-                        </input> */}
-
-                        {/* <button
-                        type='submit'
-                        >
-                            submit
-                        </button> */}
                     </form>
 
                     {/* Top Search */}

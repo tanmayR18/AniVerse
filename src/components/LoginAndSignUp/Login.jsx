@@ -12,7 +12,6 @@ import { logIn } from '../../slices/authSlice';
 const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
-    // const recaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
     const [errorMsg, setErrorMsg] = useState(null)
     const [user, setUser] = useState(null)
     const dispatch = useDispatch()
@@ -37,7 +36,7 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
             }
         } catch(error){
             console.log("Login Error", error)
-            setErrorMsg(error.response.message)
+            setErrorMsg(error.response.data.message)
         }   
     }
 
@@ -58,19 +57,24 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
 
   return (
     <div className=' flex flex-col gap-6  w-full justify-center items-center'>
+        {/* Heading */}
         <h1
         className=' font-bold text-[1.3rem] tracking-wider '
         >Welcome Back!</h1>
         
+        {/* For error message */}
         {
-            errorMsg && <div>
+            errorMsg && <div className=' bg-richpink-10 text-socialMedia-reddit w-full font-bold p-1'>
                             <p>{errorMsg}</p>
                         </div>
         }
         
+        {/* Login form */}
         <form 
         className=' flex flex-col gap-6 w-full justify-center items-center'
         onSubmit={handleSubmit(submitHandler)}> 
+
+            {/* Emial Address */}
             <div className='flex flex-col w-full gap-2'>
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Email Address   
@@ -81,14 +85,12 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
                         name='email'
                         required
                         id='email'
-                        // value={name}
-                        // onChange={(event) => setName(event.target.value)}
                         placeholder='Enter Your Name'
                     {...register("email",{required:true})}
                 />
             </div>
                 
-            
+            {/* Password */}
             <div className='flex flex-col w-full gap-2'> 
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Password
@@ -100,15 +102,12 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
                         required
                         autoComplete="current-password"
                         id='password'
-                        // value={password}
-                        // onChange={(event) => setPassword(event.target.value)}
                         placeholder='Enter the password'
                         {...register("password",{required:true})}
                     />
             </div>
 
-
-            
+            {/* Remember me and forgot password */}
             <div className='flex w-full justify-between'>
                 <div className='flex gap-2'>
                     <input 
@@ -132,6 +131,7 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
                 </div>
             </div>
             
+
             <ReCAPTCHA
                 className=' self-start'
                 sitekey= "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
@@ -145,6 +145,7 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
                 Login
             </button>
 
+            {/* Other Navigations */}
             <div className=''>
                 Don't have account? 
                 {" "}

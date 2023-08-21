@@ -3,7 +3,6 @@ import { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import { AppContext } from '../../context/AppContext'
 import { useState } from 'react'
-import { computeHeadingLevel } from '@testing-library/react'
 import { useEffect } from 'react'
 
 import AnimeCard from './AnimeCard'
@@ -47,7 +46,6 @@ const AnimeSearchResult = ({filteresUrl}) => {
                 })
                 .catch( error => console.log(error))
     },[page,filteresUrl])
-    // page, filteresUrl, animeName, heading
         
   return (
     <div className='flex flex-col gap-10'>
@@ -79,6 +77,7 @@ const AnimeSearchResult = ({filteresUrl}) => {
             )
         }
         </h3>
+        {/* Card Creations on the basis of anime */}
         <div className='grid grid-cols-4 gap-3 w-full'>
             {
                 animes.map( (anime,index) => (
@@ -86,6 +85,7 @@ const AnimeSearchResult = ({filteresUrl}) => {
                 ))
             }
         </div>
+        {/* Pagination for the response data */}
         <Pagination paginationData = {paginationData}
         page = {page} setPage = {setPage} 
         setAnimes = {setAnimes}/>

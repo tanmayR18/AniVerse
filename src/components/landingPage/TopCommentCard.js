@@ -3,12 +3,15 @@ import { formatDateToDDMMYY } from '../../service/inFormalDate'
 import {AiFillHeart} from "react-icons/ai"
 import { NavLink } from 'react-router-dom'
 
+// TODO: THis section is to be updated
+
 const TopCommentCard = ({review}) => {
-    // console.log(review)
     const date = formatDateToDDMMYY(review.createdAt)
+
     const shortendReview = review.review.length > 100 ? review.review.slice(0,100) + "..." : review.review
 
     const animeTitle = review.populatedAnime.length === 0 ? "Anime Not available :)" : review.populatedAnime[0].title
+
     const animeNavigation = animeTitle === "Anime Not available :)" ? "request-anime-post" : review.populatedAnime[0].title.split(" ").join("-")
 
     return (
@@ -35,6 +38,7 @@ const TopCommentCard = ({review}) => {
                 </div>
             </div>
             
+
             <div className='flex items-center gap-1'>
                 <p>Anime:</p>
                 {

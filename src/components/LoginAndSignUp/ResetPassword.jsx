@@ -48,11 +48,13 @@ const Verify = ({setIsLogin, setResetPassword, setForgotPassword}) => {
     },[reset, isSubmitSuccessful])
   return (
     <div className=' flex flex-col gap-6  w-full justify-center items-center'>
+
+        {/* Reading */}
         <h1 className=' font-bold text-[1.3rem] tracking-wider '>Reset Password</h1>
 
         {/* For error display */}
         {
-            errorMsg && <div>
+            errorMsg && <div className=' bg-richpink-10 text-socialMedia-reddit w-full font-bold p-1'>
                 <p>{errorMsg}</p>
             </div>
         }
@@ -61,6 +63,7 @@ const Verify = ({setIsLogin, setResetPassword, setForgotPassword}) => {
         className=' flex flex-col gap-6 w-full justify-center items-center'
         onSubmit={handleSubmit(submitHandler)}
         >
+            {/* Token */}
             <div className='flex flex-col w-full gap-2'> 
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Token
@@ -71,13 +74,12 @@ const Verify = ({setIsLogin, setResetPassword, setForgotPassword}) => {
                         name='token'
                         required
                         id='token'
-                        // value={password}
-                        // onChange={(event) => setPassword(event.target.value)}
                         placeholder='Eg - jdhbjhdbcsdbcjh'
                         {...register("token",{required:true})}
                     />
             </div>
 
+            {/* Password */}
             <div className='flex flex-col w-full gap-2'> 
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Password
@@ -88,13 +90,12 @@ const Verify = ({setIsLogin, setResetPassword, setForgotPassword}) => {
                         name='password'
                         required
                         id='password'
-                        // value={password}
-                        // onChange={(event) => setPassword(event.target.value)}
                         placeholder='Eg - jdhbjhdbcsdbcjh'
                         {...register("password",{required:true})}
                     />
             </div>
 
+            {/* confirmPassword */}
             <div className='flex flex-col w-full gap-2'> 
                 <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                     Confirm Password
@@ -105,8 +106,6 @@ const Verify = ({setIsLogin, setResetPassword, setForgotPassword}) => {
                         name='confirmPassword'
                         required
                         id='confirmPassword'
-                        // value={password}
-                        // onChange={(event) => setPassword(event.target.value)}
                         placeholder='Eg - jdhbjhdbcsdbcjh'
                         {...register("confirmPassword",{required:true})}
                     />

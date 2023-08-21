@@ -1,11 +1,12 @@
 import React from 'react'
-import { useState } from 'react'
 import {MdKeyboardDoubleArrowLeft, MdKeyboardArrowLeft, MdKeyboardArrowRight, MdKeyboardDoubleArrowRight} from "react-icons/md"
 
-const Pagination = ({paginationData, page, setPage, setAnimes}) => {
+const Pagination = ({paginationData, page, setPage}) => {
     
   return (
     <div className='w-full flex justify-center items-center gap-2 my-10'>
+
+        {/* TO got to first page */}
         {
             page !== 1 && <div 
                             className='p-3 rounded-full bg-richblack-40 cursor-pointer hover:text-richyellow-50'
@@ -14,6 +15,7 @@ const Pagination = ({paginationData, page, setPage, setAnimes}) => {
                             </div>
         }
         
+        {/* TO go to previous page */}
         {
             page !== 1 && <div
                             className='p-3 rounded-full bg-richblack-40 cursor-pointer hover:text-richyellow-50' 
@@ -22,6 +24,7 @@ const Pagination = ({paginationData, page, setPage, setAnimes}) => {
                             </div>
         }
 
+        {/* To give previous, current and next page */}
         {
             <div className='flex gap-2'>
             {Array.from({ length: paginationData.last_visible_page }, (_, index) => (
@@ -36,6 +39,7 @@ const Pagination = ({paginationData, page, setPage, setAnimes}) => {
             </div>
         }
 
+        {/* To get the next page */}
         {
             page !== paginationData.last_visible_page  && <div 
                                                             className='p-3 rounded-full cursor-pointer bg-richblack-40 hover:text-richyellow-50'
@@ -43,6 +47,8 @@ const Pagination = ({paginationData, page, setPage, setAnimes}) => {
                                                                 <MdKeyboardArrowRight />
                                                             </div>
         }
+
+        {/* TO get the last visible page */}
         {
             page !== paginationData.last_visible_page  && <div 
                                                             className={`p-3 rounded-full bg-richblack-40 cursor-pointer  hover:text-richyellow-50`}

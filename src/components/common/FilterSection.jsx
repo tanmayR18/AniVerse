@@ -75,13 +75,11 @@ const Filter = ({setFilteresUrl, filteresUrl}) => {
 
     function submitHandler(event){
         event.preventDefault()
-        // const finalData = {...start_Date,...formData}
-        // console.log(finalData)
         const finalData = Object.assign({},formData)
         finalData.start_date = start.startDate
         finalData.end_date = end.startDate
         console.log(removeKeyValuePair(finalData))
-        console.log("Abbhi ka he ", Object.assign({},filteresUrl, finalData))
+        console.log("Filtered URL", Object.assign({},filteresUrl, finalData))
         setFilteresUrl(Object.assign({},filteresUrl, finalData))
         fetchGeneralAnimeApi(finalData)
             .then( result => console.log(result.data.data))
@@ -94,9 +92,11 @@ const Filter = ({setFilteresUrl, filteresUrl}) => {
         <form
         className='flex flex-col gap-5'
         onSubmit={submitHandler}>
+            {/* Filter criterias */}
             <Filters formData={formData} changeHandler={changeHandler} start = {start} 
             setStart = {setStart} end = {end} setEnd = {setEnd}  />
 
+            {/* Genres criterias */}
             <Genres formData={formData} changeHandler={changeHandler} />
 
             {/* Submit Button */}
