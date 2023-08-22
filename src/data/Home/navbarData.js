@@ -5,11 +5,11 @@ export const navbarData = [
     },
     {
         title:"Movies",
-        path:"/movies"
+        path:"/category/movie"
     },
     {
         title:"TV Series",
-        path:"/tv-series"
+        path:"/category/tv"
     },
     {
         title:"Most Popular",
