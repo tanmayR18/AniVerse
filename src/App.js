@@ -1,11 +1,12 @@
 import { Route, Routes } from "react-router-dom"
 import LandingPage from "./pages/LandingPage"
-import AnimeDetails from "./pages/AnimeDetails"
+import AnimeDetails from "./pages/AnimeSearchResult"
 import FilterPage from "./pages/FilterPage"
 import GenrePage from "./pages/GenrePage"
 import CategoryPage from "./pages/CategoryPage"
 import MostPopular from "./pages/MostPopular"
 import TopAiring from "./pages/TopAiring"
+import FullAnimeDetailPage from "./pages/FullAnimeDetailPage"
 
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
             <Route path="/category/:type" element = {<CategoryPage/>} />
             <Route path="/most-popular" element = {<MostPopular/>} />
             <Route path="/top-airing" element = {<TopAiring/>} />
+            <Route path="/full-anime-detials/:id/:animeName" element = {<FullAnimeDetailPage/>} /> 
         </Routes>
 
     </div>
