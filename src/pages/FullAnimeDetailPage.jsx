@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import FullReview from '../components/animeFullDetails/FullReview'
 import FullAnimeDetails from '../components/animeFullDetails/FullAnimeDetails'
+import Navbar from '../components/common/Navbar'
 
 const FullAnimeDetailPage = () => {
     const location = useLocation()
@@ -32,7 +33,8 @@ const FullAnimeDetailPage = () => {
     },[])
 
   return (
-    <div className=' relative z-20 w-screen h-screen'>
+    <div className='relative z-20 w-screen h-screen'>
+        <Navbar />
         {
            animeData &&
             <img 
@@ -40,7 +42,8 @@ const FullAnimeDetailPage = () => {
             src={animeData.images.jpg.image_url} alt='imagePoster' />
         }
         {
-            review ? <FullReview/> : <FullAnimeDetails animeData = {animeData} />
+            review ? <FullReview setReview = {setReview}  animeData = {animeData}/> :
+            <FullAnimeDetails setReview = {setReview} animeData = {animeData} />
         }
         
         
