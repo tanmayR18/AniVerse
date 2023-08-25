@@ -8,18 +8,19 @@ import { useState } from 'react'
 
 const FullAnimeDetails = ({animeData, setReview}) => {
     const [readMore, setReadMore] = useState(true)
-    animeData && console.log(animeData.synopsis.slice(0,265)+"...")
-    console.log(animeData)
+    // animeData && console.log(animeData.synopsis.slice(0,265)+"...")
+    // console.log(animeData)
   return (
     // Div for having a backdrop filter
     <div className=' text-richwhite-100  absolute w-full h-full backdrop-blur-xl bg-[rgba(40,38,38,0.7)] z-30'>
         {/* Main container div */}
-        <div className='pt-16  px-4 flex gap-5 h-full justify-between bg-richblack-10 '>
+        <div className='pt-16  px-4 flex flex-col lg:flex-row gap-5 h-full justify-between bg-richblack-10 '>
 
             {/* Left section */}
-            <div className=' flex  gap-5 w-full  '>
-                {/* Image div */}
-                <div className=' w-[14rem]'>
+            <div className=' flex  items-center  gap-5 w-full p-6'>
+                <div className='flex flex-col lg:flex-row md:flex-row gap-6'>
+                    {/* Image div */}
+                <div className='flex w-[14rem]'>
                     {
                         animeData && 
                         <img 
@@ -29,12 +30,12 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                 </div>
 
                 {/* Info section */}
-                <div className=' w-full'>
+                <div className='flex flex-col gap-5 w-full'>
                     
                     {/* Header navigation and title */}
-                    <div className='flex items-center gap-2'>
-                        <NavLink className={" opacity-90"} to={"/home"}>Home</NavLink>
-                        <BsCircleFill size={5}/>
+                    <div className='flex items-center gap-2 text-sm opacity-80 tracking-wider '>
+                        <NavLink className={" "} to={"/home"}>Home</NavLink>
+                        <BsCircleFill size={4}/>
                         {
                             animeData && 
                             <div className=' flex items-center gap-2'>
@@ -45,8 +46,8 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                                         }
                                     </div>
                                 </NavLink>
-                                <BsCircleFill size={5}/>
-                                <div>
+                                <BsCircleFill size={4}/>
+                                <div className=' opacity-60'>
                                     {
                                     animeData.titles[3] === undefined ? animeData.title : animeData.titles[3].title
                                     }
@@ -58,7 +59,7 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                     {/* anime Title */}
                     {
                         animeData && 
-                        <h1 className=' text-lg font-bold'>
+                        <h1 className=' text-[2.5rem] font-semibold'>
                             {
                                 animeData.titles[3] === undefined ? animeData.title : animeData.titles[3].title
                             }
@@ -66,15 +67,15 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                     }
 
                     {/* Anime episodes info */}
-                    <div className='flex'>
+                    <div className='flex text-sm opacity-80'>
                         {
                             animeData && 
                             <div className='flex gap-2 items-center'>
                                 <div className='flex gap-1  font-bold '>
-                                    <div className=' text-richblack-90 bg-richyellow-50'>{animeData.rating.split("-")[0]}</div>
-                                    <div className=' bg-richblack-30'>{animeData.episodes}</div>
+                                    <div className=' text-richblack-90 bg-richyellow-50 py-[2px] px-[6px] rounded-[4px]'>{animeData.rating.split("-")[0]}</div>
+                                    <div className=' bg-richblack-30 py-[2px] px-[6px] rounded-[4px]'>{animeData.episodes}</div>
                                 </div>
-                                <BsCircleFill size={5}/>
+                                <BsCircleFill size={4} className=' opacity-60'/>
                                 <NavLink to={`/category/${animeData.type}`}>
                                     <div>
                                         {
@@ -82,7 +83,7 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                                         }
                                     </div>
                                 </NavLink>
-                                <BsCircleFill size={5}/>
+                                <BsCircleFill size={4} className=' opacity-60'/>
                                 <div>
                                     {
                                         animeData.duration
@@ -108,9 +109,10 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                     </div>
 
                     {/* Anime description and info about website */}
-                    <div>
+                    <div className=' text-sm flex flex-col gap-4'>
+                            <div>
                             {
-                                animeData && <span>
+                                animeData && <span className=' tracking-wide opacity-80'>
                                                 {
                                                     readMore ? 
                                                     animeData.synopsis.slice(0,265)+"..." :
@@ -120,88 +122,123 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                                             
                             }
                             <button
-                            className=' ml-2'
+                            className=' ml-1 opacity-100 font-bold tracking-wide'
                             onClick={() => { setReadMore( (prevState) => !prevState) }}
                             >
                                 {
                                     readMore ? "+ More" : "- Less"
                                 }
                             </button>
+                            </div>
                         {
                             animeData && 
-                            <p>
-                                {
+                            <p className=' tracking-wide opacity-80'>
+                                {/* {
                                     `AniWatch is the best site to watch ${animeData.title} SUB online, or you can even watch ${animeData.title} DUB in HD quality. You can also find ${ animeData.studios[0].name || "such"} anime on AniWatch website.`
-                                }
+                                } */}
+                                    AniWatch is the best site to watch
+                                    <span className=' font-bold'>
+                                        {" "}
+                                        {animeData.title}
+                                        {" "}
+                                    </span>
+                                    SUB online, or you can even watch
+                                    <span className=' font-bold'>
+                                        {" "}
+                                        {animeData.title}
+                                        {" "}
+                                    </span> DUB in HD quality. You can also find
+                                    <a className=' font-bold' href={animeData.studios[0].url || "#"}>
+                                        {" "}
+                                        { animeData.studios[0].name || "such"}
+                                        {" "}
+                                    </a>
+                                    anime on AniVerse website.
                             </p>
                         }
                     </div>
 
-                    <ShareWithFriends bgColor={""} />
+                    <ShareWithFriends paddingX0 = {true} bgColor={""} />
+                </div>
                 </div>
             </div>
 
             {/* Right section */}
-            <div className=' bg-richwhite-5 bg-opacity-30 w-[23%] flex items-center'>
+            <div className=' text-richwhite-50  bg-richwhite-5 p-5 bg-opacity-30 lg:w-[25%] w-full flex items-center
+             text-sm tracking-wide'>
                 {
                     animeData &&
                     <div className='flex flex-col gap-3'>
                      {/* Anime info*/}
-                     <div>
-                        <p>Japanese: {animeData.title_japanese}</p>
-                        <p>Synonyms: {animeData.title_synonyms}</p>
-                        <p>Aired: {animeData.aired.string}</p>
-                        <p>Premiered: {animeData.season} {animeData.year}</p>
-                        <p>Duration: {animeData.duration}</p>
-                        <p>Status: {animeData.status}</p>
-                        <p>Mal score: {animeData.score}</p>
+                     <div className='flex flex-col gap-1'>
+                        <p><span className=' text-richwhite-100 font-bold'>Japanese: </span> {animeData.title_japanese}</p>
+                        <p><span className=' text-richwhite-100 font-bold'>Synonyms: </span> {animeData.title_synonyms}</p>
+                        <p><span className=' text-richwhite-100 font-bold'>Aired: </span> {animeData.aired.string}</p>
+                        <p><span className=' text-richwhite-100 font-bold'>Premiered: </span> {animeData.season} {animeData.year}</p>
+                        <p><span className=' text-richwhite-100 font-bold'>Duration: </span> {animeData.duration}</p>
+                        <p><span className=' text-richwhite-100 font-bold'>Status: </span> {animeData.status}</p>
+                        <p><span className=' text-richwhite-100 font-bold'>Mal score: </span> {animeData.score}</p>
                      </div>
 
                      {/* Genres */}
-                     <div className='flex gap-x-2 flex-wrap'> 
-                        <div>Genres</div>
+                     <div className='flex gap-2 flex-wrap  border-y border-richwhite-20 py-3'> 
+                        <div className=' text-richwhite-100 font-bold'>Genres:</div>
                         {
                             animeData.genres.map( (genre, index) => (
-                                <NavLink to={`/genre/${genre.mal_id}`} key={index}>{genre.name}</NavLink>
+                                <NavLink
+                                className={"border border-richwhite-20 rounded-md px-1 hover:text-richyellow-40"}
+                                to={`/genre/${genre.mal_id}`} key={index}>{genre.name}</NavLink>
                             ))
                         }
                         {
                             animeData.explicit_genres.map( (genre, index) => (
-                                <NavLink to={`/genre/${genre.mal_id}`} key={index}>{genre.name}</NavLink>
+                                <NavLink
+                                className={"border border-richwhite-20 rounded-md px-1 hover:text-richyellow-40"}
+                                to={`/genre/${genre.mal_id}`} key={index}>{genre.name}</NavLink>
                             ))
                         }
                         {
                             animeData.demographics.map( (genre, index) => (
-                                <NavLink to={`/genre/${genre.mal_id}`} key={index}>{genre.name}</NavLink>
+                                <NavLink 
+                                className={"border border-richwhite-20 rounded-md px-1 hover:text-richyellow-40"}
+                                to={`/genre/${genre.mal_id}`} key={index}>{genre.name}</NavLink>
                             ))
                         }
                      </div>
 
                      {/* Productions and studio */}
-                    <div>
+                    <div className='flex flex-col gap-1'>
                         <div className='flex'>
-                            <div>Studios: </div>
+                            <div className=' text-richwhite-100 font-bold '>Studios: </div>
                             {
                                 animeData.studios.map( (studio,index) => (
-                                    <a key={index} href={studio.url} >{studio.name}</a>
+                                    <a
+                                    className=' hover:text-richyellow-40'
+                                    key={index} href={studio.url} >{studio.name}</a>
                                 ))
                             }
                         </div>
                         <div className='flex gap-x-2 flex-wrap'>
-                            <div>Producers: </div>
+                            <div className=' text-richwhite-100 font-bold'>Producers: </div>
                             {
                                 animeData.producers.map( (studio,index) => (
-                                    <a key={index} href={studio.url} >{studio.name}</a>
+                                    <a 
+                                    className=' hover:text-richyellow-40'
+                                    key={index} href={studio.url} >{studio.name}</a>
                                 ))
                             }
                             {
                                 animeData.licensors.map( (studio,index) => (
-                                    <a key={index} href={studio.url} >{studio.name}</a>
+                                    <a 
+                                    className=' hover:text-richyellow-40'
+                                    key={index} href={studio.url} >{studio.name}</a>
                                 ))
                             }
                             {
                                 animeData.studios.map( (studio,index) => (
-                                    <a key={index} href={studio.url} >{studio.name}</a>
+                                    <a 
+                                    className=' hover:text-richyellow-40'
+                                    key={index} href={studio.url} >{studio.name}</a>
                                 ))
                             }
                         </div>
