@@ -142,7 +142,7 @@ const FullAnimeDetails = ({animeData, setReview}) => {
             </div>
 
             {/* Right section */}
-            <div className=' bg-richwhite-5 bg-opacity-30 w-[23%] flex'>
+            <div className=' bg-richwhite-5 bg-opacity-30 w-[23%] flex items-center'>
                 {
                     animeData &&
                     <div className='flex flex-col gap-3'>
