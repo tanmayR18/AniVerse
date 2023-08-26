@@ -4,6 +4,7 @@ import {BsCircleFill} from "react-icons/bs"
 import YouTube from 'react-youtube';
 import commentsCount from '../../assets/commentCountImg.png'
 import {BiSolidMessageSquare} from "react-icons/bi"
+import ShareWithFriends from '../common/ShareWithFriends';
 
 const FullReview = ({setReview, animeData}) => {
     const [readMore, setReadMore] = useState(true)
@@ -170,6 +171,8 @@ const FullReview = ({setReview, animeData}) => {
                 </div>
             </div>
         </div>
+
+        <ShareWithFriends bgColor = {"bg-richblack-100"}/>
     </div>
   )
 }
