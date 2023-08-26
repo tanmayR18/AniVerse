@@ -14,7 +14,7 @@ const FullAnimeDetails = ({animeData, setReview}) => {
     // Div for having a backdrop filter
     <div className=' text-richwhite-100  absolute w-full h-full backdrop-blur-xl bg-[rgba(40,38,38,0.7)] z-30'>
         {/* Main container div */}
-        <div className='pt-16  px-4 flex flex-col lg:flex-row gap-5 h-full justify-between bg-richblack-10 '>
+        <div className='pt-16  px-4 flex  overflow-y-auto flex-col lg:flex-row gap-5 h-full justify-between bg-richblack-10 '>
 
             {/* Left section */}
             <div className=' flex  items-center  gap-5 w-full p-6'>

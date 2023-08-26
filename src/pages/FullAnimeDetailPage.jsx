@@ -33,12 +33,12 @@ const FullAnimeDetailPage = () => {
     },[])
 
   return (
-    <div className='relative z-20 w-screen h-screen'>
+    <div className='relative z-20 w-screen min-h-screen h-auto'>
         <Navbar />
         {
            animeData &&
             <img 
-            className=' absolute w-full h-full z-10'
+            className=' absolute  w-full h-full z-10 object-cover'
             src={animeData.images.jpg.image_url} alt='imagePoster' />
         }
         {
