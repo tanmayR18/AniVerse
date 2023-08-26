@@ -3,17 +3,18 @@ import {GiHamburgerMenu} from 'react-icons/gi'
 import logo from "../../assets/full_logo.png"
 import {FaSearch, FaArrowRight} from 'react-icons/fa'
 import {BsFillPersonFill} from "react-icons/bs"
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {IoMdNotifications} from "react-icons/io"
 import { profileData } from '../../data/Profile/profile'
 import { socialMedia } from '../../data/social media/socialMediaInfo'
 import LoginOverLayer from "../LoginAndSignUp/LoginOverlayer"
 import { useDispatch, useSelector } from 'react-redux'
 import { logOut } from '../../slices/authSlice'
+import { useEffect } from 'react'
 
 
 
-const Navbar = () => {
+const Navbar = ({bgColor}) => {
 
     const userData = useSelector( state => state.auth)
     const [navbar, setNavbar] = useState(false)
@@ -21,7 +22,7 @@ const Navbar = () => {
     const [loginVisible, setLoginVisible] = useState(false)
     const navigate = useNavigate()
     const dispatch  = useDispatch()
-
+    const location = useLocation()
 
 
 
@@ -37,11 +38,15 @@ const Navbar = () => {
     }
     window.addEventListener("scroll",changeBackground)
 
+    useEffect(() => {
+        changeBackground()
+    },[location.pathname])
+
 
   return (
     <nav className={`h-auto -sm z-40 w-full fixed top-0 right-0 flex items-center justify-between px-4 py-1
         ${
-            navbar === 0 ? "" : "backdrop-blur bg-richblack-20"
+            bgColor ? bgColor : (navbar === 0 ? "" : "backdrop-blur bg-richblack-20")
         }
     `}>
         

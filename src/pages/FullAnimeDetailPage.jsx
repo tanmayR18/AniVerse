@@ -33,8 +33,10 @@ const FullAnimeDetailPage = () => {
     },[])
 
   return (
-    <div className='relative z-20 w-screen min-h-screen h-auto'>
-        <Navbar />
+    <div className=' overflow-y-auto'>
+        <Navbar bgColor={"bg-richblack-20 backdrop-blur "} />
+        <div className='relative z-20 min-h-screen h-auto'>
+        
         {
            animeData &&
             <img 
@@ -47,6 +49,7 @@ const FullAnimeDetailPage = () => {
         }
         
         
+    </div>
     </div>
   )
 }
