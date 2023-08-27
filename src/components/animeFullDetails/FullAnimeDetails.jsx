@@ -10,7 +10,7 @@ import Navbar from '../common/Navbar'
 const FullAnimeDetails = ({animeData, setReview}) => {
     const [readMore, setReadMore] = useState(true)
     // animeData && console.log(animeData.synopsis.slice(0,265)+"...")
-    // console.log(animeData)
+    console.log(animeData)
   return (
     // Div for having a backdrop filter
     <div className=' text-richwhite-100  absolute w-full h-full backdrop-blur-xl bg-[rgba(40,38,38,0.7)] z-30'>
@@ -50,7 +50,7 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                                 <BsCircleFill size={4}/>
                                 <div className=' opacity-60'>
                                     {
-                                    animeData.titles[3] === undefined ? animeData.title : animeData.titles[3].title
+                                        animeData.title_english === undefined ? animeData.title : animeData.title_english
                                     }
                                 </div>
                             </div>
@@ -62,7 +62,7 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                         animeData && 
                         <h1 className=' text-[2.5rem] font-semibold'>
                             {
-                                animeData.titles[3] === undefined ? animeData.title : animeData.titles[3].title
+                                animeData.title_english === undefined ? animeData.title : animeData.title_english
                             }
                         </h1>
                     }

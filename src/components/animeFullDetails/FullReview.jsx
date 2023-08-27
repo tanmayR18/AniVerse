@@ -7,9 +7,12 @@ import {BiSolidMessageSquare} from "react-icons/bi"
 import ShareWithFriends from '../common/ShareWithFriends';
 import LoginOverlayer from '../LoginAndSignUp/LoginOverlayer';
 import Navbar from '../common/Navbar';
+import { useSelector } from 'react-redux';
 
 const FullReview = ({setReview, animeData}) => {
     const [readMore, setReadMore] = useState(true)
+    const userData = useSelector( state => state.auth)
+    console.log(userData)
     // console.log(animeData)
     // const [loginVisible, setLoginVisible] = useState(false)
     // parameter for utube video
@@ -77,14 +80,14 @@ const FullReview = ({setReview, animeData}) => {
                     </div>
 
                     {/* Anime Info */}
-                    <div >
+                    <div className=' w-full'>
                     {
                             animeData && 
                             <div className=' text-sm flex flex-col  gap-4'>
                                 {/* Name of the anime */}
                                 <h1 className=' text-lg  font-semibold'>
                                     {
-                                        animeData.titles[3] === undefined ? animeData.title : animeData.titles[3].title
+                                        animeData.title_english === undefined ? animeData.title : animeData.title_english
                                     }
                                 </h1>
 

@@ -45,7 +45,7 @@ const Navbar = ({bgColor}) => {
 
 
   return (
-    <nav className={`h-auto -sm z-40 w-full fixed top-0 right-0 flex items-center justify-between px-4 py-1
+    <nav className={`h-auto -sm z-40 w-full fixed top-0 right-0 text-richblack-100 flex items-center justify-between px-4 py-1
         ${
             bgColor ? bgColor : (navbar === 0 ? "" : "backdrop-blur bg-richblack-20")
         }
