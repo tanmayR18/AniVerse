@@ -7,11 +7,11 @@ const animeSchema = new mongoose.Schema({
     },
     description:{
         type: String,
-        required:true
+        // required:true
     },
     image:{
         type:String,
-        required:true,
+        // required:true,
     },
     genres:{
         type: String,

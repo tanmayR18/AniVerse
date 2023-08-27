@@ -8,7 +8,7 @@ const { default: mongoose } = require('mongoose')
 exports.createRatingAndReview = async(req, res) => {
     try{
         //fetch the data
-        const {rating, review, animeId} = req.body
+        const {rating, review, title} = req.body
         const userId = req.user.id
 
         //validate the data
@@ -19,17 +19,30 @@ exports.createRatingAndReview = async(req, res) => {
             })
         }
 
-        //TODO: If the anime that the user is trying to rate do not exit then What?
+        //If the anime is not in the database
+        let anime = await Anime.findOne({title})
+        if(anime === null){
+            anime = await Anime.create({
+                title: title,
+            })
+            console.log("anime inside if", anime)
+        }
+    
 
-        //check is the user has already rated the anime
-        const alreadyRated = await RatingAndReview.findOne({
-            animeId:animeId,
+        console.log("CHecking result of whether anime is present",anime)
+        
+
+        // //TODO: If the anime that the user is trying to rate do not exit then What?
+
+        // //check is the user has already rated the anime
+        const alreadyRated = await RatingAndReview.find({
+            animeId:anime._id,
             userId:userId
         })
 
-        console.log("Already exited user", alreadyRated)
+        console.log("Already existed user", alreadyRated)
 
-        if(alreadyRated){
+        if(alreadyRated.length !== 0){
             return res.status(401).json({
                 success:false,
                 message:"User already Rated the anime series"
@@ -41,13 +54,14 @@ exports.createRatingAndReview = async(req, res) => {
             userId:userId,
             rating:rating,
             review:review,
-            animeId:animeId
+            animeId:anime._id,
+            title: title
         })
 
         const averageRatingResult = await RatingAndReview.aggregate([
             {
                 $match:{
-                    animeId: new mongoose.Types.ObjectId(animeId)
+                    animeId: new mongoose.Types.ObjectId(anime._id)
                 }
             },
             {
@@ -62,7 +76,7 @@ exports.createRatingAndReview = async(req, res) => {
 
         //TO update the rating in the anime document
         const updatedAnimeRatingAndReview = await Anime.findByIdAndUpdate(
-                                            animeId,
+                                            anime._id,
                                             {
                                                 $push:{
                                                     ratingAndReviews:ratingAndReviewDetails._id
@@ -70,7 +84,7 @@ exports.createRatingAndReview = async(req, res) => {
                                                 $set:{
                                                     rating:averageRatingResult[0].averageRating
                                                 }
-                                            },
+                                            },  
                                             {new:true}
         )
 
@@ -96,7 +110,7 @@ exports.createRatingAndReview = async(req, res) => {
     } catch(error) {
         console.log("Error while storing the rating",error)
         return res.status(500).json({
-            success:true,
+            success:false,
             message:error.message
         })
     }
@@ -175,6 +189,27 @@ exports.getAllRatingAndReviews = async(req, res) => {
         return res.status(500).json({
             success:false,
             message: "Unable to get the rating"
+        })
+    }
+}
+
+//Function for getting all the reviews of the anime
+exports.getAllRatingAndReviewsOfAnime = async(req, res) => {
+    try{
+        const {title} = req.body
+        const animeReview = await RatingAndReview.find({title:title})
+
+        res.status(200).json({
+            success:true,
+            message:" Anime review fetched successfully",
+            data: animeReview
+        })
+
+    } catch(error){
+        console.log(error)
+        res.status(500).json({
+            success: false,
+            message: error.message
         })
     }
 }

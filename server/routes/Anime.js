@@ -30,6 +30,7 @@ const {
 const {
     createRatingAndReview,
     getAllRatingAndReviews,
+    getAllRatingAndReviewsOfAnime,
     getAverageRating,
     deleteRatingAndReview,
     updateRatingAndReview,
@@ -93,6 +94,9 @@ router.post("/createRatingAndReview",auth,isUser,createRatingAndReview)
 
 //api for getting average rating of the anime
 router.get("/getAllRatingAndReviews",getAllRatingAndReviews)
+
+//api for getting all the rating and review of the specified anime
+router.post("/getAllRatingAndReviewsOfAnime", getAllRatingAndReviewsOfAnime)
 
 //api for getting all the details of the anime
 router.post("/getAverageRating",getAverageRating)

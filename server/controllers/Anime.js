@@ -15,7 +15,7 @@ exports.createAnimePost = async(req, res) => {
         //fetch data
         const {
             title,
-            description,
+            description="",
             // image,
             genres = "",
             animeDbId = "",
@@ -28,7 +28,7 @@ exports.createAnimePost = async(req, res) => {
         const adminId = req.user.id
 
         //validate the data
-        if(!title || !description || !image){
+        if(!title){
             return res.status(404).json({
                 success:false,
                 message:"Please enter title, description and image url"

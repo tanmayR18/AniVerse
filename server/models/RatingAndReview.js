@@ -10,6 +10,9 @@ const ratingAndReviewSchema = mongoose.Schema({
         type:Number,
         required:true
     },
+    title:{
+        type: String
+    },
     review:{
         type:String,
         required:true,
