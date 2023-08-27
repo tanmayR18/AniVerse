@@ -8,10 +8,18 @@ import ShareWithFriends from '../common/ShareWithFriends';
 import LoginOverlayer from '../LoginAndSignUp/LoginOverlayer';
 import Navbar from '../common/Navbar';
 import { useSelector } from 'react-redux';
+import unknownProfile from "../../assets/unknown-profile.png"
+import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import {FaStar} from "react-icons/fa"
+import { apiConnector } from '../../service/apiconnector';
+import { ratingAndReview } from '../../service/apis';
 
 const FullReview = ({setReview, animeData}) => {
     const [readMore, setReadMore] = useState(true)
     const userData = useSelector( state => state.auth)
+    const [errorMsg, setErrorMsg] = useState(null)
+    const [rating, setRating] = useState(null)
     console.log(userData)
     // console.log(animeData)
     // const [loginVisible, setLoginVisible] = useState(false)
@@ -24,7 +32,56 @@ const FullReview = ({setReview, animeData}) => {
             autoplay: 1,
           },
     }
-    
+
+
+    //FOr uploading the rating and review
+    const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
+
+    const submitHandler = async (data) => {
+
+        if( rating === null){
+            setErrorMsg("please enter the Rating")
+            return
+        }
+
+        const finalData = {...data, rating: rating, title: animeData.title_english === undefined ? animeData.title : animeData.title_english}
+
+        try{
+            const response = await apiConnector("POST", ratingAndReview.CREATE_RATINGANDREVIEW, finalData)
+            console.log(response)
+        } catch(error){
+            console.log(error)
+        }
+
+        // try{
+        //     const response = await apiConnector("POST", auth.LOG_IN, data)
+        //     console.log("Login Resonse",response)
+
+        //     if(response.data.success === true){
+        //         toast.success("Logged In")
+        //         // setUser(response.data)
+        //         dispatch(logIn(response.data))
+        //         setLoginVisible(false)
+                
+        //     }
+        // } catch(error){
+        //     console.log("Login Error", error)
+        //     setErrorMsg(error.response.data.message)
+        // }   
+
+        
+
+        setErrorMsg(null)
+    }
+
+    useEffect(() => {
+        if(isSubmitSuccessful){
+            reset({
+                review: ""
+            })
+        }
+    },[reset, isSubmitSuccessful])
+
   return (
     <div>
         <Navbar  bgColor={"bg-richblack-20 backdrop-blur "} />
@@ -196,8 +253,66 @@ const FullReview = ({setReview, animeData}) => {
                         <p>Total reviews</p>
                         
                         {/* TODO: If there is user reviewer then show that review else show the create review section */}
-                        <div>
+                        <div className='flex'>
+                            {/* For image */}
+                            <div className='w-8 rounded-full overflow-hidden'>
+                                <img className=' object-cover' src={ userData ? userData.user.image : unknownProfile } alt='unknown' />
+                            </div>
 
+                            {/* FOr user deaitls and  */}
+                            <div>
+                                {/* Username */}
+                                <p>
+                                    {
+                                        userData ? 
+                                        `You are Rating from ${userData.user.userName}` :
+                                        "You need to Login / Register for Rating and Reviewing the anime"
+                                    }
+                                </p>
+                                {
+                                    errorMsg && <div className=' bg-richpink-10 text-socialMedia-reddit w-full font-bold p-1'>
+                                                    <p>{errorMsg}</p>
+                                                </div>
+                                } 
+                                <form 
+                                className='flex flex-col'
+                                onSubmit={handleSubmit(submitHandler)}>
+
+                                    {/* Rating */}
+                                    <div className='flex'>
+                                        {[...Array(5)].map( (star, index) => {
+                                            const currentRating = index + 1
+                                            return (
+                                                <label className=' cursor-pointer'>
+                                                    <FaStar
+                                                    className={`${currentRating <= rating ? " text-richyellow-50": ""}`}
+                                                    size={50} />
+                                                    <input 
+                                                        className=' appearance-none'
+                                                        type='radio'
+                                                        name='rating'
+                                                        onClick={() => setRating(currentRating)}
+                                                    />
+                                                </label>
+                                            )
+                                        })}
+                                        
+                                    </div>
+
+                                    <input 
+                                        type='text'
+                                        id='review'
+                                        name='review'
+                                        required
+                                        placeholder='Enter your review'
+                                        {...register("review",{required:true})}
+                                    />
+
+                                    <button className=' w-fit bg-richyellow-40 py-1 px-2 rounded-md'>
+                                        Rate
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                         {/* Show all reviews */}
                         <div>
