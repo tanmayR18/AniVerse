@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-const userdata = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null
+const userdata = localStorage.getItem("token") ? localStorage.getItem("token") : null
 
 export const authSlice = createSlice({
     name: "auth",
-    initialState: userdata,
+    initialState: JSON.parse(userdata),
     reducers:{
         logIn: (state, value) => {
             localStorage.setItem("token", JSON.stringify(value.payload))
@@ -12,8 +12,10 @@ export const authSlice = createSlice({
         },
         logOut: (state, value) => {
             state = null
-            localStorage.clear("token")
+            localStorage.removeItem("token")
+            localStorage.removeItem("_grecaptcha")
             return null
+            
         },
     },
 })

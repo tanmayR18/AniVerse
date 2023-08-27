@@ -19,11 +19,12 @@ const Navbar = ({bgColor}) => {
     const userData = useSelector( state => state.auth)
     const [navbar, setNavbar] = useState(false)
     const [search, setSearch] = useState("")
-    const [loginVisible, setLoginVisible] = useState(false)
+    const [loginVisible, setLoginVisible] = useState()
     const navigate = useNavigate()
     const dispatch  = useDispatch()
     const location = useLocation()
-
+     
+    console.log("user data inside navbar", userData)
 
 
     function submitHandler(event){

@@ -5,6 +5,7 @@ import {BsCircleFill} from 'react-icons/bs'
 import {MdRateReview} from 'react-icons/md'
 import {FaPlus} from 'react-icons/fa'
 import { useState } from 'react'
+import Navbar from '../common/Navbar'
 
 const FullAnimeDetails = ({animeData, setReview}) => {
     const [readMore, setReadMore] = useState(true)
@@ -15,7 +16,7 @@ const FullAnimeDetails = ({animeData, setReview}) => {
     <div className=' text-richwhite-100  absolute w-full h-full backdrop-blur-xl bg-[rgba(40,38,38,0.7)] z-30'>
         {/* Main container div */}
         <div className='pt-16  px-4 flex  overflow-y-auto flex-col lg:flex-row gap-5 h-full justify-between bg-richblack-10 '>
-
+            <Navbar  bgColor={"bg-richblack-20 backdrop-blur "} />
             {/* Left section */}
             <div className=' flex  items-center  gap-5 w-full p-6'>
                 <div className='flex flex-col lg:flex-row md:flex-row gap-6'>

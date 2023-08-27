@@ -14,7 +14,7 @@ const FullAnimeDetailPage = () => {
     const animeID = parseInt(location.pathname.split("/").at(-2))
     const [animeData, setAnimeData] = useState(null)
     const [review, setReview] = useState(false)
-    console.log(animeID)
+    // console.log(animeID)
 
 
     // Anime Data fetching on the basis of ID
@@ -33,10 +33,11 @@ const FullAnimeDetailPage = () => {
     },[])
 
   return (
-    <div className=' overflow-y-auto'>
-        <Navbar bgColor={"bg-richblack-20 backdrop-blur "} />
-        <div className='relative z-20 min-h-screen h-auto'>
+    <div className=''>
         
+        {/* <Navbar  bgColor={"bg-richblack-20 backdrop-blur "} /> */}
+
+        <div className='relative z-20 min-h-screen h-auto'>
         {
            animeData &&
             <img 
