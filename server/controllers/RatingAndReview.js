@@ -11,6 +11,9 @@ exports.createRatingAndReview = async(req, res) => {
         const {rating, review, title} = req.body
         const userId = req.user.id
 
+        console.log("create review me Ye mila he backedn me", rating, title, review, userId)
+        
+
         //validate the data
         if(!rating || !review){
             return res.status(401).json({
@@ -197,7 +200,12 @@ exports.getAllRatingAndReviews = async(req, res) => {
 exports.getAllRatingAndReviewsOfAnime = async(req, res) => {
     try{
         const {title} = req.body
+        console.log("Anime title", title)
         const animeReview = await RatingAndReview.find({title:title})
+                                    .populate({
+                                        path: "userId",
+                                        select: "userName accountType image",
+                                    })
 
         res.status(200).json({
             success:true,
@@ -439,6 +447,61 @@ exports.addAndRemoveLike = async (req, res) => {
             success: true,
             message: "Liked Added successfully",
             data: likedReview
+            })
+        }
+
+        // return res.status(400).json({
+        //     message:"Fetched",
+        //     data: alreadyLiked
+        // })
+        
+    } catch(error){
+        console.log("Error while adding the likes to the review",error)
+        return res.status(500).json({
+            success: false,
+            message: "Error while adding the likes to the review",
+            error: error.message
+        })
+    }
+}
+
+//Function for adding the dis like in the comment / reivew
+exports.addAndRemoveDisLike = async (req, res) => {
+    try{
+        // fetch the ID from the cookie
+        const userId = req.user.id
+        const userObjectId = new mongoose.Types.ObjectId(userId)
+        const {reviewId} = req.body
+        console.log("User ID ", userId)
+
+
+        const alreadyDisLiked = await RatingAndReview.find({disLikes: userObjectId, _id: reviewId})
+
+        console.log(alreadyDisLiked)
+
+        if(alreadyDisLiked.length !== 0){
+            const unDisLikedReview = await RatingAndReview.findByIdAndUpdate(reviewId,
+                {
+                    $pull:{likes:userId}
+                },{new:true})
+    
+                return res.status(200).json({
+                success: true,
+                message: "Liked removed successfully",
+                data: unDisLikedReview
+                })
+        } else{
+            const disLikedReview = await RatingAndReview.findByIdAndUpdate(reviewId,
+                {
+                    $push:{disLikes:userId}
+                },
+                {new:true}
+            )
+
+            return res.status(200).json({
+            success: true,
+            message: "Liked Added successfully",
+            data: disLikedReview
             })
         }
 

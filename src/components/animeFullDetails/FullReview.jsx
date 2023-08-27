@@ -14,15 +14,24 @@ import { useEffect } from 'react';
 import {FaStar} from "react-icons/fa"
 import { apiConnector } from '../../service/apiconnector';
 import { ratingAndReview } from '../../service/apis';
+import { toast } from 'react-hot-toast';
+import ReviewsCard from './ReviewsCard';
+import {BiComment} from "react-icons/bi"
+
+
+
+
 
 const FullReview = ({setReview, animeData}) => {
+    console.log("Anime data",animeData)
     const [readMore, setReadMore] = useState(true)
     const userData = useSelector( state => state.auth)
     const [errorMsg, setErrorMsg] = useState(null)
     const [rating, setRating] = useState(null)
+    //for calling the fetchANimeReview function after submitting the review
+    const [rated, setRated] = useState(false)
+    const [reviews, setReviews] = useState(null)
     console.log(userData)
-    // console.log(animeData)
-    // const [loginVisible, setLoginVisible] = useState(false)
     // parameter for utube video
     const opts = {
         height: "550",
@@ -31,6 +40,22 @@ const FullReview = ({setReview, animeData}) => {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 1,
           },
+    }
+
+
+    //For getting rating and reviews of anime
+
+    async function fetchAnimeReviews(){
+        try{
+            const urlBody = {title: animeData.title_english  ?  animeData.title_english : animeData.title }
+            console.log("Frontend se ye jaa raha he ", urlBody)
+            const response = await apiConnector("POST", ratingAndReview.GET_ANIME_RATINGANDREVIEW, urlBody)
+            console.log(response.data.data)
+            setReviews(response.data.data)
+        } catch(error){
+            console.log("Error occured while fetching reviews of anime",error)
+            console.log("Here is the error test",error.response)
+        }
     }
 
 
@@ -44,34 +69,21 @@ const FullReview = ({setReview, animeData}) => {
             return
         }
 
-        const finalData = {...data, rating: rating, title: animeData.title_english === undefined ? animeData.title : animeData.title_english}
+        const finalData = {...data, rating: rating, token:userData.token, title: animeData.title_english  ?  animeData.title_english : animeData.title }
 
         try{
             const response = await apiConnector("POST", ratingAndReview.CREATE_RATINGANDREVIEW, finalData)
             console.log(response)
+            if(response.data.status === true){
+                toast.success("Review added !")
+                setRated(true)
+            }
         } catch(error){
             console.log(error)
+            setErrorMsg(error.response.data.message)
         }
-
-        // try{
-        //     const response = await apiConnector("POST", auth.LOG_IN, data)
-        //     console.log("Login Resonse",response)
-
-        //     if(response.data.success === true){
-        //         toast.success("Logged In")
-        //         // setUser(response.data)
-        //         dispatch(logIn(response.data))
-        //         setLoginVisible(false)
-                
-        //     }
-        // } catch(error){
-        //     console.log("Login Error", error)
-        //     setErrorMsg(error.response.data.message)
-        // }   
-
         
-
-        setErrorMsg(null)
+        // TODO: Add the setErrorMsg(null)
     }
 
     useEffect(() => {
@@ -81,6 +93,10 @@ const FullReview = ({setReview, animeData}) => {
             })
         }
     },[reset, isSubmitSuccessful])
+
+    useEffect( () => {
+        fetchAnimeReviews()
+    },[rated])
 
   return (
     <div>
@@ -106,7 +122,7 @@ const FullReview = ({setReview, animeData}) => {
                                     <BsCircleFill size={4}/>
                                     <div className=' opacity-60'>
                                         {
-                                        animeData.titles[3] === undefined ? animeData.title : animeData.titles[3].title
+                                            animeData.title_english  ?  animeData.title_english : animeData.title 
                                         }
                                     </div>
                                 </div>
@@ -144,7 +160,7 @@ const FullReview = ({setReview, animeData}) => {
                                 {/* Name of the anime */}
                                 <h1 className=' text-lg  font-semibold'>
                                     {
-                                        animeData.title_english === undefined ? animeData.title : animeData.title_english
+                                        animeData.title_english  ?  animeData.title_english : animeData.title 
                                     }
                                 </h1>
 
@@ -201,13 +217,13 @@ const FullReview = ({setReview, animeData}) => {
                                                     AniWatch is the best site to watch
                                                     <span className=' font-bold'>
                                                         {" "}
-                                                        {animeData.title}
+                                                        {   animeData.title_english  ?  animeData.title_english : animeData.title }
                                                         {" "}
                                                     </span>
                                                     SUB online, or you can even watch
                                                     <span className=' font-bold'>
                                                         {" "}
-                                                        {animeData.title}
+                                                        {animeData.title_english  ?  animeData.title_english : animeData.title }
                                                         {" "}
                                                     </span> DUB in HD quality. You can also find
                                                     <a className=' font-bold' href={animeData.studios[0].url || "#"}>
@@ -229,9 +245,9 @@ const FullReview = ({setReview, animeData}) => {
                                 </button>
 
                                 {/* No. of comments */}
-                                <div className=' text-socialMedia-twitter   overflow-hidden flex items-center gap-1  bg-richwhite-100 h-14 w-44 rounded-lg relative'>
+                                <div className=' text-socialMedia-twitter   overflow-hidden flex items-center gap-1  bg-richwhite-100 h-14 w-44  rounded-lg relative'>
                                     <BiSolidMessageSquare size={35} className=' ml-2' />
-                                    <p>0</p>
+                                    <p>{reviews && reviews.length}</p>
                                     <img className=' absolute -top-4 right-0 h-24 ' src={commentsCount} />
                                 </div>
                             </div>
@@ -243,70 +259,82 @@ const FullReview = ({setReview, animeData}) => {
             <ShareWithFriends bgColor = {"bg-richblack-100"}/>
 
             
-            <div className='flex px-4 gap-8'>
+            <div className='flex px-4 gap-8 mt-8'>
                 {/* Reviews, character and recommended anime */}
-                <div className=' bg-richblack-30 w-full'>
-                    <h2>Comments</h2>
+                <div className=' w-full'>
+                    <h2 className=' font-semibold mb-5 text-[26px]  text-richyellow-50'>Comments</h2>
                     {/* Reviews container */}
-                    <div>
+                    <div className=' bg-richblack-5 flex flex-col gap-6  p-8 rounded-md'>
                         {/* Show total number of comments */}
-                        <p>Total reviews</p>
+                        <div  className=' text-richwhite-100 flex gap-2 items-center'>
+                            <BiComment />
+                            <p>Total reviews: {reviews && reviews.length}</p>
+                        </div>
                         
                         {/* TODO: If there is user reviewer then show that review else show the create review section */}
-                        <div className='flex'>
+                        <div className='flex items-start'>
                             {/* For image */}
                             <div className='w-8 rounded-full overflow-hidden'>
                                 <img className=' object-cover' src={ userData ? userData.user.image : unknownProfile } alt='unknown' />
                             </div>
 
                             {/* FOr user deaitls and  */}
-                            <div>
-                                {/* Username */}
-                                <p>
-                                    {
-                                        userData ? 
-                                        `You are Rating from ${userData.user.userName}` :
-                                        "You need to Login / Register for Rating and Reviewing the anime"
-                                    }
-                                </p>
+                            <div className=' flex flex-col gap-4 w-full px-4'>
                                 {
                                     errorMsg && <div className=' bg-richpink-10 text-socialMedia-reddit w-full font-bold p-1'>
                                                     <p>{errorMsg}</p>
                                                 </div>
                                 } 
+                                 {/* Username */}
+                                <p className=' text-richwhite-100 opacity-90'>
+                                    {
+                                        userData ? 
+                                        `You are Rating as ${userData.user.userName}` :
+                                        "You need to Login / Register for Rating and Reviewing the anime"
+                                    }
+                                </p>
+
                                 <form 
-                                className='flex flex-col'
+                                className='flex flex-col gap-2'
                                 onSubmit={handleSubmit(submitHandler)}>
 
                                     {/* Rating */}
-                                    <div className='flex'>
-                                        {[...Array(5)].map( (star, index) => {
-                                            const currentRating = index + 1
-                                            return (
-                                                <label className=' cursor-pointer'>
-                                                    <FaStar
-                                                    className={`${currentRating <= rating ? " text-richyellow-50": ""}`}
-                                                    size={50} />
-                                                    <input 
-                                                        className=' appearance-none'
-                                                        type='radio'
-                                                        name='rating'
-                                                        onClick={() => setRating(currentRating)}
-                                                    />
-                                                </label>
-                                            )
-                                        })}
+                                    <div className='flex gap-2 h-[2rem]'>
+                                        <p className=' text-richwhite-50'>Rating:</p>
+                                        <div className='flex'>
+                                            {[...Array(5)].map( (star, index) => {
+                                                const currentRating = index + 1
+                                                return (
+                                                    <label key={index} className=' cursor-pointer h-[2rem]'>
+                                                        <FaStar
+                                                        className={`${currentRating <= rating ? " text-richyellow-50": ""}`}
+                                                        size={25} />
+                                                        <input 
+                                                            className=' appearance-none'
+                                                            type='radio'
+                                                            name='rating'
+                                                            onClick={() => setRating(currentRating)}
+                                                        />
+                                                    </label>
+                                                )
+                                            })}
+                                            
+                                        </div>
                                         
                                     </div>
-
-                                    <input 
-                                        type='text'
-                                        id='review'
-                                        name='review'
-                                        required
-                                        placeholder='Enter your review'
-                                        {...register("review",{required:true})}
-                                    />
+                                    <div className=' flex flex-col gap-1'>
+                                        <p className=' text-richwhite-50'>Review:</p>
+                                        <textarea 
+                                            rows="3"
+                                            className=' text-richwhite-100 rounded-md appearance-none bg-richwhite-10 focus:outline-none p-2 w-full'
+                                            type='text'
+                                            id='review'
+                                            name='review'
+                                            required
+                                            placeholder='Enter your review'
+                                            {...register("review",{required:true})}
+                                        />
+                                    </div>
 
                                     <button className=' w-fit bg-richyellow-40 py-1 px-2 rounded-md'>
                                         Rate
@@ -315,8 +343,23 @@ const FullReview = ({setReview, animeData}) => {
                             </div>
                         </div>
                         {/* Show all reviews */}
-                        <div>
-
+                        <div className='flex flex-col gap-6'>
+                            {
+                                reviews && 
+                                reviews.filter( (review) => 
+                                    review.userId.userName === userData.user.userName)
+                                    .map( (review, index) => (
+                                    <ReviewsCard key={index} review = {review} />
+                                ) )
+                            }
+                            {
+                                reviews && 
+                                reviews.filter( (review) => 
+                                    review.userId.userName !== userData.user.userName)
+                                    .map( (review, index) => (
+                                    <ReviewsCard  key={index} review = {review} />
+                                ) )
+                            }
                         </div>
                     </div>
                 </div>
