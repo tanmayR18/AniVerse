@@ -108,7 +108,8 @@ exports.createRatingAndReview = async(req, res) => {
 
         return res.status(200).json({
             success:true,
-            message:"Rating and Review  added successfully"
+            message:"Rating and Review  added successfully",
+            data: review
         })
     } catch(error) {
         console.log("Error while storing the rating",error)
@@ -414,6 +415,7 @@ exports.getTop10Review = async (req, res) => {
 exports.addAndRemoveLike = async (req, res) => {
     try{
         // fetch the ID from the cookie
+        console.log("Funtion for adding and removing likes hitted")
         const userId = req.user.id
         const userObjectId = new mongoose.Types.ObjectId(userId)
         const {reviewId} = req.body

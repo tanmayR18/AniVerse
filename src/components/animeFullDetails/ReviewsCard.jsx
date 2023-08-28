@@ -10,11 +10,22 @@ import { toast } from 'react-hot-toast'
 const ReviewsCard = ({review}) => {
 
     const userData = useSelector( state => state.auth)
-    const [liked, setLiked] = useState(() => userData ? (review.likes.filter( (like) => like === userData.user._id).length === 0): false)
+    // const [liked, setLiked] = useState(() => userData ? (review.likes.filter( (like) => like === userData.user._id).length === 0): false)
+    // const [liked, setLiked] = useState(false)
+    const [liked, setLiked] = useState(() => userData ? (
+                                                            review.likes.filter( (like) => like === userData.user._id).length === 0 ?
+                                                            false:
+                                                            true
+                                                        )
+                                                        
+                                                        : false)
+    
+    // let likeCount = review.likes.length
+    const [likeCount, setLikeCount] = useState(review.likes.length)
 
+    console.log(review)
+    console.log(review.likes)                                                    
     async function likeHandler(){
-
-        setLiked( (prevState) => !prevState)
 
         const urlBody = {
             reviewId: review._id,
@@ -22,6 +33,9 @@ const ReviewsCard = ({review}) => {
         }
         try{
             const response = await apiConnector("PUT", ratingAndReview.ADD_OR_REMOVE_LIKE, urlBody)
+            console.log("Liked response", response)
+            liked ? setLikeCount((prevState) => prevState - 1) : setLikeCount((prevState) => prevState + 1)
+            setLiked( (prevState) => !prevState)
         } catch(error){
             console.log(error)
         }
@@ -54,14 +68,16 @@ const ReviewsCard = ({review}) => {
                 <AiFillLike
                 className={` ${
                     liked ?
-                    " text-richwhite-100":
-                    " text-richyellow-50"
+                    " text-richyellow-50":
+                    " text-richwhite-100"
                 } cursor-pointer`}
-                onClick={() => userData ? likeHandler : toast.error("Please Login or SignUp")} />
-                {
+                onClick={() => userData ? likeHandler() : toast.error("Please Login or SignUp")} />
+                {/* {
                     review.likes.length
+                } */}
+                {
+                   likeCount
                 }
-                
             </div>
 
         </div>

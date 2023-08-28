@@ -90,7 +90,7 @@ router.get("/getTopAnimeOfTheYear",getTopAnimeOfTheYear)
 //***************************************************************//
 
 //api for creating rating and review
-router.post("/createRatingAndReview",auth,isUser,createRatingAndReview)
+router.post("/createRatingAndReview",auth,createRatingAndReview)
 
 //api for getting average rating of the anime
 router.get("/getAllRatingAndReviews",getAllRatingAndReviews)
@@ -114,7 +114,7 @@ router.get("/getLatestRatingAndReview",getLatestRatingAndReview)
 router.get("/getTop10Review",getTop10Review)
 
 //api for adding and removing like from the user reviews
-router.put("/addAndRemoveLike",auth, isUser, addAndRemoveLike)
+router.put("/addAndRemoveLike",auth, addAndRemoveLike)
 
 
 module.exports = router

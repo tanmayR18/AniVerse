@@ -141,8 +141,8 @@ const Navbar = ({bgColor}) => {
                         {/* Dropdown */}
                         <div className=' hidden group-hover:flex flex-col gap-3 absolute top-10  right-0 bg-richblack-20 border border-richwhite-10 rounded-xl p-4 w-72'>
                             {/* Name and Email */}
-                            <p className=' text-base text-richyellow-40'>Tanmay Rane</p>
-                            <p className=' text-base text-richwhite-100'>tanmayrane51@gmail.com</p>
+                            <p className=' text-base text-richyellow-40'>{userData.user.userName}</p>
+                            <p className=' text-base text-richwhite-100'>{userData.user.email}</p>
 
                             {/* Profile Sections */}
                             <div className='flex flex-col gap-2 '>

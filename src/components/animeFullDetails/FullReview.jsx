@@ -30,7 +30,7 @@ const FullReview = ({setReview, animeData}) => {
     const [errorMsg, setErrorMsg] = useState(null)
     const [rating, setRating] = useState(null)
     //for calling the fetchANimeReview function after submitting the review
-    const [rated, setRated] = useState(false)
+    const [rated, setRated] = useState(null)
     const [reviews, setReviews] = useState(null)
     console.log(userData)
     // parameter for utube video
@@ -48,6 +48,7 @@ const FullReview = ({setReview, animeData}) => {
 
     async function fetchAnimeReviews(){
         try{
+            console.log("Again fetched")
             const urlBody = {title: animeData.title_english  ?  animeData.title_english : animeData.title }
             console.log("Frontend se ye jaa raha he ", urlBody)
             const response = await apiConnector("POST", ratingAndReview.GET_ANIME_RATINGANDREVIEW, urlBody)
@@ -79,10 +80,10 @@ const FullReview = ({setReview, animeData}) => {
 
         try{
             const response = await apiConnector("POST", ratingAndReview.CREATE_RATINGANDREVIEW, finalData)
-            console.log(response)
-            if(response.data.status === true){
+            console.log("Response from the review posting",response)
+            if(response.data.success === true){
                 toast.success("Review added !")
-                setRated(true)
+                setRated(response.data.review)
             }
         } catch(error){
             console.log(error)
