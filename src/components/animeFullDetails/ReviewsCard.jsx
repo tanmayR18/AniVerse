@@ -4,12 +4,13 @@ import {AiFillLike} from "react-icons/ai"
 import { apiConnector } from '../../service/apiconnector'
 import { ratingAndReview } from '../../service/apis'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-hot-toast'
 
 
 const ReviewsCard = ({review}) => {
 
     const userData = useSelector( state => state.auth)
-    const [liked, setLiked] = useState(review.likes.filter( (like) => like === userData.user._id).length === 0)
+    const [liked, setLiked] = useState(() => userData ? (review.likes.filter( (like) => like === userData.user._id).length === 0): false)
 
     async function likeHandler(){
 
@@ -55,8 +56,8 @@ const ReviewsCard = ({review}) => {
                     liked ?
                     " text-richwhite-100":
                     " text-richyellow-50"
-                }`}
-                onClick={likeHandler} />
+                } cursor-pointer`}
+                onClick={() => userData ? likeHandler : toast.error("Please Login or SignUp")} />
                 {
                     review.likes.length
                 }

@@ -11,12 +11,13 @@ import { useSelector } from 'react-redux';
 import unknownProfile from "../../assets/unknown-profile.png"
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
-import {FaStar} from "react-icons/fa"
+import {FaStar, FaComments} from "react-icons/fa"
 import { apiConnector } from '../../service/apiconnector';
 import { ratingAndReview } from '../../service/apis';
 import { toast } from 'react-hot-toast';
 import ReviewsCard from './ReviewsCard';
 import {BiComment} from "react-icons/bi"
+import {TbMessageCircle2Filled} from "react-icons/tb"
 
 
 
@@ -63,6 +64,11 @@ const FullReview = ({setReview, animeData}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
 
     const submitHandler = async (data) => {
+
+        if(!userData){
+            toast.error("Please Login or Signup")
+            return
+        }
 
         if( rating === null){
             setErrorMsg("please enter the Rating")
@@ -245,9 +251,9 @@ const FullReview = ({setReview, animeData}) => {
                                 </button>
 
                                 {/* No. of comments */}
-                                <div className=' text-socialMedia-twitter   overflow-hidden flex items-center gap-1  bg-richwhite-100 h-14 w-44  rounded-lg relative'>
-                                    <BiSolidMessageSquare size={35} className=' ml-2' />
-                                    <p>{reviews && reviews.length}</p>
+                                <div className=' text-socialMedia-twitter   overflow-hidden flex items-center gap-2  bg-richwhite-100 h-14 w-44  rounded-lg relative'>
+                                    <TbMessageCircle2Filled size={35} className=' ml-2' />
+                                    <p className=' text-lg font-bold'>{reviews && reviews.length}</p>
                                     <img className=' absolute -top-4 right-0 h-24 ' src={commentsCount} />
                                 </div>
                             </div>
@@ -278,97 +284,187 @@ const FullReview = ({setReview, animeData}) => {
                         } 
 
                         {/* TODO: If there is user reviewer then show that review else show the create review section */}
+
                         {
-                            reviews &&
-                            reviews.filter( review => review.userId.userName === userData.user.userName).length === 0 ?
+                            userData ?
                             (
-                                <div className='flex items-start'>
-                                {/* For image */}
-                                <div className='w-8 rounded-full overflow-hidden'>
-                                    <img className=' object-cover' src={ userData ? userData.user.image : unknownProfile } alt='unknown' />
-                                </div>
-
-                                {/* FOr user deaitls and  */}
-                                <div className=' flex flex-col gap-4 w-full px-4'>
-                                
-                                    {/* Username */}
-                                    <p className=' text-richwhite-100 opacity-90'>
-                                        {
-                                            userData ? 
-                                            `You are Rating as ${userData.user.userName}` :
-                                            "You need to Login / Register for Rating and Reviewing the anime"
-                                        }
-                                    </p>
-
-                                    <form 
-                                    className='flex flex-col gap-2'
-                                    onSubmit={handleSubmit(submitHandler)}>
-
-                                        {/* Rating */}
-                                        <div className='flex gap-2 h-[2rem]'>
-                                            <p className=' text-richwhite-50'>Rating:</p>
-                                            <div className='flex'>
-                                                {[...Array(5)].map( (star, index) => {
-                                                    const currentRating = index + 1
-                                                    return (
-                                                        <label key={index} className=' cursor-pointer h-[2rem]'>
-                                                            <FaStar
-                                                            className={`${currentRating <= rating ? " text-richyellow-50": ""}`}
-                                                            size={25} />
-                                                            <input 
-                                                                className=' appearance-none'
-                                                                type='radio'
-                                                                name='rating'
-                                                                onClick={() => setRating(currentRating)}
-                                                            />
-                                                        </label>
-                                                    )
-                                                })}
-                                                
+                                <div>
+                                    {
+                                        reviews &&
+                                        reviews.filter( review => review.userId.userName === userData.user.userName).length === 0 ?
+                                        (
+                                            <div className='flex items-start'>
+                                            {/* For image */}
+                                            <div className='w-8 rounded-full overflow-hidden'>
+                                                <img className=' object-cover' src={ userData ? userData.user.image : unknownProfile } alt='unknown' />
                                             </div>
-                                            
-                                        </div>
-                                        <div className=' flex flex-col gap-1'>
-                                            <p className=' text-richwhite-50'>Review:</p>
-                                            <textarea 
-                                                rows="3"
-                                                className=' text-richwhite-100 rounded-md appearance-none bg-richwhite-10 focus:outline-none p-2 w-full'
-                                                type='text'
-                                                id='review'
-                                                name='review'
-                                                required
-                                                placeholder='Enter your review'
-                                                {...register("review",{required:true})}
-                                            />
-                                        </div>
 
-                                        <button className=' w-fit bg-richyellow-40 py-1 px-2 rounded-md'>
-                                            Rate
-                                        </button>
-                                    </form>
+                                            {/* FOr user deaitls and  */}
+                                            <div className=' flex flex-col gap-4 w-full px-4'>
+                                            
+                                                {/* Username */}
+                                                <p className=' text-richwhite-100 opacity-90'>
+                                                    {
+                                                        userData ? 
+                                                        `You are Rating as ${userData.user.userName}` :
+                                                        "You need to Login / Register for Rating and Reviewing the anime"
+                                                    }
+                                                </p>
+
+                                                <form 
+                                                className='flex flex-col gap-2'
+                                                onSubmit={handleSubmit(submitHandler)}>
+
+                                                    {/* Rating */}
+                                                    <div className='flex gap-2 h-[2rem]'>
+                                                        <p className=' text-richwhite-50'>Rating:</p>
+                                                        <div className='flex'>
+                                                            {[...Array(5)].map( (star, index) => {
+                                                                const currentRating = index + 1
+                                                                return (
+                                                                    <label key={index} className=' cursor-pointer h-[2rem]'>
+                                                                        <FaStar
+                                                                        className={`${currentRating <= rating ? " text-richyellow-50": ""}`}
+                                                                        size={25} />
+                                                                        <input 
+                                                                            className=' appearance-none'
+                                                                            type='radio'
+                                                                            name='rating'
+                                                                            onClick={() => setRating(currentRating)}
+                                                                        />
+                                                                    </label>
+                                                                )
+                                                            })}
+                                                            
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div className=' flex flex-col gap-1'>
+                                                        <p className=' text-richwhite-50'>Review:</p>
+                                                        <textarea 
+                                                            rows="3"
+                                                            className=' text-richwhite-100 rounded-md appearance-none bg-richwhite-10 focus:outline-none p-2 w-full'
+                                                            type='text'
+                                                            id='review'
+                                                            name='review'
+                                                            required
+                                                            placeholder='Enter your review'
+                                                            {...register("review",{required:true})}
+                                                        />
+                                                    </div>
+
+                                                    <button className=' w-fit bg-richyellow-40 py-1 px-2 rounded-md'>
+                                                        Rate
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        ):
+                                        (
+                                            reviews && 
+                                            reviews.filter( (review) => review.userId.userName === userData.user.userName)
+                                                .map( (review, index) => (
+                                                <ReviewsCard key={index} review = {review} />
+                                            ) )
+                                        )
+                                    }
+                                    {/* Show all reviews */}
+                                    <div className='flex flex-col gap-6 mt-8'>
+                                        
+                                        {
+                                            reviews && 
+                                            reviews.filter( (review) => 
+                                                review.userId.userName !== userData.user.userName)
+                                                .map( (review, index) => (
+                                                <ReviewsCard  key={index} review = {review} />
+                                            ) )
+                                        }
+                                    </div>
                                 </div>
-                            </div>
                             ):
                             (
-                                reviews && 
-                                reviews.filter( (review) => review.userId.userName === userData.user.userName)
-                                    .map( (review, index) => (
-                                    <ReviewsCard key={index} review = {review} />
-                                ) )
+                                <div>
+                                            <div className='flex items-start'>
+                                            {/* For image */}
+                                            <div className='w-8 rounded-full overflow-hidden'>
+                                                <img className=' object-cover' src={ userData ? userData.user.image : unknownProfile } alt='unknown' />
+                                            </div>
+
+                                            {/* FOr user deaitls and  */}
+                                            <div className=' flex flex-col gap-4 w-full px-4'>
+                                            
+                                                {/* Username */}
+                                                <p className=' text-richwhite-100 opacity-90'>
+                                                    {
+                                                        userData ? 
+                                                        `You are Rating as ${userData.user.userName}` :
+                                                        "You need to Login / Register for Rating and Reviewing the anime"
+                                                    }
+                                                </p>
+
+                                                <form 
+                                                className='flex flex-col gap-2'
+                                                onSubmit={handleSubmit(submitHandler)}>
+
+                                                    {/* Rating */}
+                                                    <div className='flex gap-2 h-[2rem]'>
+                                                        <p className=' text-richwhite-50'>Rating:</p>
+                                                        <div className='flex'>
+                                                            {[...Array(5)].map( (star, index) => {
+                                                                const currentRating = index + 1
+                                                                return (
+                                                                    <label key={index} className=' cursor-pointer h-[2rem]'>
+                                                                        <FaStar
+                                                                        className={`${currentRating <= rating ? " text-richyellow-50": ""}`}
+                                                                        size={25} />
+                                                                        <input 
+                                                                            className=' appearance-none'
+                                                                            type='radio'
+                                                                            name='rating'
+                                                                            onClick={() => setRating(currentRating)}
+                                                                        />
+                                                                    </label>
+                                                                )
+                                                            })}
+                                                            
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div className=' flex flex-col gap-1'>
+                                                        <p className=' text-richwhite-50'>Review:</p>
+                                                        <textarea 
+                                                            rows="3"
+                                                            className=' text-richwhite-100 rounded-md appearance-none bg-richwhite-10 focus:outline-none p-2 w-full'
+                                                            type='text'
+                                                            id='review'
+                                                            name='review'
+                                                            required
+                                                            placeholder='Enter your review'
+                                                            {...register("review",{required:true})}
+                                                        />
+                                                    </div>
+
+                                                    <button className=' w-fit bg-richyellow-40 py-1 px-2 rounded-md'>
+                                                        Rate
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                    {/* Show all reviews */}
+                                    <div className='flex flex-col gap-6 mt-8'>
+                                        {
+                                            reviews && 
+                                            reviews.map( (review, index) => (
+                                                <ReviewsCard  key={index} review = {review} />
+                                            ) )
+                                        }
+                                    </div>
+                                </div>
                             )
                         }
-                        {/* Show all reviews */}
-                        <div className='flex flex-col gap-6'>
-                            
-                            {
-                                reviews && 
-                                reviews.filter( (review) => 
-                                    review.userId.userName !== userData.user.userName)
-                                    .map( (review, index) => (
-                                    <ReviewsCard  key={index} review = {review} />
-                                ) )
-                            }
-                        </div>
+
+                        
                     </div>
                 </div>
 
