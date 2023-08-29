@@ -18,6 +18,7 @@ import { toast } from 'react-hot-toast';
 import ReviewsCard from './ReviewsCard';
 import {BiComment} from "react-icons/bi"
 import {TbMessageCircle2Filled} from "react-icons/tb"
+import RelatedAnime from './RelatedAnime';
 
 
 
@@ -30,7 +31,7 @@ const FullReview = ({setReview, animeData}) => {
     const [errorMsg, setErrorMsg] = useState(null)
     const [rating, setRating] = useState(null)
     //for calling the fetchANimeReview function after submitting the review
-    const [rated, setRated] = useState(null)
+    const [rated, setRated] = useState(false)
     const [reviews, setReviews] = useState(null)
     console.log(userData)
     // parameter for utube video
@@ -83,7 +84,7 @@ const FullReview = ({setReview, animeData}) => {
             console.log("Response from the review posting",response)
             if(response.data.success === true){
                 toast.success("Review added !")
-                setRated(response.data.review)
+                setRated((prevState) => !prevState)
             }
         } catch(error){
             console.log(error)
@@ -470,8 +471,8 @@ const FullReview = ({setReview, animeData}) => {
                 </div>
 
                 {/* Related Anime  */}
-                <div className=' bg-richyellow-40 w-[30%]'>
-                    Related anime
+                <div className='w-[30%]'>
+                    <RelatedAnime animeData = {animeData}/>
                 </div>
             </div>
         </div>
