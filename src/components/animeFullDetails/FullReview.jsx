@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import {BsCircleFill} from "react-icons/bs"
 import YouTube from 'react-youtube';
 import commentsCount from '../../assets/commentCountImg.png'
@@ -13,18 +13,20 @@ import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import {FaStar, FaComments} from "react-icons/fa"
 import { apiConnector } from '../../service/apiconnector';
-import { ratingAndReview } from '../../service/apis';
+import { anime, ratingAndReview } from '../../service/apis';
 import { toast } from 'react-hot-toast';
 import ReviewsCard from './ReviewsCard';
 import {BiComment} from "react-icons/bi"
 import {TbMessageCircle2Filled} from "react-icons/tb"
 import RelatedAnime from './RelatedAnime';
+import axios from 'axios';
 
 
 
 
 
 const FullReview = ({setReview, animeData}) => {
+    const location = useLocation()
     console.log("Anime data",animeData)
     const [readMore, setReadMore] = useState(true)
     const userData = useSelector( state => state.auth)
@@ -33,6 +35,7 @@ const FullReview = ({setReview, animeData}) => {
     //for calling the fetchANimeReview function after submitting the review
     const [rated, setRated] = useState(false)
     const [reviews, setReviews] = useState(null)
+    const [animeDataDB, setAnimeDataDb] = useState(null)
     console.log(userData)
     // parameter for utube video
     const opts = {
@@ -53,7 +56,7 @@ const FullReview = ({setReview, animeData}) => {
             const urlBody = {title: animeData.title_english  ?  animeData.title_english : animeData.title }
             console.log("Frontend se ye jaa raha he ", urlBody)
             const response = await apiConnector("POST", ratingAndReview.GET_ANIME_RATINGANDREVIEW, urlBody)
-            console.log(response.data.data)
+            console.log("Anime Reviews",response.data.data)
             setReviews(response.data.data)
         } catch(error){
             console.log("Error occured while fetching reviews of anime",error)
@@ -94,6 +97,18 @@ const FullReview = ({setReview, animeData}) => {
         // TODO: Add the setErrorMsg(null)
     }
 
+    //FOr getting anime rating
+    async function getAnimeDetails(){
+        const urlBody = {title: animeData.title_english  ?  animeData.title_english : animeData.title }
+        console.log("Anime details ke leye ye ja raha he ",urlBody)
+        try{
+            const response = await apiConnector("POST", anime.GET_ANIME_DETAILS, urlBody)
+            setAnimeDataDb(response.data.data)
+        } catch(error){
+            console.log("Error occured while fetching the anime data from DB",error)
+        }
+    }
+
     useEffect(() => {
         if(isSubmitSuccessful){
             reset({
@@ -103,8 +118,9 @@ const FullReview = ({setReview, animeData}) => {
     },[reset, isSubmitSuccessful])
 
     useEffect( () => {
+        getAnimeDetails()
         fetchAnimeReviews()
-    },[rated])
+    },[rated, animeData])
 
   return (
     <div>
@@ -166,17 +182,28 @@ const FullReview = ({setReview, animeData}) => {
                             animeData && 
                             <div className=' text-sm flex flex-col  gap-4'>
                                 {/* Name of the anime */}
-                                <h1 className=' text-lg  font-semibold'>
+                                <div className='flex items-center gap-8 justify-between bg' >
+                                    <h1 className=' text-lg  font-semibold'>
+                                        {
+                                            animeData.title_english  ?  animeData.title_english : animeData.title 
+                                        }
+                                    </h1>
+
+                                    {/* Anime rating */}
                                     {
-                                        animeData.title_english  ?  animeData.title_english : animeData.title 
+                                        animeDataDB &&
+                                        <div className='flex items-center gap-4 bg-richwhite-20  text-richyellow-50 py-3 px-6 rounded-md'>
+                                            <p className=' text-richwhite-100 text-base font-bold tracking-wide'>AniVerse Rating:  </p>
+                                            <p className='flex items-center gap-1 text-base '><FaStar /> {animeDataDB.rating}</p>
+                                        </div>
                                     }
-                                </h1>
+                                </div>
 
                                 {/* episodes Info */}
                                 <div className='flex gap-2 items-center'>
                                     <div className='flex gap-1  font-bold '>
                                         <div className=' text-richblack-90 bg-richyellow-50 py-[2px] px-[6px] rounded-[4px]'>{animeData.rating.split("-")[0]}</div>
-                                        <div className=' bg-richblack-30 py-[2px] px-[6px] rounded-[4px]'>{animeData.episodes}</div>
+                                        <div className=' bg-richblack-30 py-[2px] px-[6px] rounded-[4px]'>{animeData.episodes ? animeData.episodes : "?"}</div>
                                     </div>
                                     <BsCircleFill size={4} className=' opacity-60'/>
                                     <NavLink to={`/category/${animeData.type}`}>

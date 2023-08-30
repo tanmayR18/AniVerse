@@ -30,6 +30,7 @@ const FullAnimeDetailPage = () => {
     
     useEffect(() => {
         fetchAnimeById()
+
     },[location.pathname])
 
   return (

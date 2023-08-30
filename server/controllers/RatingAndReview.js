@@ -207,6 +207,7 @@ exports.getAllRatingAndReviewsOfAnime = async(req, res) => {
                                         path: "userId",
                                         select: "userName accountType image",
                                     })
+                                    
 
         res.status(200).json({
             success:true,
@@ -214,7 +215,7 @@ exports.getAllRatingAndReviewsOfAnime = async(req, res) => {
             data: animeReview
         })
 
-    } catch(error){
+    } catch(error){ 
         console.log(error)
         res.status(500).json({
             success: false,

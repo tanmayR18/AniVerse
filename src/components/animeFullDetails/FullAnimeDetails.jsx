@@ -74,7 +74,7 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                             <div className='flex gap-2 items-center'>
                                 <div className='flex gap-1  font-bold '>
                                     <div className=' text-richblack-90 bg-richyellow-50 py-[2px] px-[6px] rounded-[4px]'>{animeData.rating.split("-")[0]}</div>
-                                    <div className=' bg-richblack-30 py-[2px] px-[6px] rounded-[4px]'>{animeData.episodes}</div>
+                                    <div className=' bg-richblack-30 py-[2px] px-[6px] rounded-[4px]'>{animeData.episodes ? animeData.episodes : "?"}</div>
                                 </div>
                                 <BsCircleFill size={4} className=' opacity-60'/>
                                 <NavLink to={`/category/${animeData.type}`}>

@@ -21,3 +21,9 @@ export const auth = {
     RESET_PASSWORD: BASE_URL + "/auth/reset-password",
 }
 
+
+//-----------------Anime--------------------------
+
+export const anime = {
+    GET_ANIME_DETAILS: BASE_URL + "/anime/getRatedAnime",
+}
