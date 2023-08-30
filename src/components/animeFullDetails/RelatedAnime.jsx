@@ -1,16 +1,19 @@
 import React from 'react'
 import { useState } from 'react'
 import SideBarCard from '../common/SideBarCard'
+import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const RelatedAnime = ({animeData}) => {
 
+    const location = useLocation()
     // For getting the related anime
     let relatedAnime = []
     for (const i of animeData.relations){
         console.log(i.entry)
         relatedAnime.push(...i.entry)
     }
-    const [slicedLength, setSlicedLength] = useState(() => relatedAnime.length > 6 ?  parseInt(6) : relatedAnime.length) 
+    const [slicedLength, setSlicedLength] = useState(1) 
     
 
     //This function increases the count of related anime by 6 after every clicked event
@@ -21,6 +24,9 @@ const RelatedAnime = ({animeData}) => {
                                          (prevState + 6) )
     }
 
+    useEffect(() => {
+        setSlicedLength(() => relatedAnime.length > 6 ?  parseInt(6) : relatedAnime.length)
+    },[location.pathname])
     
     console.log("Here is the related anime", relatedAnime)
 
@@ -45,7 +51,7 @@ const RelatedAnime = ({animeData}) => {
                 Show more
             </button> :
             <button
-            className=' bg-richwhite-10 text-richwhite-100 font-bold w-full mt-8 py-3 rounded-lg hover:bg-richwhite-20 transition-all duration-300'
+            className={` bg-richwhite-10 text-richwhite-100 font-bold w-full ${relatedAnime.length <= 6 ? "hidden" : ""} mt-8 py-3 rounded-lg hover:bg-richwhite-20 transition-all duration-300`}
             onClick={() => setSlicedLength(relatedAnime.length > 6 ?  parseInt(6) : relatedAnime.length)}>
                 Show less
             </button>
