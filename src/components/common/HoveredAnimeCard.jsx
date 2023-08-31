@@ -47,10 +47,11 @@ const HoveredAnimeCard = ({anime}) => {
             <div className='text-sm'>
                 <p>
                     Japanese: {
-                        anime.title_japanese.length > 10 ? anime.title_japanese.slice(0,10) + "..." : anime.title_japanese
-                    }
+                                anime.title_japanese &&
+                                anime.title_japanese.length > 10 ? anime.title_japanese.slice(0,10) + "..." : anime.title_japanese
+                                }
                 </p>
-                <p>Rating: {anime.rating}</p>
+                <p>Rating: {anime.rating ? anime.rating: ""}</p>
                 <p>
                     Aired:
                     {

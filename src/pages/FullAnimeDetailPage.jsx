@@ -14,6 +14,7 @@ const FullAnimeDetailPage = () => {
     const animeID = parseInt(location.pathname.split("/").at(-2))
     const [animeData, setAnimeData] = useState(null)
     const [review, setReview] = useState(false)
+    const [recommendedAnime, setRecommendedAnime] = useState([])
     // console.log(animeID)
 
 
@@ -27,9 +28,24 @@ const FullAnimeDetailPage = () => {
             console.log("Error while fetching anime By ID",error)
         }
     }
+
+    const fetchAnimeRecommendations = async () => {
+        try{
+            const url = `https://api.jikan.moe/v4/anime/${animeID}/recommendations`
+            const response = await axios.get(url)
+            console.log("Here is the o/p for recommended anime", response.data.data)
+            setRecommendedAnime(response.data.data)
+        } catch(error){
+            console.log("Error while fetching the recommendaed anime")
+            console.error(error)
+        }
+    }
     
     useEffect(() => {
         fetchAnimeById()
+        setTimeout(() => {
+            fetchAnimeRecommendations()
+        }, 2000);
 
     },[location.pathname])
 
@@ -46,10 +62,13 @@ const FullAnimeDetailPage = () => {
             src={animeData.images.jpg.image_url} alt='imagePoster' />
         }
         {
-            review ? <FullReview setReview = {setReview}  animeData = {animeData}/> :
-            <FullAnimeDetails setReview = {setReview} animeData = {animeData} />
+            review ? <FullReview setReview = {setReview} recommendedAnime = {recommendedAnime}  animeData = {animeData}/> :
+            <FullAnimeDetails setReview = {setReview} recommendedAnime = {recommendedAnime} animeData = {animeData} />
         }
         
+        {
+            console.log("-----------------------------------------",recommendedAnime)
+        }
         
     </div>
     </div>

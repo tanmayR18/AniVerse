@@ -50,7 +50,7 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                                 <BsCircleFill size={4}/>
                                 <div className=' opacity-60'>
                                     {
-                                        animeData.title_english === undefined ? animeData.title : animeData.title_english
+                                        animeData.title_english  ?  animeData.title_english : animeData.title
                                     }
                                 </div>
                             </div>
@@ -62,7 +62,7 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                         animeData && 
                         <h1 className=' text-[2.5rem] font-semibold'>
                             {
-                                animeData.title_english === undefined ? animeData.title : animeData.title_english
+                                animeData.title_english  ?  animeData.title_english : animeData.title
                             }
                         </h1>
                     }
@@ -149,11 +149,15 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                                         {animeData.title}
                                         {" "}
                                     </span> DUB in HD quality. You can also find
-                                    <a className=' font-bold' href={animeData.studios[0].url || "#"}>
-                                        {" "}
-                                        { animeData.studios[0].name || "such"}
-                                        {" "}
-                                    </a>
+                                    {
+                                        animeData.studios[0] &&
+                                        <a className=' font-bold' href={animeData.studios[0].url ? animeData.studios[0].url : "#"}>
+                                            {" "}
+                                            { animeData.studios[0].name ? animeData.studios[0].name : "such"}
+                                            {" "}
+                                        </a>
+                                    }
+
                                     anime on AniVerse website.
                             </p>
                         }
