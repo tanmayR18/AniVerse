@@ -1,16 +1,17 @@
 import React from 'react'
 import ShareWithFriends from '../common/ShareWithFriends'
 import { NavLink } from 'react-router-dom'
-import {BsCircleFill} from 'react-icons/bs'
+import {BsCheckLg, BsCircleFill} from 'react-icons/bs'
 import {MdRateReview} from 'react-icons/md'
 import {FaPlus} from 'react-icons/fa'
 import { useState } from 'react'
 import Navbar from '../common/Navbar'
+import RecommendedAnimes from './RecommendedAnimes'
 
-const FullAnimeDetails = ({animeData, setReview}) => {
+const FullAnimeDetails = ({animeData, setReview, recommendedAnime}) => {
     const [readMore, setReadMore] = useState(true)
     // animeData && console.log(animeData.synopsis.slice(0,265)+"...")
-    console.log(animeData)
+    // console.log(animeData)
   return (
     // Div for having a backdrop filter
     <div className=' text-richwhite-100  absolute w-full h-full backdrop-blur-xl bg-[rgba(40,38,38,0.7)] z-30'>
@@ -252,6 +253,20 @@ const FullAnimeDetails = ({animeData, setReview}) => {
                 </div>
                 }
             </div>
+        </div>
+
+        <div className=' flex justify-between '>
+        
+        {/* For recommendedAnime */}
+        <div className=' bg-richyellow-40 flex w-2/3'>
+            {
+                recommendedAnime.length > 0 ?
+                <RecommendedAnimes recommendedAnime = {recommendedAnime}/> : 
+                console.log("chutiya giri he ")
+            }
+            
+        </div>
+
         </div>
     </div>
   )

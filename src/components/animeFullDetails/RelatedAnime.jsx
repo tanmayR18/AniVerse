@@ -28,7 +28,7 @@ const RelatedAnime = ({animeData}) => {
         setSlicedLength(() => relatedAnime.length > 6 ?  parseInt(6) : relatedAnime.length)
     },[location.pathname])
     
-    console.log("Here is the related anime", relatedAnime)
+    // console.log("Here is the related anime", relatedAnime)
 
   return (
     <div>

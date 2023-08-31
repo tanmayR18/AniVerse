@@ -33,7 +33,7 @@ const ReviewsCard = ({review}) => {
         }
         try{
             const response = await apiConnector("PUT", ratingAndReview.ADD_OR_REMOVE_LIKE, urlBody)
-            console.log("Liked response", response)
+            // console.log("Liked response", response)
             liked ? setLikeCount((prevState) => prevState - 1) : setLikeCount((prevState) => prevState + 1)
             setLiked( (prevState) => !prevState)
         } catch(error){

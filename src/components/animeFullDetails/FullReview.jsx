@@ -30,7 +30,7 @@ import Footer from '../common/Footer';
 
 const FullReview = ({setReview, animeData, recommendedAnime}) => {
     const location = useLocation()
-    console.log("Anime data",animeData)
+    // console.log("Anime data",animeData)
     const [readMore, setReadMore] = useState(true)
     const userData = useSelector( state => state.auth)
     const [errorMsg, setErrorMsg] = useState(null)
@@ -39,7 +39,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
     const [rated, setRated] = useState(false)
     const [reviews, setReviews] = useState(null)
     const [animeDataDB, setAnimeDataDb] = useState(null)
-    console.log(userData)
+    // console.log(userData)
     // parameter for utube video
     const opts = {
         height: "550",
@@ -59,7 +59,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
             const urlBody = {title: animeData.title_english  ?  animeData.title_english : animeData.title }
             console.log("Frontend se ye jaa raha he ", urlBody)
             const response = await apiConnector("POST", ratingAndReview.GET_ANIME_RATINGANDREVIEW, urlBody)
-            console.log("Anime Reviews",response.data.data)
+            // console.log("Anime Reviews",response.data.data)
             setReviews(response.data.data)
         } catch(error){
             console.log("Error occured while fetching reviews of anime",error)
@@ -87,7 +87,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
 
         try{
             const response = await apiConnector("POST", ratingAndReview.CREATE_RATINGANDREVIEW, finalData)
-            console.log("Response from the review posting",response)
+            // console.log("Response from the review posting",response)
             if(response.data.success === true){
                 toast.success("Review added !")
                 setRated((prevState) => !prevState)
@@ -103,7 +103,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
     //FOr getting anime rating
     async function getAnimeDetails(){
         const urlBody = {title: animeData.title_english  ?  animeData.title_english : animeData.title }
-        console.log("Anime details ke leye ye ja raha he ",urlBody)
+        // console.log("Anime details ke leye ye ja raha he ",urlBody)
         try{
             const response = await apiConnector("POST", anime.GET_ANIME_DETAILS, urlBody)
             setAnimeDataDb(response.data.data)
@@ -502,7 +502,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
                     </div>
                     
                     {/* recommendaed ANime */}
-                    {
+                    {/* {
                         recommendedAnime.length > 0 ?
                         <div>
                             <RecommendedAnime recommendedAnime = {recommendedAnime}/> 
@@ -510,7 +510,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
                         console.log("Chuitya bana ",recommendedAnime)
 
                         
-                    }
+                    } */}
                 </div>
 
                 {/* <div>
@@ -520,8 +520,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
                 {/* Related Anime and genres */}
                 <div className='w-[30%] flex flex-col gap-10'>
                     <RelatedAnime animeData = {animeData}/>
-
-                    {/* <Genre /> */}
+                    <Genre />
                 </div>
             </div>
         </div>

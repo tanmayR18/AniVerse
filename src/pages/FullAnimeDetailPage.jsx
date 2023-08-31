@@ -45,7 +45,7 @@ const FullAnimeDetailPage = () => {
         fetchAnimeById()
         setTimeout(() => {
             fetchAnimeRecommendations()
-        }, 2000);
+        },0);
 
     },[location.pathname])
 
@@ -65,10 +65,7 @@ const FullAnimeDetailPage = () => {
             review ? <FullReview setReview = {setReview} recommendedAnime = {recommendedAnime}  animeData = {animeData}/> :
             <FullAnimeDetails setReview = {setReview} recommendedAnime = {recommendedAnime} animeData = {animeData} />
         }
-        
-        {
-            console.log("-----------------------------------------",recommendedAnime)
-        }
+        s
         
     </div>
     </div>
