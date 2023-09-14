@@ -10,6 +10,9 @@ const ratingAndReviewSchema = mongoose.Schema({
         type:Number,
         required:true
     },
+    title:{
+        type: String
+    },
     review:{
         type:String,
         required:true,
@@ -20,6 +23,12 @@ const ratingAndReviewSchema = mongoose.Schema({
         ref:"Anime"
     },
     likes:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"User"
+        }
+    ],
+    disLikes:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"User"

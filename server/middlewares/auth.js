@@ -6,10 +6,14 @@ const User = require('../models/User')
 exports.auth = (req,res,next) => {
     try{
 
+        console.log("Auth me ye mila he ", req.body)
+
         //fetch data from the body/cookie/ header
         const token = req.cookies.token 
                         || req.body.token
-                        || req.header("Authorisation").replace("Bearer ","")
+                        // || req.header("Authorisation").replace("Bearer ","")
+
+        console.log("auth ka token", token)
 
         //if token missing, then return response
         if(!token){
@@ -34,9 +38,10 @@ exports.auth = (req,res,next) => {
         console.log("Authentication successfully")
         next()
     } catch(error) {
-        return res.status(401).json({
+        return res.status(500).json({
             sucess:false,
-            message:"Something went wrong while validationg the token"
+            message:"Something went wrong while validationg the token",
+            error: error.message
         })
     }
 }

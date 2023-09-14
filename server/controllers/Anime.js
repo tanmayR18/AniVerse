@@ -15,7 +15,7 @@ exports.createAnimePost = async(req, res) => {
         //fetch data
         const {
             title,
-            description,
+            description="",
             // image,
             genres = "",
             animeDbId = "",
@@ -28,7 +28,7 @@ exports.createAnimePost = async(req, res) => {
         const adminId = req.user.id
 
         //validate the data
-        if(!title || !description || !image){
+        if(!title){
             return res.status(404).json({
                 success:false,
                 message:"Please enter title, description and image url"
@@ -116,6 +116,8 @@ exports.getRatedAnime = async(req, res) => {
         //fetch the data
         const {title} = req.body
 
+        // console.log("Backend me ye mila he ", title)
+
         //validate 
         if(!title){
             return res.status(404).json({
@@ -126,17 +128,19 @@ exports.getRatedAnime = async(req, res) => {
 
         //search the anime in the db
         //If there is no rating and review the populate function gives an error
-        const animeDetail = await Anime.find({title:title})
-                                        .populate("ratingAndReview")
-                                        .populate("createdAdminId")
-                                        .populate("updatedAdminId")
-                                        .exec()
+        const animeDetail = await Anime.findOne({title:title})
+                                        // .populate("ratingAndReview")
+                                        // .populate("createdAdminId")
+                                        // .populate("updatedAdminId")
+                                        // .exec()
+
+        console.log("Backedn me ye animeDetails find se mil raha he ", animeDetail)
 
         if(!animeDetail){
             return res.status(200).json({
                 success:true,
                 message:"Specified anime not found",
-                data: false
+                data: { rating: 0}
             })
         }
 

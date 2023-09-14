@@ -6,15 +6,16 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { apiConnector } from '../../service/apiconnector';
 import { auth } from '../../service/apis';
 import { toast } from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../../slices/authSlice';
 
 const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible}) => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [verified, setVerified] = useState(false)
     const [errorMsg, setErrorMsg] = useState(null)
-    const [user, setUser] = useState(null)
+    // const [user, setUser] = useState(null)
     const dispatch = useDispatch()
+    
     
     
 
@@ -30,7 +31,8 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
 
             if(response.data.success === true){
                 toast.success("Logged In")
-                setUser(response.data)
+                // setUser(response.data)
+                dispatch(logIn(response.data))
                 setLoginVisible(false)
                 
             }
@@ -40,10 +42,10 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
         }   
     }
 
-    useEffect(() => {
-        console.log("User data inside LOGIN page", user)
-        dispatch(logIn(user))
-    },[user])
+    // useEffect(() => {
+    //     console.log("User data inside LOGIN page", user)
+    //     dispatch(logIn(user))
+    // },[user])
  
 
     useEffect(() => {

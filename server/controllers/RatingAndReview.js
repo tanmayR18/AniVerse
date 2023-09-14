@@ -8,8 +8,11 @@ const { default: mongoose } = require('mongoose')
 exports.createRatingAndReview = async(req, res) => {
     try{
         //fetch the data
-        const {rating, review, animeId} = req.body
+        const {rating, review, title} = req.body
         const userId = req.user.id
+
+        console.log("create review me Ye mila he backedn me", rating, title, review, userId)
+        
 
         //validate the data
         if(!rating || !review){
@@ -19,17 +22,30 @@ exports.createRatingAndReview = async(req, res) => {
             })
         }
 
-        //TODO: If the anime that the user is trying to rate do not exit then What?
+        //If the anime is not in the database
+        let anime = await Anime.findOne({title})
+        if(anime === null){
+            anime = await Anime.create({
+                title: title,
+            })
+            console.log("anime inside if", anime)
+        }
+    
 
-        //check is the user has already rated the anime
-        const alreadyRated = await RatingAndReview.findOne({
-            animeId:animeId,
+        console.log("CHecking result of whether anime is present",anime)
+        
+
+        // //TODO: If the anime that the user is trying to rate do not exit then What?
+
+        // //check is the user has already rated the anime
+        const alreadyRated = await RatingAndReview.find({
+            animeId:anime._id,
             userId:userId
         })
 
-        console.log("Already exited user", alreadyRated)
+        console.log("Already existed user", alreadyRated)
 
-        if(alreadyRated){
+        if(alreadyRated.length !== 0){
             return res.status(401).json({
                 success:false,
                 message:"User already Rated the anime series"
@@ -41,13 +57,14 @@ exports.createRatingAndReview = async(req, res) => {
             userId:userId,
             rating:rating,
             review:review,
-            animeId:animeId
+            animeId:anime._id,
+            title: title
         })
 
         const averageRatingResult = await RatingAndReview.aggregate([
             {
                 $match:{
-                    animeId: new mongoose.Types.ObjectId(animeId)
+                    animeId: new mongoose.Types.ObjectId(anime._id)
                 }
             },
             {
@@ -62,7 +79,7 @@ exports.createRatingAndReview = async(req, res) => {
 
         //TO update the rating in the anime document
         const updatedAnimeRatingAndReview = await Anime.findByIdAndUpdate(
-                                            animeId,
+                                            anime._id,
                                             {
                                                 $push:{
                                                     ratingAndReviews:ratingAndReviewDetails._id
@@ -70,7 +87,7 @@ exports.createRatingAndReview = async(req, res) => {
                                                 $set:{
                                                     rating:averageRatingResult[0].averageRating
                                                 }
-                                            },
+                                            },  
                                             {new:true}
         )
 
@@ -91,12 +108,13 @@ exports.createRatingAndReview = async(req, res) => {
 
         return res.status(200).json({
             success:true,
-            message:"Rating and Review  added successfully"
+            message:"Rating and Review  added successfully",
+            data: review
         })
     } catch(error) {
         console.log("Error while storing the rating",error)
         return res.status(500).json({
-            success:true,
+            success:false,
             message:error.message
         })
     }
@@ -175,6 +193,33 @@ exports.getAllRatingAndReviews = async(req, res) => {
         return res.status(500).json({
             success:false,
             message: "Unable to get the rating"
+        })
+    }
+}
+
+//Function for getting all the reviews of the anime
+exports.getAllRatingAndReviewsOfAnime = async(req, res) => {
+    try{
+        const {title} = req.body
+        console.log("Anime title", title)
+        const animeReview = await RatingAndReview.find({title:title})
+                                    .populate({
+                                        path: "userId",
+                                        select: "userName accountType image",
+                                    })
+                                    
+
+        res.status(200).json({
+            success:true,
+            message:" Anime review fetched successfully",
+            data: animeReview
+        })
+
+    } catch(error){ 
+        console.log(error)
+        res.status(500).json({
+            success: false,
+            message: error.message
         })
     }
 }
@@ -371,6 +416,7 @@ exports.getTop10Review = async (req, res) => {
 exports.addAndRemoveLike = async (req, res) => {
     try{
         // fetch the ID from the cookie
+        console.log("Funtion for adding and removing likes hitted")
         const userId = req.user.id
         const userObjectId = new mongoose.Types.ObjectId(userId)
         const {reviewId} = req.body
@@ -404,6 +450,61 @@ exports.addAndRemoveLike = async (req, res) => {
             success: true,
             message: "Liked Added successfully",
             data: likedReview
+            })
+        }
+
+        // return res.status(400).json({
+        //     message:"Fetched",
+        //     data: alreadyLiked
+        // })
+        
+    } catch(error){
+        console.log("Error while adding the likes to the review",error)
+        return res.status(500).json({
+            success: false,
+            message: "Error while adding the likes to the review",
+            error: error.message
+        })
+    }
+}
+
+//Function for adding the dis like in the comment / reivew
+exports.addAndRemoveDisLike = async (req, res) => {
+    try{
+        // fetch the ID from the cookie
+        const userId = req.user.id
+        const userObjectId = new mongoose.Types.ObjectId(userId)
+        const {reviewId} = req.body
+        console.log("User ID ", userId)
+
+
+        const alreadyDisLiked = await RatingAndReview.find({disLikes: userObjectId, _id: reviewId})
+
+        console.log(alreadyDisLiked)
+
+        if(alreadyDisLiked.length !== 0){
+            const unDisLikedReview = await RatingAndReview.findByIdAndUpdate(reviewId,
+                {
+                    $pull:{likes:userId}
+                },{new:true})
+    
+                return res.status(200).json({
+                success: true,
+                message: "Liked removed successfully",
+                data: unDisLikedReview
+                })
+        } else{
+            const disLikedReview = await RatingAndReview.findByIdAndUpdate(reviewId,
+                {
+                    $push:{disLikes:userId}
+                },
+                {new:true}
+            )
+
+            return res.status(200).json({
+            success: true,
+            message: "Liked Added successfully",
+            data: disLikedReview
             })
         }
 

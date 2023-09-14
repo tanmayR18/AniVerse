@@ -7,11 +7,14 @@ const AnimeCard = ({anime}) => {
   return (
     <div className=' aspect-3/5 w-[98%] '>
         <div className=' h-5/6  relative group'>
-            <div className='overflow-hidden w-full h-full relative'>
+            {
+                anime.images.jpg.image_url &&
+                <div className='overflow-hidden w-full h-full relative'>
                 <img 
                 className='object-cover h-auto w-[100%] max-w-[100%] '
                 src={anime.images.jpg.image_url} alt='animePosters'/>
             </div>
+            }
             
             {/* For making the anime photo bottom side blackish */}
             <div className='w-full h-24 bottom-0  left-0 bg-gradient-to-t from-richblack-80 absolute '>
@@ -24,20 +27,22 @@ const AnimeCard = ({anime}) => {
             </div>
 
             {/* For creating hover card */}
-            <div className='w-[140%] rounded-lg absolute scale-0 -top-1/2 -right-3/4 group-hover:scale-100 transition-all duration-200 z-20'>
+            <div className='w-[20rem] rounded-lg absolute scale-0 -top-1/2 -right-3/4 group-hover:scale-100 transition-all duration-200 z-20'>
                 <HoveredAnimeCard  anime = {anime} /> 
-            </div>
+            </div> 
             
         </div>
 
         {/* Content at the bottom of the Card */}
         <p className=' text-richwhite-100 font-semibold'>
         {
-            anime.title.length > 25 ? anime.title.slice(0,25) + "..." : anime.title
+            (anime.title_english  ?  anime.title_english : anime.title).length > 28 
+            ? (anime.title_english  ?  anime.title_english.slice(0,25) : anime.title.slice(0,25)) + "..." : 
+            anime.title_english  ?  anime.title_english : anime.title
         }
         </p>
         <div className='flex items-center gap-2 text-richwhite-50 text-sm'>
-        <p>{anime.type}</p>
+        <p>{anime.type && anime.type}</p>
         <GoDotFill 
             size={10}
         />

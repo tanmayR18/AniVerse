@@ -3,26 +3,28 @@ import {GiHamburgerMenu} from 'react-icons/gi'
 import logo from "../../assets/full_logo.png"
 import {FaSearch, FaArrowRight} from 'react-icons/fa'
 import {BsFillPersonFill} from "react-icons/bs"
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {IoMdNotifications} from "react-icons/io"
 import { profileData } from '../../data/Profile/profile'
 import { socialMedia } from '../../data/social media/socialMediaInfo'
 import LoginOverLayer from "../LoginAndSignUp/LoginOverlayer"
 import { useDispatch, useSelector } from 'react-redux'
 import { logOut } from '../../slices/authSlice'
+import { useEffect } from 'react'
 
 
 
-const Navbar = () => {
+const Navbar = ({bgColor}) => {
 
     const userData = useSelector( state => state.auth)
     const [navbar, setNavbar] = useState(false)
     const [search, setSearch] = useState("")
-    const [loginVisible, setLoginVisible] = useState(false)
+    const [loginVisible, setLoginVisible] = useState()
     const navigate = useNavigate()
     const dispatch  = useDispatch()
-
-
+    const location = useLocation()
+     
+    console.log("user data inside navbar", userData)
 
 
     function submitHandler(event){
@@ -37,11 +39,15 @@ const Navbar = () => {
     }
     window.addEventListener("scroll",changeBackground)
 
+    useEffect(() => {
+        changeBackground()
+    },[location.pathname])
+
 
   return (
-    <nav className={`h-auto -sm z-40 w-full fixed top-0 right-0 flex items-center justify-between px-4 py-1
+    <nav className={`h-auto -sm z-40 w-full fixed top-0 right-0 text-richblack-100 flex items-center justify-between px-4 py-1
         ${
-            navbar === 0 ? "" : "backdrop-blur bg-richblack-20"
+            bgColor ? bgColor : (navbar === 0 ? "" : "backdrop-blur bg-richblack-20")
         }
     `}>
         
@@ -135,8 +141,8 @@ const Navbar = () => {
                         {/* Dropdown */}
                         <div className=' hidden group-hover:flex flex-col gap-3 absolute top-10  right-0 bg-richblack-20 border border-richwhite-10 rounded-xl p-4 w-72'>
                             {/* Name and Email */}
-                            <p className=' text-base text-richyellow-40'>Tanmay Rane</p>
-                            <p className=' text-base text-richwhite-100'>tanmayrane51@gmail.com</p>
+                            <p className=' text-base text-richyellow-40'>{userData.user.userName}</p>
+                            <p className=' text-base text-richwhite-100'>{userData.user.email}</p>
 
                             {/* Profile Sections */}
                             <div className='flex flex-col gap-2 '>

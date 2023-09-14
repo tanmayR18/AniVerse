@@ -30,6 +30,7 @@ const {
 const {
     createRatingAndReview,
     getAllRatingAndReviews,
+    getAllRatingAndReviewsOfAnime,
     getAverageRating,
     deleteRatingAndReview,
     updateRatingAndReview,
@@ -89,10 +90,13 @@ router.get("/getTopAnimeOfTheYear",getTopAnimeOfTheYear)
 //***************************************************************//
 
 //api for creating rating and review
-router.post("/createRatingAndReview",auth,isUser,createRatingAndReview)
+router.post("/createRatingAndReview",auth,createRatingAndReview)
 
 //api for getting average rating of the anime
 router.get("/getAllRatingAndReviews",getAllRatingAndReviews)
+
+//api for getting all the rating and review of the specified anime
+router.post("/getAllRatingAndReviewsOfAnime", getAllRatingAndReviewsOfAnime)
 
 //api for getting all the details of the anime
 router.post("/getAverageRating",getAverageRating)
@@ -110,7 +114,7 @@ router.get("/getLatestRatingAndReview",getLatestRatingAndReview)
 router.get("/getTop10Review",getTop10Review)
 
 //api for adding and removing like from the user reviews
-router.put("/addAndRemoveLike",auth, isUser, addAndRemoveLike)
+router.put("/addAndRemoveLike",auth, addAndRemoveLike)
 
 
 module.exports = router

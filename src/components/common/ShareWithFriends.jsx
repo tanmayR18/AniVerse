@@ -1,8 +1,8 @@
 import React from 'react'
 
-const ShareWithFriends = ({bgColor}) => {
+const ShareWithFriends = ({bgColor,paddingX0}) => {
   return (
-    <div className={`flex gap-4 items-center ${bgColor} p-5`}>
+    <div className={`flex gap-4 items-center ${bgColor} p-5  ${paddingX0 && "px-0"}`}>
             <div className='w-14 h-14 rounded-full overflow-hidden'>
                 <img
                 className=' object-cover'

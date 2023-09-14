@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e9b2f6f3-4f64-4a99-b3ba-47c28477977c" name="Changes" comment="" />
+    <list default="true" id="e9b2f6f3-4f64-4a99-b3ba-47c28477977c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/animeFullDetails/FullAnimeDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/animeFullDetails/FullAnimeDetails.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/animeFullDetails/FullReview.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/animeFullDetails/FullReview.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/FullAnimeDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/FullAnimeDetailPage.jsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
