@@ -8,6 +8,10 @@ import MostPopular from "./pages/MostPopular"
 import TopAiring from "./pages/TopAiring"
 import FullAnimeDetailPage from "./pages/FullAnimeDetailPage"
 import { useSelector } from "react-redux"
+import ProfilePage from "./pages/ProfilePage"
+import WatchList from "./pages/WatchList"
+import Settings from "./pages/Settings"
+import Notification from "./pages/Notification"
 
 
 const App = () => {
@@ -27,6 +31,10 @@ const App = () => {
             <Route path="/most-popular" element = {<MostPopular/>} />
             <Route path="/top-airing" element = {<TopAiring/>} />
             <Route path="/full-anime-detials/:id/:animeName" element = {<FullAnimeDetailPage/>} /> 
+            <Route path="/user/profile" element = {<ProfilePage />} />
+            <Route path="/user/watch-list" element = {<WatchList />} />
+            <Route path="/user/notification" element = {<Notification/>} />
+            <Route path="/user/setting" element = {<Settings />} />
         </Routes>
 
     </div>
