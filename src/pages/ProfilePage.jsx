@@ -1,52 +1,65 @@
 import React from 'react'
 import Navbar from "../components/common/Navbar"
 import NavbarCommonComp from '../components/common/NavbarCommonComp'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import profileImage from "../assets/unknown-profile.png"
 import {BsFillCameraFill , BsFillPersonPlusFill} from "react-icons/bs"
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
+import toast from 'react-hot-toast'
+import { apiConnector } from '../service/apiconnector'
+import { profile } from '../service/apis'
+import { logIn } from '../slices/authSlice'
+
 
 const ProfilePage = () => {
     const userData = useSelector( state => state.auth)
     const [editAble, setEditAble] = useState(false)
+    const dispatch = useDispatch()
 
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [errorMsg, setErrorMsg] = useState(null)
 
     const submitHandler = async (data) => {
         try{
+            const urlData = Object.assign({},data, {token: userData.token})
             console.log("Profile form data", data)
             // toast.loading("Sending OTP")
+            toast.loading("Updating profile")
+            const response = await apiConnector("PUT", profile.UPDATE_PROFILE, urlData)
             // const response = await apiConnector("POST", auth.SEND_OTP, data)
-            // console.log(response)
+            console.log("Response of updated profile from backend",response)
 
-            // if(response.data.success === true){
-            //     toast.dismiss()
-            //     setEmailVerify(false)
-            //     setRegister(true)
-            //     toast.success("OTP Sent on the email")
-            // }
+            if(response.data.success === true){
+                toast.dismiss()
+                dispatch(logIn(response.data))
+                console.log(response.data)
+                toast.success("Profile Updated Successfully")
+                setEditAble(false)
+                setErrorMsg(null)
+            }
 
         } catch(error){
-            // console.log("Login Error", error)
-            // setErrorMsg(error.response.data.message)
+            console.log("Login Error", error)
+            setErrorMsg(error.response.data.message)
         }   
-        // setTimeout(() => {toast.dismiss()},2500)
+        setTimeout(() => {toast.dismiss()},2500)
+        setTimeout(() => {setErrorMsg(null)},2500)
     }
 
     useEffect(() => {
         if(isSubmitSuccessful){
             reset({
-                userName: "",
-                gender: "",
-                dateOfBirth: "",
-                favAnime: "",
-                favFemaleChar: "",
-                favGenre: "",
-                favVillan:"",
-                favMaleChar: "",
+                userName: null,
+                gender: null,
+                dateOfBirth: null,
+                favAnime: null,
+                favFemaleChar: null,
+                favGenre: null,
+                favVillan: null,
+                favMaleChar: null,
+                favMovie: null
             })
         }
     },[reset, isSubmitSuccessful])
@@ -66,6 +79,14 @@ const ProfilePage = () => {
                 <BsFillPersonPlusFill/>
                 <p>Edit Profile</p>
                 </h1>
+
+                {
+                    errorMsg && <div className=' bg-richpink-10 text-socialMedia-reddit w-full font-bold p-1'>
+                                    <p>{errorMsg}</p>
+                                </div>
+                }
+
+
                 <div className=' grid mt-6 gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'>
                     {/* Profile pic */}
                     <div className='relative h-36 w-36 '>

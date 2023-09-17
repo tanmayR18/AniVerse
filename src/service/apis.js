@@ -27,3 +27,11 @@ export const auth = {
 export const anime = {
     GET_ANIME_DETAILS: BASE_URL + "/anime/getRatedAnime",
 }
+
+
+
+//-------------------Profile----------------------------
+
+export const profile = {
+    UPDATE_PROFILE: BASE_URL + "/profile/updateProfile"
+}

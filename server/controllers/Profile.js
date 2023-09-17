@@ -1,21 +1,24 @@
 const User = require('../models/User')
 const Profile = require('../models/Profile')
 const {uploadImageToCloudinary} = require("../utils/imageUploader")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 
 //function for updating the users profile
 exports.updatedProfile = async(req, res) => {
     try{    
         const {
-            gender="",
-            dateOfBirth="",
-            about="",
-            favGenre="",
-            favAnime="",
-            favMovie="",
-            favMaleChar="",
-            favVillan="",
-            favFemaleChar="",
+            gender=null,
+            dateOfBirth= null,
+            about= null,
+            favGenre= null,
+            favAnime= null,
+            favMovie= null,
+            favMaleChar= null,
+            favVillan= null,
+            favFemaleChar= null,
+            userName=null,
         } = req.body
 
         const id = req.user.id
@@ -25,24 +28,54 @@ exports.updatedProfile = async(req, res) => {
         const profile = await Profile.findById(userDetails.additionalDetails)
 
         //update the profile fields
-        profile.gender = gender;
-        profile.dateOfBirth = dateOfBirth;
-        profile.about = about;
-        profile.favGenre = favGenre;
-        profile.favAnime = favAnime;
-        profile.favMovie = favMovie;
-        profile.favMaleChar = favMaleChar;
-        profile.favVillan = favVillan;
-        profile.favFemaleChar = favFemaleChar;
+        gender ? profile.gender = gender : profile.gender = profile.gender;
+        dateOfBirth ? profile.dateOfBirth = dateOfBirth : profile.dateOfBirth = profile.dateOfBirth ;
+        about ? profile.about = about : profile.about = profile.about 
+        favGenre ? profile.favGenre = favGenre : profile.favGenre = profile.favGenre
+        favAnime ? profile.favAnime = favAnime : profile.favAnime = profile.favAnime 
+        favMovie ? profile.favMovie = favMovie : profile.favMovie = profile.favMovie 
+        favMaleChar ? profile.favMaleChar = favMaleChar : profile.favMaleChar = profile.favMaleChar 
+        favVillan ? profile.favVillan = favVillan : profile.favVillan = profile.favVillan 
+        favFemaleChar ? profile.favFemaleChar = favFemaleChar : profile.favFemaleChar = profile.favFemaleChar 
+
 
         //save the updated profile
         await profile.save()
+
+        // console.log("Username details in Profile controller", userName, await User.find({userName:userName})).lenght,
+
+        //update the userName
+        if(userName && (await User.find({userName:userName})).length !== 0){
+            return res.status(401).json({
+                success: false,
+                message: "User Name already exist"
+            })
+        }
+
+        
+        const updatedUser = userName ? await User.findByIdAndUpdate(id,{userName:userName},{new:true}).populate("additionalDetails") :
+                                        await User.findById(id).populate("additionalDetails")
+
+        updatedUser.password = undefined
+        
+        //token creation
+
+        const payload = {
+            email: updatedUser.email,
+            id: updatedUser._id,
+            accountType: updatedUser.accountType
+        }
+
+        console.log("Secret of private key", process.env.JWTSECRET)
+
+        const token = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:"24h"})
 
         //return response
         return res.json({
 			success: true,
 			message: "Profile updated successfully",
-			profile,
+			user: updatedUser,
+            token
 		});
 	} catch (error) {
 		console.log(error);
