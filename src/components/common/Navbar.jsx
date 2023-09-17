@@ -23,8 +23,6 @@ const Navbar = ({bgColor}) => {
     const navigate = useNavigate()
     const dispatch  = useDispatch()
     const location = useLocation()
-     
-    console.log("user data inside navbar", userData)
 
 
     function submitHandler(event){
