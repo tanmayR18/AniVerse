@@ -19,6 +19,7 @@ export const auth = {
     LOG_IN: BASE_URL + "/auth/login",
     RESET_TOKEN: BASE_URL + "/auth/reset-password-token",
     RESET_PASSWORD: BASE_URL + "/auth/reset-password",
+    CHANGE_PASSWORD: BASE_URL + "/auth/changePassword"
 }
 
 
@@ -26,4 +27,13 @@ export const auth = {
 
 export const anime = {
     GET_ANIME_DETAILS: BASE_URL + "/anime/getRatedAnime",
+}
+
+
+
+//-------------------Profile----------------------------
+
+export const profile = {
+    UPDATE_PROFILE: BASE_URL + "/profile/updateProfile",
+    UPDATE_PROFILE_PICTURE: BASE_URL + "/profile/updateDisplayPicture"
 }

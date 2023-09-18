@@ -1,10 +1,16 @@
 import React from 'react'
 import {FaStar, FaPlus, FaPlay} from "react-icons/fa"
+import {TiTick} from 'react-icons/ti'
 import { toMMDDYYY } from '../../service/inFormalDate'
 import { NavLink } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { add, remove } from '../../slices/watchListSlice'
 
 const HoveredAnimeCard = ({anime}) => {
     
+    const dispatch = useDispatch()
+    const watchList = useSelector( state => state.watchList)
+
     function getAnimeGenre(){
         const animeGenres = []
         for(const i in anime.genres){
@@ -69,7 +75,23 @@ const HoveredAnimeCard = ({anime}) => {
                     <p>View Now</p>
                 </div>
             </NavLink>
-            <div className='h-10 w-10 flex cursor-pointer items-center justify-center text-sm rounded-full bg-richwhite-100'><FaPlus/></div>
+
+            {
+                watchList.some( (object) => object.mal_id === anime.mal_id ) ?
+                <div
+                onClick={() => dispatch(remove(anime.mal_id))}
+                className='h-10 w-10 flex cursor-pointer items-center justify-center text-sm rounded-full bg-richwhite-100'>
+                    <TiTick size={25}/>
+                </div> : 
+
+                <div
+                onClick={() => dispatch(add(anime))}
+                className='h-10 w-10 flex cursor-pointer items-center justify-center text-sm rounded-full bg-richwhite-100'>
+                    <FaPlus size={15}/>
+                </div>
+            }
+
+            
         </div>
     </div>
   )

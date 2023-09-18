@@ -23,8 +23,6 @@ const Navbar = ({bgColor}) => {
     const navigate = useNavigate()
     const dispatch  = useDispatch()
     const location = useLocation()
-     
-    console.log("user data inside navbar", userData)
 
 
     function submitHandler(event){
@@ -135,9 +133,15 @@ const Navbar = ({bgColor}) => {
                                 </div>
                             </NavLink>
 
-                    <div className='relative text-richwhite-100 group p-3 text-xl bg-richwhite-10 rounded-full border-b-richblack-40 '>
-                        <BsFillPersonFill />
-
+                    <div className='relative text-richwhite-100  group p-[5px] text-xl bg-richwhite-10 rounded-full border-b-richblack-40 '>
+                        <div className='w-9 flex items-center justify-center overflow-hidden rounded-full  h-9  top-0 left-0'>
+                            {
+                                userData ? 
+                                <img className='' src={userData.user.image} /> :
+                                <BsFillPersonFill />
+                            }
+                            
+                        </div>
                         {/* Dropdown */}
                         <div className=' hidden group-hover:flex flex-col gap-3 absolute top-10  right-0 bg-richblack-20 border border-richwhite-10 rounded-xl p-4 w-72'>
                             {/* Name and Email */}
@@ -160,7 +164,10 @@ const Navbar = ({bgColor}) => {
                             
                             {/* Logout */}
                             <div 
-                            onClick={() => dispatch(logOut())}
+                            onClick={() => {
+                                navigate("/")
+                                dispatch(logOut())
+                            }}
                             className='flex justify-end items-center text-[14px] cursor-pointer gap-2 my-2 hover:text-richyellow-40'>
                                 <p>Logout</p>
                                 <FaArrowRight/>
