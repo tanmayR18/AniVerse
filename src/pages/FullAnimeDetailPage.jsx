@@ -9,7 +9,6 @@ import FullReview from '../components/animeFullDetails/FullReview'
 import FullAnimeDetails from '../components/animeFullDetails/FullAnimeDetails'
 import Navbar from '../components/common/Navbar'
 
-
 const FullAnimeDetailPage = () => {
     const location = useLocation()
     const animeID = parseInt(location.pathname.split("/").at(-2))
@@ -32,7 +31,6 @@ const FullAnimeDetailPage = () => {
 
     const fetchAnimeRecommendations = async () => {
         try{
-            console.log("It is running again------>")
             const url = `https://api.jikan.moe/v4/anime/${animeID}/recommendations`
             const response = await axios.get(url)
             console.log("Here is the o/p for recommended anime", response.data.data)
@@ -67,7 +65,9 @@ const FullAnimeDetailPage = () => {
             review ? <FullReview setReview = {setReview} recommendedAnime = {recommendedAnime}  animeData = {animeData}/> :
             <FullAnimeDetails setReview = {setReview} recommendedAnime = {recommendedAnime} animeData = {animeData} />
         }
-        </div>
+        s
+        
+    </div>
     </div>
   )
 }
