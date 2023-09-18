@@ -22,6 +22,7 @@ import RelatedAnime from './RelatedAnime';
 import axios from 'axios';
 import RecommendedAnime from './RecommendedAnime';
 import Genre from '../common/GenreSection';
+import RecommendedAnimes from './RecommendedAnimes';
 import Footer from '../common/Footer';
 
 
@@ -197,7 +198,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
                                         animeDataDB &&
                                         <div className='flex items-center gap-4 bg-richwhite-20  text-richyellow-50 py-3 px-6 rounded-md'>
                                             <p className=' text-richwhite-100 text-base font-bold tracking-wide'>AniVerse Rating:  </p>
-                                            <p className='flex items-center gap-1 text-base '><FaStar /> {animeDataDB.rating}</p>
+                                            <p className='flex items-center gap-1 text-base '><FaStar /> {animeDataDB.rating.toString().length > 2 ? animeDataDB.rating.toString().slice(0,3) : animeDataDB.rating.toString()}</p>
                                         </div>
                                     }
                                 </div>
@@ -502,15 +503,16 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
                     </div>
                     
                     {/* recommendaed ANime */}
-                    {/* {
-                        recommendedAnime.length > 0 ?
-                        <div>
-                            <RecommendedAnime recommendedAnime = {recommendedAnime}/> 
-                        </div> :
-                        console.log("Chuitya bana ",recommendedAnime)
-
+                    {/* For recommendedAnime */}
+                    <div className=' flex w-full '>
+                        {
+                            recommendedAnime.length > 0 ?
+                            <RecommendedAnimes recommendedAnime = {recommendedAnime}/> : 
+                            console.log("chutiya giri he ")
+                        }
                         
-                    } */}
+                    </div>
+
                 </div>
 
                 {/* <div>
@@ -523,8 +525,9 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
                     <Genre />
                 </div>
             </div>
+            <Footer/>
         </div>
-        <Footer/>
+        
     </div>
   )
 }

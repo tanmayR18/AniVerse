@@ -7,6 +7,8 @@ import {FaPlus} from 'react-icons/fa'
 import { useState } from 'react'
 import Navbar from '../common/Navbar'
 import RecommendedAnimes from './RecommendedAnimes'
+import Footer from '../common/Footer'
+import Genre from '../common/GenreSection'
 
 const FullAnimeDetails = ({animeData, setReview, recommendedAnime}) => {
     const [readMore, setReadMore] = useState(true)
@@ -255,19 +257,21 @@ const FullAnimeDetails = ({animeData, setReview, recommendedAnime}) => {
             </div>
         </div>
 
-        <div className=' flex justify-between '>
+        <div className=' mt-10'>
         
         {/* For recommendedAnime */}
-        <div className=' bg-richyellow-40 flex w-2/3'>
+        <div className=' flex gap-5 justify-center'>
             {
                 recommendedAnime.length > 0 ?
-                <RecommendedAnimes recommendedAnime = {recommendedAnime}/> : 
+                <RecommendedAnimes className="w-2/3" recommendedAnime = {recommendedAnime}/> : 
                 console.log("chutiya giri he ")
             }
             
+            <Genre/>
         </div>
 
         </div>
+        <Footer/>
     </div>
   )
 }
