@@ -11,6 +11,8 @@ import toast from 'react-hot-toast'
 import { apiConnector } from '../service/apiconnector'
 import { profile } from '../service/apis'
 import { logIn } from '../slices/authSlice'
+import {FaKey} from 'react-icons/fa'
+import Footer from "../components/common/Footer"
 
 
 const ProfilePage = () => {
@@ -96,7 +98,7 @@ const ProfilePage = () => {
 
         <form 
         onSubmit={handleSubmit(submitHandler)}
-        className=' w-10/12 flex justify-center'>
+        className=' w-10/12 flex justify-center mb-32'>
             <div className=''>
 
                 <h1 className=' mt-10 flex items-center gap-2 text-[2rem]  font-semibold'>
@@ -118,8 +120,6 @@ const ProfilePage = () => {
                             {
                                 editAble ?
                                 <img
-                                className=' cursor-pointer'
-                                onClick={handleImageClick}  
                                 src={image ? URL.createObjectURL(image) : profileImage}/> 
                                 :
                                 <img src={`
@@ -144,7 +144,7 @@ const ProfilePage = () => {
                             Username:
                         </label>
                         <input 
-                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 " : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2 " : "pointer-events-none"}`}
                             type='text'
                             name='userName'
                             id='userName'
@@ -306,11 +306,8 @@ const ProfilePage = () => {
                 </div>
             </div>
         </form>
-        
-        <div className=''>
-            
-            
-        </div>
+
+        <Footer />
     </div>
   )
 }
