@@ -137,8 +137,18 @@ exports.getAllUserDetails = async(req, res) => {
 //Function for updating profile picture
 exports.updateDisplayPicture = async(req, res) => {
     try{
-        const displayPicture = req.files.displayPicture
+        console.log("Inside disppay pircture",req.body)
+        console.log(req.files)
+        const displayPicture = req.files.displayPicture || req.body.displayPicture
         const userId = req.user.id
+
+        if(displayPicture.length === 0){
+            console.log("Ye image mele he",displayPicture)
+            return res.status(404).json({
+                success : false ,
+                message :"Please upload a valid file"
+            })
+        }
 
         const image = await uploadImageToCloudinary(
             displayPicture,

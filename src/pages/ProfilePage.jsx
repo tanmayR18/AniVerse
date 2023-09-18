@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Navbar from "../components/common/Navbar"
 import NavbarCommonComp from '../components/common/NavbarCommonComp'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,6 +17,8 @@ const ProfilePage = () => {
     const userData = useSelector( state => state.auth)
     const [editAble, setEditAble] = useState(false)
     const dispatch = useDispatch()
+    const inputRef = useRef(null)
+    const [image, setImage] = useState(null)
 
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [errorMsg, setErrorMsg] = useState(null)
@@ -24,11 +26,22 @@ const ProfilePage = () => {
     const submitHandler = async (data) => {
         try{
             const urlData = Object.assign({},data, {token: userData.token})
+            
             console.log("Profile form data", data)
             // toast.loading("Sending OTP")
             toast.loading("Updating profile")
+
+            if(image){
+                const formData = new FormData()
+                formData.append("token", userData.token)
+                formData.append("displayPicture", image)
+                const imageResponse = await apiConnector("PUT", profile.UPDATE_PROFILE_PICTURE, formData)
+                console.log("Image upload response", imageResponse)
+            }
+            
             const response = await apiConnector("PUT", profile.UPDATE_PROFILE, urlData)
-            // const response = await apiConnector("POST", auth.SEND_OTP, data)
+            
+            
             console.log("Response of updated profile from backend",response)
 
             if(response.data.success === true){
@@ -37,7 +50,8 @@ const ProfilePage = () => {
                 console.log(response.data)
                 toast.success("Profile Updated Successfully")
                 setEditAble(false)
-                setErrorMsg(null)
+                setErrorMsg (null)
+                setImage(null)
             }
 
         } catch(error){
@@ -64,6 +78,16 @@ const ProfilePage = () => {
         }
     },[reset, isSubmitSuccessful])
 
+    const handleImageClick = () => {
+        inputRef.current.click();
+    }
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        setImage(file)
+        console.log("changed image",image)
+    }
+
 
   return (
     <div className=' flex flex-col items-center text-richwhite-100'>
@@ -87,21 +111,29 @@ const ProfilePage = () => {
                 }
 
 
-                <div className=' grid mt-6 gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'>
+                <div className=' grid mt-6 gap-14 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'>
                     {/* Profile pic */}
                     <div className='relative h-36 w-36 '>
                         <div className=' w-full h-full rounded-full overflow-hidden'>
-                            <img src={`
-                                ${userData.user.image ? userData.user.image : profileImage}
-                            `} />
+                            {
+                                editAble ?
+                                <img
+                                className=' cursor-pointer'
+                                onClick={handleImageClick}  
+                                src={image ? URL.createObjectURL(image) : profileImage}/> 
+                                :
+                                <img src={`
+                                    ${userData.user.image ? userData.user.image : profileImage}
+                                `} />
+                            }
                         </div>
 
                         {/* TO update the profile */}
                         {
                             editAble &&
-                            <label className='absolute right-0 top-2/3 '>
+                            <label onClick={handleImageClick} className='absolute right-0 top-2/3 cursor-pointer'>
                                 <BsFillCameraFill size={25} color='white'/>
-                                <input type='file' className='  hidden' />
+                                <input onChange={handleImageChange}  ref={inputRef} type='file' className='  hidden' />
                             </label>
                         }
                     </div>
@@ -112,7 +144,7 @@ const ProfilePage = () => {
                             Username:
                         </label>
                         <input 
-                            className={` bg-richblack-20 p-1 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "" : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 " : "pointer-events-none"}`}
                             type='text'
                             name='userName'
                             id='userName'
@@ -139,15 +171,15 @@ const ProfilePage = () => {
 
                 </div>
 
-                <h1 className=' my-6 text-richwhite-100 text-[2rem] font-semibold'>Additional Details</h1>
+                <h1 className=' mt-20 mb-8 text-richwhite-100 text-[2rem] font-semibold'>Additional Details</h1>
 
-                <div className='  grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'>
+                <div className='  grid gap-14 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'>
 
                     {/* Gender */}
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Gender:</label>
                         <input 
-                            className={` bg-richblack-20 p-1 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "" : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='gender'
                             id='gender'
@@ -160,7 +192,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Date Of Birth:</label>
                         <input 
-                            className={` bg-richblack-20 p-1 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "" : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='dateOfBirth'
                             id='dateOfBirth'
@@ -173,7 +205,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Anime:</label>
                         <input 
-                            className={` bg-richblack-20 p-1 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "" : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2 " : "pointer-events-none"}`}
                             type='text'
                             name='favAnime'
                             id='favAnime'
@@ -185,7 +217,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Male Character:</label>
                         <input 
-                            className={` bg-richblack-20 p-1 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "" : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='favMaleChar'
                             id='favMaleChar'
@@ -197,7 +229,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Female Character:</label>
                         <input 
-                            className={` bg-richblack-20 p-1 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "" : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='favFemaleChar'
                             id='favFemaleChar'
@@ -209,7 +241,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Villan:</label>
                         <input 
-                            className={` bg-richblack-20 p-1 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "" : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='favVillan'
                             id='favVillan'
@@ -221,7 +253,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Genre:</label>
                         <input 
-                            className={` bg-richblack-20 p-1 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "" : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='favGenre'
                             id='favGenre'
@@ -233,7 +265,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Movie:</label>
                         <input 
-                            className={` bg-richblack-20 p-1 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "" : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='favMovie'
                             id='favMovie'
@@ -245,30 +277,40 @@ const ProfilePage = () => {
                     {
                         editAble &&
                         <button
-                            className=' w-fit px-4 py-2 bg-richyellow-40 p-2 text-richblack-100'>
-                                save
+                            className=' w-fit px-4 py-2 bg-richyellow-50 rounded-lg
+                            text-richblack-100 font-bold tracking-wide'>
+                                Save
+                        </button>
+                    }
+                    {
+                        !editAble &&
+                        <button 
+                            className=' w-fit px-4 py-2 bg-richyellow-50 rounded-lg
+                                        text-richblack-100 font-bold tracking-wide'
+                            onClick={ () => setEditAble((prevState) => !prevState)}>
+                                Edit
+                        </button>
+                    }
+                    {
+                        editAble &&
+                        <button
+                            className=' w-fit px-4 py-2 bg-richyellow-50 rounded-lg
+                                        text-richblack-100 font-bold tracking-wide'
+                            onClick={ () => {
+                                setEditAble(false)
+                                setImage(null)
+                            }}>
+                                Cancel
                         </button>
                     }
                 </div>
             </div>
         </form>
         
-        {
-            !editAble &&
-            <button 
-                className=' bg-richyellow-40 p-2 text-richblack-100'
-                onClick={ () => setEditAble((prevState) => !prevState)}>
-                    Edit
-            </button>
-        }
-        {
-            editAble &&
-            <button
-                className=' bg-richyellow-40 p-2 text-richblack-100'
-                onClick={ () => setEditAble(false)}>
-                    Cancel
-            </button>
-        }
+        <div className=''>
+            
+            
+        </div>
     </div>
   )
 }

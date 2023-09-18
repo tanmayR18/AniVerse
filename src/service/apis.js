@@ -33,5 +33,6 @@ export const anime = {
 //-------------------Profile----------------------------
 
 export const profile = {
-    UPDATE_PROFILE: BASE_URL + "/profile/updateProfile"
+    UPDATE_PROFILE: BASE_URL + "/profile/updateProfile",
+    UPDATE_PROFILE_PICTURE: BASE_URL + "/profile/updateDisplayPicture"
 }
