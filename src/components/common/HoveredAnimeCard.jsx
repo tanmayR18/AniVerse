@@ -25,7 +25,7 @@ const HoveredAnimeCard = ({anime}) => {
   return (
     <div className=' bg-richblack-10 backdrop-blur-lg p-4 rounded-3xl text-richwhite-50 flex flex-col gap-4'>
         {/* Heading */}
-        <h5>
+        <h5 className=' font-bold text-richwhite-100'>
             {anime.title}
         </h5>
 
@@ -33,11 +33,11 @@ const HoveredAnimeCard = ({anime}) => {
         <div className='flex flex-col gap-3'>
             {/* Star and type */}
             <div className='flex justify-between'>
-                <div className='flex items-center gap-2'>
-                    <div className=' text-richyellow-50'><FaStar /> </div>
-                    <p>{anime.score}</p>
+                <div className='flex text-richyellow-40 items-center gap-2'>
+                    <div className=' '><FaStar /> </div>
+                    <p className=' font-bold'>{anime.score}</p>
                 </div>
-                <p>{anime.type}</p>
+                <p className=' text-socialMedia-twitter font-semibold'>{anime.type}</p>
             </div>
 
             {/* Description */}
@@ -51,20 +51,22 @@ const HoveredAnimeCard = ({anime}) => {
 
             {/* Genres, aired date and rating */}
             <div className='text-sm'>
-                <p>
-                    Japanese: {
+                <p className=' '>
+                    <span className=' font-bold text-richyellow-50'>
+                        Japanese:
+                    </span> {
                                 anime.title_japanese &&
                                 anime.title_japanese.length > 10 ? anime.title_japanese.slice(0,10) + "..." : anime.title_japanese
                                 }
                 </p>
-                <p>Rating: {anime.rating ? anime.rating: ""}</p>
+                <p className=''><span className=' font-bold text-richyellow-50'>Rating:</span> {anime.rating ? anime.rating: ""}</p>
                 <p>
-                    Aired:
+                    <span className=' font-bold text-richyellow-50'>Aired:</span>
                     {
                         toMMDDYYY(anime.aired.from)
                     }
                 </p>
-                <p>Genres:{getAnimeGenre()}
+                <p><span className=' font-bold text-richyellow-50'>Genres:</span>{getAnimeGenre()}
                 </p>
             </div>
         </div>

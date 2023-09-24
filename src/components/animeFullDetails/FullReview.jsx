@@ -84,7 +84,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
             return
         }
 
-        const finalData = {...data, rating: rating, token:userData.token, title: animeData.title_english  ?  animeData.title_english : animeData.title }
+        const finalData = {...data, rating: rating, token:userData.token, animeDbId:animeData.mal_id , title: animeData.title_english  ?  animeData.title_english : animeData.title }
 
         try{
             const response = await apiConnector("POST", ratingAndReview.CREATE_RATINGANDREVIEW, finalData)
@@ -356,12 +356,12 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
                                                                 {[...Array(5)].map( (star, index) => {
                                                                     const currentRating = index + 1
                                                                     return (
-                                                                        <label key={index} className=' cursor-pointer h-[2rem]'>
+                                                                        <label key={index} className=' appearance-none  cursor-pointer h-[2rem]'>
                                                                             <FaStar
                                                                             className={`${currentRating <= rating ? " text-richyellow-50": ""}`}
                                                                             size={25} />
                                                                             <input 
-                                                                                className=' appearance-none'
+                                                                                className=' appearance-none hidden'
                                                                                 type='radio'
                                                                                 name='rating'
                                                                                 onClick={() => setRating(currentRating)}
@@ -452,7 +452,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
                                                                             className={`${currentRating <= rating ? " text-richyellow-50": ""}`}
                                                                             size={25} />
                                                                             <input 
-                                                                                className=' appearance-none'
+                                                                                className=' appearance-none hidden'
                                                                                 type='radio'
                                                                                 name='rating'
                                                                                 onClick={() => setRating(currentRating)}

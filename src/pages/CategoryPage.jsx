@@ -7,6 +7,7 @@ import { useState } from 'react'
 import Footer from '../components/common/Footer'
 import Top10 from '../components/common/Top10'
 import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const Movies = () => {
     const location = useLocation()
@@ -17,6 +18,14 @@ const Movies = () => {
         order_by:"popularity",
         sort:"asc"
     })
+
+    useEffect(() => {
+        setFilteresUrl({
+            type:type,
+            order_by:"popularity",
+            sort:"asc"
+        })
+    },[location.pathname])
   return (
     <div  className='mt-16'>
 

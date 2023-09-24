@@ -29,7 +29,7 @@ const HomeSearch = () => {
     
 
     <div className=''>
-        <div className='bg-richwhite-10 z-40'>
+        <div className=' bg-gradient-to-b from-richblack-80 to-richwhite-10 z-40'>
             <div className=' py-16 pb-28 w-10/12 mx-auto max-w-[1200px] relative '>
 
                 {/* Anime Character Image */}

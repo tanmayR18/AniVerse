@@ -1,9 +1,30 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {FaPlay} from 'react-icons/fa'
 import {GoDotFill} from 'react-icons/go'
 import HoveredAnimeCard from './HoveredAnimeCard'
 
+
 const AnimeCard = ({anime}) => {
+
+    const [coords, setCoords] = useState({x: 0, y: 0});
+
+    useEffect(() => {
+      const handleWindowMouseMove = event => {
+        setCoords({
+          x: event.clientX,
+          y: event.clientY,
+        });
+      };
+      window.addEventListener('mousemove', handleWindowMouseMove);
+
+      return () => {
+        window.removeEventListener(
+          'mousemove',
+          handleWindowMouseMove,
+        );
+      };
+    }, [coords]);
+
   return (
     <div className=' aspect-3/5 w-[98%] '>
         <div className=' h-5/6  relative group'>
@@ -27,8 +48,8 @@ const AnimeCard = ({anime}) => {
             </div>
 
             {/* For creating hover card */}
-            <div className='w-[20rem] rounded-lg absolute scale-0 -top-1/2 -right-3/4 group-hover:scale-100 transition-all duration-200 z-20'>
-                <HoveredAnimeCard  anime = {anime} /> 
+            <div  className={`w-[20rem] rounded-lg absolute scale-0 -top-1/2 ${coords.x > 990 ? "-left-3/4" : "-right-3/4"}  group-hover:scale-100 transition-all duration-200 z-20`}>
+                <HoveredAnimeCard   anime = {anime} /> 
             </div> 
             
         </div>

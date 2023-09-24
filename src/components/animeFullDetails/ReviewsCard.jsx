@@ -5,6 +5,7 @@ import { apiConnector } from '../../service/apiconnector'
 import { ratingAndReview } from '../../service/apis'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-hot-toast'
+import unknowProfile from "../../assets/unknown-profile.png"
 
 
 const ReviewsCard = ({review}) => {
@@ -42,10 +43,10 @@ const ReviewsCard = ({review}) => {
     }
 
   return (
-    <div className='flex gap-4 text-sm text-richwhite-100 items-start'>
+    review.userName && <div className='flex gap-4 text-sm text-richwhite-100 items-start'>
         {/* IMages */}
         <div className=' w-8 rounded-full overflow-hidden'>
-            <img className=' object-cover' src={review.userId.image} />
+            <img className=' object-cover' src={review.userId.image ? review.userId.image : unknowProfile} />
         </div>
 
         {/* Review */}

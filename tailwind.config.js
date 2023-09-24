@@ -3,6 +3,7 @@ module.exports = {
     content: [
         "./src/**/*.{js,jsx,ts,tsx}",
         "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
+        'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
       ],
   theme: {
     fontFamily:{
@@ -49,21 +50,33 @@ module.exports = {
         keyframes: {
           "fadeDown":{
             "0%": {
-                transform: "translateY(-20%)",
+                transform: "translateX(-20%)",
                 opacity: 0
               },
               "100%": {
-                transform: "translateY(0)",
+                transform: "translateX(0)",
+                opacity: 100
+              }
+          },
+          "fadeRight":{
+            "0%": {
+                transform: "translateX(-50%)",
+                opacity: 0
+              },
+              "100%": {
+                transform: "translateX(0)",
                 opacity: 100
               }
           },
         },
           animation: {
             "fadeDown": 'fadeDown 1s ease-in-out normal',
+            "fadeRight": 'fadeRight 0.5s linear normal',
           }
       }
   },
   plugins: [
+    require('flowbite/plugin')
   ],
 }
 

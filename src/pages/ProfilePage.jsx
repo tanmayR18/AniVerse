@@ -13,11 +13,13 @@ import { profile } from '../service/apis'
 import { logIn } from '../slices/authSlice'
 import {FaKey} from 'react-icons/fa'
 import Footer from "../components/common/Footer"
+import Datepicker from 'react-tailwindcss-datepicker'
 
 
 const ProfilePage = () => {
     const userData = useSelector( state => state.auth)
     const [editAble, setEditAble] = useState(false)
+    const [dateOfBirth, setDateOfBirth] = useState(null)
     const dispatch = useDispatch()
     const inputRef = useRef(null)
     const [image, setImage] = useState(null)
@@ -25,9 +27,14 @@ const ProfilePage = () => {
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [errorMsg, setErrorMsg] = useState(null)
 
+    const dateOfBirthChangeHandler = (value) => {
+        setDateOfBirth(value.startDate)
+        console.log(dateOfBirth)
+    }
+
     const submitHandler = async (data) => {
         try{
-            const urlData = Object.assign({},data, {token: userData.token})
+            const urlData = Object.assign({},data, {token: userData.token, dateOfBirth: dateOfBirth})
             
             console.log("Profile form data", data)
             // toast.loading("Sending OTP")
@@ -69,7 +76,7 @@ const ProfilePage = () => {
             reset({
                 userName: null,
                 gender: null,
-                dateOfBirth: null,
+                // dateOfBirth: null,
                 favAnime: null,
                 favFemaleChar: null,
                 favGenre: null,
@@ -144,7 +151,7 @@ const ProfilePage = () => {
                             Username:
                         </label>
                         <input 
-                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2 " : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px]  border-none outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2 " : "pointer-events-none"}`}
                             type='text'
                             name='userName'
                             id='userName'
@@ -179,7 +186,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Gender:</label>
                         <input 
-                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
+                            className={` bg-richblack-20 p-2  border-none pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='gender'
                             id='gender'
@@ -191,21 +198,41 @@ const ProfilePage = () => {
                     {/* Date Of Birth */}
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Date Of Birth:</label>
-                        <input 
-                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
+                        {
+                            !editAble ?
+                            <input 
+                            className={` bg-richblack-20  border-none p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='dateOfBirth'
                             id='dateOfBirth'
                             placeholder={userData.user.additionalDetails.dateOfBirth ? userData.user.additionalDetails.dateOfBirth : "NaN"}
-                            {...register("dateOfBirth")}
-                        />
+                            // {...register("dateOfBirth")}
+                            /> :
+                            <Datepicker
+                                // inputClassName=" bg-richblack-50 w-32 text-richyellow-40 text-sm font-semibold  border-none " 
+                                inputClassName={"bg-richblack-40 border-none rounded-md placeholder:text-richwhite-100 font-bold"}
+                                containerClassName={""}
+                                popoverDirection='down'
+                                separator={"/"}
+                                displayFormat={"DD/MM/YYYY"} 
+                                placeholder={dateOfBirth}
+                                useRange={false}
+                                asSingle={true} 
+                                primaryColor={"blue"} 
+                                value={dateOfBirth} 
+                                onChange={dateOfBirthChangeHandler} 
+                                
+                            />
+                        }
+                        
+                        
                     </div>
 
                     {/* Favourite Anime */}
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Anime:</label>
                         <input 
-                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2 " : "pointer-events-none"}`}
+                            className={` bg-richblack-20  border-none p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2 " : "pointer-events-none"}`}
                             type='text'
                             name='favAnime'
                             id='favAnime'
@@ -217,7 +244,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Male Character:</label>
                         <input 
-                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
+                            className={` bg-richblack-20  border-none p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='favMaleChar'
                             id='favMaleChar'
@@ -229,7 +256,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Female Character:</label>
                         <input 
-                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
+                            className={` bg-richblack-20  border-none p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='favFemaleChar'
                             id='favFemaleChar'
@@ -241,7 +268,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Villan:</label>
                         <input 
-                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
+                            className={` bg-richblack-20  border-none p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='favVillan'
                             id='favVillan'
@@ -253,7 +280,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Genre:</label>
                         <input 
-                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
+                            className={` bg-richblack-20  border-none p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='favGenre'
                             id='favGenre'
@@ -265,7 +292,7 @@ const ProfilePage = () => {
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Movie:</label>
                         <input 
-                            className={` bg-richblack-20 p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
+                            className={` bg-richblack-20  border-none p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
                             type='text'
                             name='favMovie'
                             id='favMovie'
