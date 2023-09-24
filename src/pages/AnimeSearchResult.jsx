@@ -40,7 +40,7 @@ const AnimeDetails = () => {
             {/* Right portion */}
 
             <aside className=' flex  flex-col gap-10 w-[23%]'>
-                <MostPopular/>
+                {/* <MostPopular/> */}
                 <GenreSection setGenres={""} />
             </aside>
 
