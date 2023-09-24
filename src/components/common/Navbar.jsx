@@ -92,7 +92,7 @@ const Navbar = ({bgColor}) => {
                         submitHandler(event)
                     }
                 }}
-                className='outline-none h-10 px-3 w-34 bg-richwhite-100'
+                className='outline-none h-10 px-3 w-34  border-none focus:border-none bg-richwhite-100'
             />
 
             {/* Search icon */}

@@ -8,6 +8,7 @@
     box-sizing: border-box;
 }
 
+
 .scrollbar {
     /* THis was commented because it was hidding the cross button(used for closing the loginOverlayer) */
     /* overflow-y: auto; */ /* Enable scrolling */

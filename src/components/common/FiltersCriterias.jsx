@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { type, status, rating, score, order_by, sort, sfw } from '../../data/filter/filter'
 import Datepicker from 'react-tailwindcss-datepicker'
+import Calendar from 'react-calendar'
 
 const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
 
@@ -23,13 +24,13 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
         <div className='flex gap-3 flex-wrap'>
 
             {/* Types  */}
-            <div className=' p-[6px] rounded-md border flex items-center font-bold text-richwhite-100 gap-2 border-richwhite-20'>
+            <div className=' pl-[6px]  rounded-md border flex items-center font-bold text-richwhite-100 gap-2 border-richwhite-20'>
                 <label
                     htmlFor='type'
                     className=' text-sm bg-richblack-5 font-semibold '>
                     Type</label>
                     <select 
-                    className=' m-1 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
+                    className=' m-1 border-none focus:border-none focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
                     id='type'
                     value={formData.type} name='type' onChange={changeHandler}>
                         {
@@ -50,7 +51,7 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                 <label className=' text-sm bg-richblack-5 font-semibold '>
                         Status
                         <select 
-                        className=' m-1 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
+                        className=' m-1 border-none focus:border-0 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
                         value={formData.status} name='status' onChange={changeHandler}>
                             {
                                 status.map( (item, index) => (
@@ -68,7 +69,7 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                 <label className=' text-sm bg-richblack-5 font-semibold '>
                     Rating</label>
                     <select 
-                    className=' m-1 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
+                    className=' m-1 border-none focus:border-0 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
                     value={formData.rating} name='rating' onChange={changeHandler}>
                         {
                             rating.map( (item, index) => (
@@ -85,7 +86,7 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                 <label className=' text-sm bg-richblack-5 '>
                     Score </label>
                     <select 
-                    className=' m-1 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
+                    className=' m-1 border-none focus:border-0 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
                     value={formData.score} name='score' onChange={changeHandler}>
                         {
                             score.map( (item, index) => (
@@ -102,7 +103,7 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                 <label className=' text-sm bg-richblack-5 '>
                     Order By </label>
                     <select 
-                    className=' m-1 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
+                    className=' m-1 border-none focus:border-0 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
                     value={formData.order_by} name='order_by' onChange={changeHandler}>
                         {
                             order_by.map( (item, index) => (
@@ -119,7 +120,7 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                 <label className=' text-sm bg-richblack-5'>
                     Sort </label>
                     <select 
-                    className=' m-1 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
+                    className=' m-1 border-none focus:border-0 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
                     value={formData.sort} name='sort' onChange={changeHandler}>
                         {
                             sort.map( (item, index) => (
@@ -136,7 +137,7 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
                 <label className=' text-sm bg-richblack-5 font-semibold '>
                     Filter 18+ </label>
                     <select 
-                    className=' m-1 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
+                    className=' m-1 border-none focus:border-0 focus:outline-none appearance-none text-richyellow-40 text-sm  bg-richblack-5'
                     value={formData.sfw} name='sfw' onChange={changeHandler}>
                         {
                             sfw.map( (item, index) => (
@@ -149,26 +150,46 @@ const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
             </div>
 
             {/* Starting date */}
-            <div className=''>
+            <div className='flex items-center border p-[6px] rounded-md  border-richwhite-20'>
+                <p className=' w-28 text-richwhite-100  font-bold text-sm'>Start Date</p>
                 <Datepicker 
-                    // containerClassName="relative mt-8 hover:bg-richblack-40 text-richwhite-100 font-bold " 
+                    inputClassName=" bg-transparent w-32 text-richyellow-40 text-sm font-semibold  border-none " 
+                    popoverDirection='down'
+                    useRange={false}
                     asSingle={true} 
-                    primaryColor={"blue"} 
                     value={start} 
                     onChange={startHandleValueChange} 
                 />
             </div> 
 
+            
+            
+            {/* <div class="relative max-w-sm">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                </svg>
+            </div>
+            <input 
+            datepicker datepicker-autohide type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" />
+            </div> */}
+
+
+
             {/* Ending Date */}
-            <div className=''>
-                <Datepicker 
-                    // containerClassName="relative mt-8 hover:bg-richblack-40 text-richwhite-100 font-bold " 
+            <div className=' flex   items-center border p-[6px] rounded-md  border-richwhite-20'>
+            <p className=' w-28 text-richwhite-100 font-bold text-sm'>End Date</p>
+                <Datepicker
+                    inputClassName=" bg-transparent w-32 text-richyellow-40 text-sm font-semibold  border-none " 
+                    popoverDirection='down'
+                    useRange={false}
                     asSingle={true} 
                     primaryColor={"blue"} 
                     value={end} 
                     onChange={endHandleValueChange} 
                 />
             </div> 
+            
         </div>
     </div>
   )
