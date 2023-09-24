@@ -22,6 +22,9 @@ const ratingAndReviewSchema = mongoose.Schema({
         required:true,
         ref:"Anime"
     },
+    animeDbId:{
+        type: Number,
+    },
     likes:[
         {
             type:mongoose.Schema.Types.ObjectId,

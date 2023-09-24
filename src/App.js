@@ -12,6 +12,7 @@ import ProfilePage from "./pages/ProfilePage"
 import WatchList from "./pages/WatchList"
 import Settings from "./pages/Settings"
 import Notification from "./pages/Notification"
+import Home from "./pages/Home"
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
         
         <Routes>
             <Route path = "/" element = {<LandingPage/>} />
+            <Route path="/home" element = {<Home/>} />
             <Route path = "/anime-details/:anime" element = {<AnimeDetails/>} />
             <Route path = "/filter" element = {<FilterPage/>} />
             <Route path="/genre/:genre" element = {<GenrePage/>} />

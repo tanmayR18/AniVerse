@@ -27,7 +27,7 @@ const Home = () => {
     
     {/* Footer copyright section */}
     <div className='mx-auto w-10/12 max-w-[1200px] my-10'>
-        <p className='text-[14px] tracking-wider opacity-90 text-richwhite-50'>© AniWatch.to. All rights reserved.</p>
+        <p className='text-[14px] tracking-wider opacity-90 text-richwhite-50'>© AniVerse All rights reserved.</p>
     </div>
     </div>
   )

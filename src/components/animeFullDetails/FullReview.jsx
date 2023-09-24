@@ -84,7 +84,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
             return
         }
 
-        const finalData = {...data, rating: rating, token:userData.token, title: animeData.title_english  ?  animeData.title_english : animeData.title }
+        const finalData = {...data, rating: rating, token:userData.token, animeDbId:animeData.mal_id , title: animeData.title_english  ?  animeData.title_english : animeData.title }
 
         try{
             const response = await apiConnector("POST", ratingAndReview.CREATE_RATINGANDREVIEW, finalData)

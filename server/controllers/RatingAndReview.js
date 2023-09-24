@@ -8,7 +8,7 @@ const { default: mongoose } = require('mongoose')
 exports.createRatingAndReview = async(req, res) => {
     try{
         //fetch the data
-        const {rating, review, title} = req.body
+        const {rating, review, title, animeDbId} = req.body
         const userId = req.user.id
 
         console.log("create review me Ye mila he backedn me", rating, title, review, userId)
@@ -58,7 +58,8 @@ exports.createRatingAndReview = async(req, res) => {
             rating:rating,
             review:review,
             animeId:anime._id,
-            title: title
+            title: title,
+            animeDbId: animeDbId
         })
 
         const averageRatingResult = await RatingAndReview.aggregate([
