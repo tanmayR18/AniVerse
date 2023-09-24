@@ -75,7 +75,7 @@ const Settings = () => {
                         <label className=' relative '>
                             <p className=' my-2 text-xs font-bold tracking-wide opacity-50 uppercase'>Old Password</p>
                             <input 
-                                className='text-base bg-richblack-20  rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-20 bg-richblack-40 pl-2 p-2'
+                                className='text-base  border-none bg-richblack-20  rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-20 bg-richblack-40 pl-2 p-2'
                                 type = {`${showOldPassword ? "text" : "password"}`}
                                 placeholder='Enter old password'
                                 name='oldPassword'
@@ -100,7 +100,7 @@ const Settings = () => {
                         <label className=' relative '>
                             <p className=' my-2 text-xs font-bold tracking-wide opacity-50 uppercase'>New Password</p>
                             <input 
-                                className='text-base bg-richblack-20  rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-20 bg-richblack-40 pl-2 p-2'
+                                className='text-base  border-none bg-richblack-20  rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-20 bg-richblack-40 pl-2 p-2'
                                 type = {`${showNewPassword ? "text" : "password"}`}
                                 placeholder='Enter new password'
                                 name='newPassword'
@@ -125,7 +125,7 @@ const Settings = () => {
                         <label className=' relative '>
                             <p className=' my-2 text-xs font-bold tracking-wide opacity-50 uppercase'>Confirm Password</p>
                             <input 
-                                className='text-base bg-richblack-20  rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-20 bg-richblack-40 pl-2 p-2'
+                                className='text-base  border-none bg-richblack-20  rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-20 bg-richblack-40 pl-2 p-2'
                                 type = {`${showConfirmPassword ? "text" : "password"}`}
                                 placeholder='Enter Confirm password'
                                 name='confirmPassword'
