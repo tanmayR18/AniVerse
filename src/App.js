@@ -7,22 +7,33 @@ import CategoryPage from "./pages/CategoryPage"
 import MostPopular from "./pages/MostPopular"
 import TopAiring from "./pages/TopAiring"
 import FullAnimeDetailPage from "./pages/FullAnimeDetailPage"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import ProfilePage from "./pages/ProfilePage"
 import WatchList from "./pages/WatchList"
 import Settings from "./pages/Settings"
 import Notification from "./pages/Notification"
 import Home from "./pages/Home"
+import SideBar from "./components/common/SideBar"
+import Modal from "./components/common/Modal"
+import { addModal } from "./slices/modalSlice"
 
 
 const App = () => {
     
+    const dispatch = useDispatch()
     const userTest = useSelector( state => state.auth)
+    const showModal = useSelector(state => state.modal)
     console.log("userTest inside app", userTest)
 
   return (
     <div className=' overflow-x-hidden bg-richblack-50 h-full min-h-screen font-poppins'>
-        
+    
+        {    
+            showModal && <Modal>
+                            <SideBar/>
+                        </Modal>
+        }
+
         <Routes>
             <Route path = "/" element = {<LandingPage/>} />
             <Route path="/home" element = {<Home/>} />

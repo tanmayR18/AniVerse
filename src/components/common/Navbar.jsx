@@ -11,12 +11,15 @@ import LoginOverLayer from "../LoginAndSignUp/LoginOverlayer"
 import { useDispatch, useSelector } from 'react-redux'
 import { logOut } from '../../slices/authSlice'
 import { useEffect } from 'react'
+import SideBar from './SideBar'
+import { addModal } from '../../slices/modalSlice'
 
 
 
 const Navbar = ({bgColor}) => {
 
     const userData = useSelector( state => state.auth)
+    const [showSideBar, setShowSideBar] = useState(false)
     const [navbar, setNavbar] = useState(false)
     const [search, setSearch] = useState("")
     const [loginVisible, setLoginVisible] = useState()
@@ -53,7 +56,8 @@ const Navbar = ({bgColor}) => {
 
         {/* Hamberger menu and logo */}
         <div className='flex items-center gap-6 text-richwhite-100'>
-            <GiHamburgerMenu size={28} className=' cursor-pointer'/>
+            <GiHamburgerMenu size={28} onClick={() => dispatch(addModal(true))} className=' cursor-pointer'/>
+            
             <NavLink to={"/"}>
                 <img 
                 className='w-28 h-14'
