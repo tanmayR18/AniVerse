@@ -16,8 +16,6 @@ const AnimeCard = ({anime}) => {
         });
       };
       window.addEventListener('mousemove', handleWindowMouseMove);
-  
-      console.log(coords.x)
 
       return () => {
         window.removeEventListener(

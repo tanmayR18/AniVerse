@@ -35,5 +35,6 @@ export const anime = {
 
 export const profile = {
     UPDATE_PROFILE: BASE_URL + "/profile/updateProfile",
-    UPDATE_PROFILE_PICTURE: BASE_URL + "/profile/updateDisplayPicture"
+    UPDATE_PROFILE_PICTURE: BASE_URL + "/profile/updateDisplayPicture",
+    DELETE_ACCOUNT: BASE_URL + "/profile/deleteAccount"
 }
