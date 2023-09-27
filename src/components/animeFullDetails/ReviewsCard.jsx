@@ -10,6 +10,8 @@ import unknowProfile from "../../assets/unknown-profile.png"
 
 const ReviewsCard = ({review}) => {
 
+    console.log("Inside the review card",review)
+
     const userData = useSelector( state => state.auth)
     // const [liked, setLiked] = useState(() => userData ? (review.likes.filter( (like) => like === userData.user._id).length === 0): false)
     // const [liked, setLiked] = useState(false)
@@ -43,7 +45,8 @@ const ReviewsCard = ({review}) => {
     }
 
   return (
-    review.userName && <div className='flex gap-4 text-sm text-richwhite-100 items-start'>
+    !review.userName && 
+    <div className='flex gap-4 text-sm text-richwhite-100 items-start'>
         {/* IMages */}
         <div className=' w-8 rounded-full overflow-hidden'>
             <img className=' object-cover' src={review.userId.image ? review.userId.image : unknowProfile} />

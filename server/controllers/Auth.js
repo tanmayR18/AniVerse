@@ -122,8 +122,11 @@ exports.signup = async(req, res) => {
 
         //check the most recent otp for the user's email
         const recentOTP = await OTP.find({email}).sort({createdAt:-1}).limit(1)
+        
+        
         console.log("Recent otp",recentOTP)
         console.log("User otp",otp)
+
         if (recentOTP.lenght == 0){
             return res.status(400).json({
                 success: false,

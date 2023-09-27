@@ -105,7 +105,11 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
                         autoComplete="current-password"
                         id='password'
                         placeholder='Enter the password'
-                        {...register("password",{required:true})}
+                        {...register("password",{
+                            required:{value:true, message:"Please enter Password"},
+                            // maxLength:{value:16, message:"Enter Password less than 16 characters"},
+                            // minLength:{value:6, message:"Enter Password less than 16 characters"}
+                        })}
                     />
             </div>
 
@@ -143,7 +147,8 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
 
             <button
             className='w-full text-richblack-90 font-bold bg-richyellow-40 rounded-lg p-2'
-            disabled = {!verified}>
+            disabled = {!verified}
+            >
                 Login
             </button>
 

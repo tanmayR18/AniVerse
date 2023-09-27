@@ -50,11 +50,11 @@ module.exports = {
         keyframes: {
           "fadeDown":{
             "0%": {
-                transform: "translateX(-20%)",
+                transform: "translateY(-20%)",
                 opacity: 0
               },
               "100%": {
-                transform: "translateX(0)",
+                transform: "translateY(0)",
                 opacity: 100
               }
           },

@@ -1,6 +1,6 @@
 import React from 'react'
 import ShareWithFriends from '../common/ShareWithFriends'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import {BsCheckLg, BsCircleFill} from 'react-icons/bs'
 import {MdRateReview} from 'react-icons/md'
 import {FaPlus} from 'react-icons/fa'
@@ -9,9 +9,19 @@ import Navbar from '../common/Navbar'
 import RecommendedAnimes from './RecommendedAnimes'
 import Footer from '../common/Footer'
 import Genre from '../common/GenreSection'
+import { useDispatch, useSelector } from 'react-redux'
+import { add, remove } from '../../slices/watchListSlice'
+import {TiTick} from 'react-icons/ti'
 
 const FullAnimeDetails = ({animeData, setReview, recommendedAnime}) => {
     const [readMore, setReadMore] = useState(true)
+    const location = useLocation()
+    const dispatch = useDispatch()
+    const watchList = useSelector( state => state.watchList)
+
+    const animeId = location.pathname.split("/").at(-2)
+    const user = useSelector( state => state.auth)
+
     // animeData && console.log(animeData.synopsis.slice(0,265)+"...")
     // console.log(animeData)
   return (
@@ -101,15 +111,34 @@ const FullAnimeDetails = ({animeData, setReview, recommendedAnime}) => {
                     <div className='flex gap-4'>
                         <button
                         onClick={() => setReview(true)}
-                        className='flex text-richblack-90 gap-2 items-center py-2 px-4 bg-richyellow-40 rounded-3xl'>
+                        className='flex font-bold text-richblack-90 gap-2 items-center py-2 px-4 bg-richyellow-40 rounded-3xl'>
                             <MdRateReview size={20}/>
-                           <span>Rate & Review </span>
+                           <span >Rate & Review </span>
                         </button>
 
-                        <button className='flex text-richblack-90 gap-2 items-center py-2 px-4 bg-richwhite-100 rounded-3xl'>
+                       {
+                            console.log("Checked",watchList.some( (object) => object.mal_id === parseInt(animeId) ))
+                       }
+
+                       {
+                        watchList.some( (object) => object.mal_id === parseInt(animeId) ) ?
+                        <div
+                        onClick={() => dispatch(remove(parseInt(animeId)))}
+                        className='h-10 w-10  flex cursor-pointer items-center justify-center text-sm rounded-full bg-richwhite-100'>
+                            <TiTick size={25} className=' text-richblack-90'/>
+                        </div> : 
+
+                        <div
+                        onClick={() => dispatch(add(animeData))}
+                        className='h-10 w-10 flex cursor-pointer items-center justify-center text-sm rounded-full bg-richwhite-100'>
+                            <FaPlus size={15} className=' text-richblack-90'/>
+                        </div>
+                    }
+
+                        {/* <button  className='flex text-richblack-90 gap-2 items-center py-2 px-4 bg-richwhite-100 rounded-3xl'>
                             <FaPlus/>
                             <span>Add to List</span>
-                        </button>
+                        </button> */}
                     </div>
 
                     {/* Anime description and info about website */}
@@ -264,10 +293,14 @@ const FullAnimeDetails = ({animeData, setReview, recommendedAnime}) => {
             {
                 recommendedAnime.length > 0 ?
                 <RecommendedAnimes className="w-2/3" recommendedAnime = {recommendedAnime}/> : 
-                console.log("chutiya giri he ")
+                console.log("Didn't send the data ")
             }
             
-            <Genre/>
+            {
+                recommendedAnime.length > 0 &&
+                <Genre/>
+            }
+            
         </div>
 
         </div>
