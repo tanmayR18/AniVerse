@@ -82,8 +82,19 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                         id='userName'
                         autoComplete="username"
                         placeholder='Enter Your Name'
-                    {...register("userName",{required:true})}
+                    {...register("userName",{
+                            required:{value:true, message:"Please enter your username"},
+                            maxLength:{value:14, message:"Enter userName of less than 14 characters"},
+                            minLength:{value:4, message:"Enter userName of more than 4 characters"}
+                    })}
                 />
+                {
+                    errors.userName && (
+                        <span>
+                            {errors.userName.message}
+                        </span>
+                    )
+                }
             </div>
 
             {/* Email address */}
@@ -114,8 +125,21 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                         required
                         id='password'
                         placeholder='Password'
-                    {...register("password",{required:true})}
+                    {...register("password",{
+                            required:{value:true, message:"Please Your Password"},
+                            maxLength:{value:16, message:"Passowrd should be less than 16 character"},
+                            minLength:{value:6, message:"Passowrd should be more than 6 character"}
+                    })}
                 />
+                {
+                    
+                    errors.password && (
+                        <span>
+                            {errors.password.message}
+                        </span>
+                    )
+                
+                }
             </div>
 
             {/* Confirm Password */}
@@ -130,8 +154,19 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
                         required
                         id='confirmPassword'
                         placeholder='Confirm Password'
-                    {...register("confirmPassword",{required:true})}
+                    {...register("confirmPassword",{
+                        required:{value:true, message:"Please Your Password"},
+                        maxLength:{value:16, message:"Passowrd should be less than 16 character"},
+                        minLength:{value:6, message:"Passowrd should be more than 6 character"}
+                    })}
                 />
+                {
+                    errors.confirmPassword && (
+                        <span>
+                            {errors.confirmPassword.message}
+                        </span>
+                    )
+                }
             </div>
 
             {/* OTP */}

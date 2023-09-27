@@ -14,6 +14,8 @@ import { logIn } from '../slices/authSlice'
 import {FaKey} from 'react-icons/fa'
 import Footer from "../components/common/Footer"
 import Datepicker from 'react-tailwindcss-datepicker'
+import { genres } from '../data/filter/filter'
+import { isDisabled } from '@testing-library/user-event/dist/utils'
 
 
 const ProfilePage = () => {
@@ -23,7 +25,7 @@ const ProfilePage = () => {
     const dispatch = useDispatch()
     const inputRef = useRef(null)
     const [image, setImage] = useState(null)
-
+    const gender = ["Male", "Female", "Non-Binary", "Prefered Not to say"]
     const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful}} =  useForm();
     const [errorMsg, setErrorMsg] = useState(null)
 
@@ -147,7 +149,8 @@ const ProfilePage = () => {
                     
                     {/* UserName */}
                     <div  className='flex flex-col w-full gap-2'>
-                        <label  className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
+                        <label  
+                        className=' text-xs font-bold tracking-wide opacity-50 uppercase'>
                             Username:
                         </label>
                         <input 
@@ -156,8 +159,18 @@ const ProfilePage = () => {
                             name='userName'
                             id='userName'
                             placeholder={userData.user.userName}
-                            {...register("userName")}
+                            {...register("userName",{
+                                maxLength:{value:14, message:"Enter userName of less than 14 characters"},
+                                minLength:{value:4, message:"Enter userName of more than 4 characters"}
+                            })}
                         />
+                        {
+                            errors.userName && (
+                                <span>
+                                    {errors.userName.message}
+                                </span>
+                            )
+                        }
                     </div>
                     
                     {/* Email */}
@@ -183,17 +196,39 @@ const ProfilePage = () => {
                 <div className='  grid gap-14 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'>
 
                     {/* Gender */}
-                    <div className='flex flex-col w-full gap-2'>
-                        <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Gender:</label>
-                        <input 
-                            className={` bg-richblack-20 p-2  border-none pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
-                            type='text'
-                            name='gender'
-                            id='gender'
-                            placeholder={userData.user.additionalDetails.gender ? userData.user.additionalDetails.gender : "NaN"}
-                            {...register("gender")}
-                        />
-                    </div>
+                    {
+                        editAble ?
+                            <div className='flex flex-col w-full gap-2'>
+                            <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Gender:</label>
+                            <select 
+                                className={` bg-richblack-20 p-2  border-none pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
+                                // type='text'
+                                name='gender'
+                                id='gender'
+                                placeholder={userData.user.additionalDetails.gender ? userData.user.additionalDetails.gender : "NaN"}
+                                {...register("gender")}
+                            >
+                                {/* <option disabled>
+                                    {userData.user.additionalDetails.gender ? userData.user.additionalDetails.gender : "NaN"}
+                                </option> */}
+                                {
+                                    gender.map( (gender, index) => (
+                                            <option key={index} value={gender}>
+                                                {gender}
+                                            </option>
+                                    ))
+                                }
+                            </select>
+                            </div>:
+                            <div className='flex flex-col w-full gap-2'>
+                                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Gender:</label>
+                                <div 
+                                    className={` bg-richblack-20 p-2  border-none pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
+                                >
+                                    {userData.user.additionalDetails.gender ? userData.user.additionalDetails.gender : "NaN"}
+                                </div>
+                            </div>
+                    }
 
                     {/* Date Of Birth */}
                     <div className='flex flex-col w-full gap-2'>
@@ -217,6 +252,7 @@ const ProfilePage = () => {
                                 displayFormat={"DD/MM/YYYY"} 
                                 placeholder={dateOfBirth}
                                 useRange={false}
+                                maxDate={new Date()}
                                 asSingle={true} 
                                 primaryColor={"blue"} 
                                 value={dateOfBirth} 
@@ -237,10 +273,20 @@ const ProfilePage = () => {
                             name='favAnime'
                             id='favAnime'
                             placeholder={userData.user.additionalDetails.favAnime ? userData.user.additionalDetails.favAnime : "NaN"}
-                            {...register("favAnime")}
+                            {...register("favAnime",{
+                                maxLength:{value:14, message:"Favourite anime should be less than 14 characters"},
+                            })}
                         />
+                        {
+                            errors.favAnime && (
+                                <span>
+                                    {errors.favAnime.message}
+                                </span>
+                            )
+                        }
                     </div>
 
+                    {/* Favourite Male character */}
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Male Character:</label>
                         <input 
@@ -249,10 +295,20 @@ const ProfilePage = () => {
                             name='favMaleChar'
                             id='favMaleChar'
                             placeholder={userData.user.additionalDetails.favMaleChar ? userData.user.additionalDetails.favMaleChar : "NaN"}
-                            {...register("favMaleChar")}
+                            {...register("favMaleChar",{
+                                maxLength:{value:14, message:"Favourite Male Char should be less than 14 characters"},
+                            })}
                         />
+                        {
+                            errors.favMaleChar && (
+                                <span>
+                                    {errors.favMaleChar.message}
+                                </span>
+                            )
+                        }
                     </div>
 
+                    {/* Favourite Female Character */}
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Female Character:</label>
                         <input 
@@ -261,10 +317,20 @@ const ProfilePage = () => {
                             name='favFemaleChar'
                             id='favFemaleChar'
                             placeholder={userData.user.additionalDetails.favFemaleChar ? userData.user.additionalDetails.favFemaleChar : "NaN"}
-                            {...register("favFemaleChar")}
+                            {...register("favFemaleChar",{
+                                maxLength:{value:14, message:"Favourite Female Char should be less than 14 characters"},
+                            })}
                         />
+                        {
+                            errors.favFemaleChar && (
+                                <span>
+                                    {errors.favFemaleChar.message}
+                                </span>
+                            )
+                        }
                     </div>
 
+                    {/* Favourite Villan */}
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Villan:</label>
                         <input 
@@ -273,21 +339,55 @@ const ProfilePage = () => {
                             name='favVillan'
                             id='favVillan'
                             placeholder={userData.user.additionalDetails.favVillan ? userData.user.additionalDetails.favVillan : "NaN"}
-                            {...register("favVillan")}
+                            {...register("favVillan",{
+                                maxLength:{value:14, message:"Favourite anime should be less than 14 characters"},
+                            })}
                         />
+                        {
+                            errors.favVillan && (
+                                <span>
+                                    {errors.favVillan.message}
+                                </span>
+                            )
+                        }
                     </div>
                     
-                    <div className='flex flex-col w-full gap-2'>
-                        <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Genre:</label>
-                        <input 
-                            className={` bg-richblack-20  border-none p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
-                            type='text'
-                            name='favGenre'
-                            id='favGenre'
-                            placeholder={userData.user.additionalDetails.favGenre ? userData.user.additionalDetails.favGenre : "NaN"}
-                            {...register("favGenre")}
-                        />
-                    </div>
+
+                    {/* Genre */}
+                    {
+                        editAble ?
+                            <div className='flex flex-col w-full gap-2 text-richwhite-100'>
+                                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Genre:</label>
+                                <select 
+                                    className={` bg-richblack-20  border-none p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
+                                    // type='text'
+                                    name='favGenre'
+                                    id='favGenre'
+                                    placeholder={userData.user.additionalDetails.favGenre ? userData.user.additionalDetails.favGenre : "NaN"}
+                                    {...register("favGenre")}
+                                >
+                                    {
+                                        genres.map( genre => (
+                                            <option className=' text-richwhite-100' key={genre.mal_id} value={genre.name}>
+                                                <p>{genre.name}</p>
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                            </div> :
+                            <div className='flex flex-col w-full gap-2 text-richwhite-100'>
+                                <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Genre:</label>
+                                <input 
+                                    className={` bg-richblack-20  border-none p-2 pl-0 rounded-[4px] outline-none focus:outline-2 focus:outline-socialMedia-telegram font-bold placeholder:text-richwhite-100 ${editAble ? "bg-richblack-40 pl-2" : "pointer-events-none"}`}
+                                    // type='text'
+                                    // name='favGenre'
+                                    // id='favGenre'
+                                    placeholder={userData.user.additionalDetails.favGenre ? userData.user.additionalDetails.favGenre : "NaN"}
+                                    // {...register("favGenre")}
+                                />
+                            </div> 
+
+                    }
 
                     <div className='flex flex-col w-full gap-2'>
                         <label className=' text-xs font-bold tracking-wide opacity-50 uppercase'>Favourite Movie:</label>
@@ -297,8 +397,17 @@ const ProfilePage = () => {
                             name='favMovie'
                             id='favMovie'
                             placeholder={userData.user.additionalDetails.favMovie ? userData.user.additionalDetails.favMovie : "NaN"}
-                            {...register("favMovie")}
+                            {...register("favMovie", {
+                                maxLength:{value:20, message:"Movie should be of less than 20 characters"},
+                            })}
                         />
+                        {
+                            errors.favMovie && (
+                                <span>
+                                    {errors.favMovie.message}
+                                </span>
+                            )
+                        }
                     </div>
 
                     {

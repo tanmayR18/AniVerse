@@ -91,8 +91,19 @@ const Verify = ({setIsLogin, setResetPassword, setForgotPassword}) => {
                         required
                         id='password'
                         placeholder='Eg - jdhbjhdbcsdbcjh'
-                        {...register("password",{required:true})}
+                        {...register("password",{
+                            required:{value:true, message:"Please Your Password"},
+                            maxLength:{value:16, message:"Passowrd should be less than 16 character"},
+                            minLength:{value:6, message:"Passowrd should be more than 6 character"}
+                        })}
                     />
+                    {
+                        errors.password && (
+                            <span>
+                                {errors.password.message}
+                            </span>
+                        )
+                    }
             </div>
 
             {/* confirmPassword */}
@@ -107,8 +118,19 @@ const Verify = ({setIsLogin, setResetPassword, setForgotPassword}) => {
                         required
                         id='confirmPassword'
                         placeholder='Eg - jdhbjhdbcsdbcjh'
-                        {...register("confirmPassword",{required:true})}
+                        {...register("confirmPassword",{
+                            required:{value:true, message:"Please Your Password"},
+                            maxLength:{value:16, message:"Passowrd should be less than 16 character"},
+                            minLength:{value:6, message:"Passowrd should be more than 6 character"}
+                        })}
                     />
+                    {
+                        errors.confirmPassword && (
+                            <span>
+                                {errors.confirmPassword.message}
+                            </span>
+                        )
+                    }
             </div>
 
             <ReCAPTCHA
