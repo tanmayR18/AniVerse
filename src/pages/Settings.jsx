@@ -182,7 +182,7 @@ const Settings = () => {
 
             <div className='p-5 rounded-lg bg-socialMedia-reddit bg-opacity-20 flex items-center gap-5'>
                 <p className=' text-2xl font-bold text-richwhite-100'>Delete this account</p>
-                <button onClick={deleteHandler} className=' text-richwhite-100 border-2 p-2 rounded-md border-socialMedia-reddit flex items-center gap-2'>
+                <button onClick={deleteHandler} className=' bg-socialMedia-reddit font-bold text-richwhite-100 border-2 p-2 rounded-md border-socialMedia-reddit flex items-center gap-2'>
                     <RiDeleteBin6Line />
                     <p>Delete</p>
                 </button>

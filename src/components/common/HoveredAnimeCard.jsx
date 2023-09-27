@@ -37,7 +37,7 @@ const HoveredAnimeCard = ({anime}) => {
                     <div className=' '><FaStar /> </div>
                     <p className=' font-bold'>{anime.score}</p>
                 </div>
-                <p className=' text-socialMedia-twitter font-semibold'>{anime.type}</p>
+                <p className=' bg-richyellow-50 text-richblack-90 text-sm px-1 py-[2px] rounded-md font-semibold'>{anime.type}</p>
             </div>
 
             {/* Description */}
@@ -51,22 +51,22 @@ const HoveredAnimeCard = ({anime}) => {
 
             {/* Genres, aired date and rating */}
             <div className='text-sm'>
-                <p className=' '>
-                    <span className=' font-bold text-richyellow-50'>
+                <p className=' font-bold '>
+                    <span className=' font-medium'>
                         Japanese:
                     </span> {
                                 anime.title_japanese &&
                                 anime.title_japanese.length > 10 ? anime.title_japanese.slice(0,10) + "..." : anime.title_japanese
                                 }
                 </p>
-                <p className=''><span className=' font-bold text-richyellow-50'>Rating:</span> {anime.rating ? anime.rating: ""}</p>
-                <p>
-                    <span className=' font-bold text-richyellow-50'>Aired:</span>
+                <p className='font-bold'><span className=' font-medium'>Rating:</span> {anime.rating ? anime.rating: ""}</p>
+                <p className=' font-bold'>
+                    <span className='font-medium'>Aired:</span>
                     {
                         toMMDDYYY(anime.aired.from)
                     }
                 </p>
-                <p><span className=' font-bold text-richyellow-50'>Genres:</span>{getAnimeGenre()}
+                <p className=' font-bold'><span className=' font-medium'>Genres:</span>{getAnimeGenre()}
                 </p>
             </div>
         </div>

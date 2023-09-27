@@ -27,8 +27,8 @@ const Register = ({setIsLogin, setRegister, setEmailVerify}) => {
             if(response.data.success === true){
                 toast.dismiss()
                 toast.success("Registered successfully")
-                setRegister("false")
-                setIsLogin("true")
+                setRegister(false)
+                setIsLogin(true)
             }
         } catch(error){
             console.log("Login Error", error)

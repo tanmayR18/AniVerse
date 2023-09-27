@@ -6,27 +6,34 @@ import HoveredAnimeCard from './HoveredAnimeCard'
 
 const AnimeCard = ({anime}) => {
 
-    const [coords, setCoords] = useState({x: 0, y: 0});
+    const cardRef = useRef(null);
+    const [cardPosition, setCardPosition] = useState(0)
 
-    useEffect(() => {
-      const handleWindowMouseMove = event => {
-        setCoords({
-          x: event.clientX,
-          y: event.clientY,
-        });
-      };
-      window.addEventListener('mousemove', handleWindowMouseMove);
+  useEffect(() => {
+    // Function to get the position of the card
+    const getPosition = () => {
+      if (cardRef.current) {
+        const rect = cardRef.current.getBoundingClientRect();
+        console.log('Card X position:', rect.left);
+        setCardPosition(rect.left)
+      }
+    };
 
-      return () => {
-        window.removeEventListener(
-          'mousemove',
-          handleWindowMouseMove,
-        );
-      };
-    }, [coords]);
+    // Call the getPosition function when the component mounts
+    getPosition();
+
+    // You can also add an event listener to update the position if it changes
+    window.addEventListener('resize', getPosition);
+
+    // Don't forget to clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', getPosition);
+    };
+  }, []);
+
 
   return (
-    <div className=' aspect-3/5 w-[98%] '>
+    <div ref={cardRef} className=' aspect-3/5 w-[98%] '>
         <div className=' h-5/6  relative group'>
             {
                 anime.images.jpg.image_url &&
@@ -48,7 +55,7 @@ const AnimeCard = ({anime}) => {
             </div>
 
             {/* For creating hover card */}
-            <div  className={`w-[20rem] rounded-lg absolute scale-0 -top-1/2 ${coords.x > 990 ? "-left-3/4" : "-right-3/4"}  group-hover:scale-100 transition-all duration-200 z-20`}>
+            <div  className={`w-[20rem] rounded-lg absolute scale-0 -top-1/2 ${cardPosition > 900 ? "right-3/4" : "-right-3/4"}   group-hover:scale-100 transition-all duration-200 z-20`}>
                 <HoveredAnimeCard   anime = {anime} /> 
             </div> 
             

@@ -32,15 +32,15 @@ const RecommendedAnimes = ({recommendedAnime}) => {
   return (
     <div className=''>
 
-        <h3 className='text-[1.5rem] mb-5 font-bold tracking-wide text-richyellow-50'>Recommended Anime</h3>
+        <h3 className='text-[1.5rem]  mb-5 font-bold tracking-wide text-richyellow-50'>Recommended Anime</h3>
 
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
             
             {
                 pages[currentPage] &&
                 pages[currentPage].map((anime,index) => (
-                    <div key={index}>
-                        <div  className=' h-[20rem] group flex items-end justify-center relative overflow-hidden'>
+                    <div key={index} className=''>
+                        <div  className=' h-[20rem] w-[14rem] group flex items-end justify-center relative overflow-hidden'>
                                 {/* Anime image */}
                                 <img 
                                 onClick={() => navigate(`/full-anime-detials/${anime.entry.mal_id}/${anime.entry.title.split(" "). join("-")}`)}

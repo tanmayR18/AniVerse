@@ -359,7 +359,7 @@ exports.getTop10Review = async (req, res) => {
         },
         // Limit to the top 10 records
         {
-            $limit: 10
+            $limit: 5
         },
         // Lookup to directly populate the userId field
         {

@@ -325,7 +325,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
                                     <div>
                                         {
                                             reviews &&
-                                            reviews.filter( review => review.userId.userName === userData.user.userName).length === 0 ?
+                                            reviews.filter( review => review.userId.userName === userData.user?.userName).length === 0 ?
                                             (
                                                 <div className='flex items-start'>
                                                 {/* For image */}

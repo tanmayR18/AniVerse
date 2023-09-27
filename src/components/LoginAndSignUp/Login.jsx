@@ -143,7 +143,8 @@ const Login = ({setIsLogin, setForgotPassword, setEmailVerify, setLoginVisible})
 
             <button
             className='w-full text-richblack-90 font-bold bg-richyellow-40 rounded-lg p-2'
-            disabled = {!verified}>
+            disabled = {!verified}
+            >
                 Login
             </button>
 

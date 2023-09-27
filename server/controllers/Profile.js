@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const Profile = require('../models/Profile')
+const RatingAndReview = require("../models/RatingAndReview")
 const {uploadImageToCloudinary} = require("../utils/imageUploader")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -99,6 +100,10 @@ exports.deleteAccount = async(req,res) => {
         }
         //delete assosiate profile with the user
         await Profile.findByIdAndDelete(user.additionalDetails)
+
+        //Remove the review if from the anime 
+        const deletedReviews = await RatingAndReview.deleteMany({userId: id})
+        console.log("Deleted Reviews", deletedReviews)
 
         //Think whether we should delete the rating and review of the deleted users or not?
         await User.findByIdAndDelete(id)
