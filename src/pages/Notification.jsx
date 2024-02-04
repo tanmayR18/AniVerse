@@ -9,7 +9,7 @@ const Notification = () => {
         <Navbar bgColor={"bg-richblack-20 backdrop-blur "}  />
         <NavbarCommonComp/>
         <h1 className=' text-richwhite-100 font-bold text-lg align-middle'>This section is under construction :)</h1>
-        <img className='aspect-auto' src={underConstruction}/>
+        <img className='aspect-auto' alt='noen' src={underConstruction}/>
     </div>
   )
 }

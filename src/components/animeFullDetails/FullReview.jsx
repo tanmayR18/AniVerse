@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import {BsCheckLg, BsCircleFill} from "react-icons/bs"
+import { BsCircleFill} from "react-icons/bs"
 import YouTube from 'react-youtube';
 import commentsCount from '../../assets/commentCountImg.png'
-import {BiSolidMessageSquare} from "react-icons/bi"
+//import {BiSolidMessageSquare} from "react-icons/bi"
 import ShareWithFriends from '../common/ShareWithFriends';
-import LoginOverlayer from '../LoginAndSignUp/LoginOverlayer';
+//import LoginOverlayer from '../LoginAndSignUp/LoginOverlayer';
 import Navbar from '../common/Navbar';
 import { useSelector } from 'react-redux';
 import unknownProfile from "../../assets/unknown-profile.png"
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
-import {FaStar, FaComments} from "react-icons/fa"
+import {FaStar} from "react-icons/fa"
 import { apiConnector } from '../../service/apiconnector';
 import { anime, ratingAndReview } from '../../service/apis';
 import { toast } from 'react-hot-toast';
@@ -19,8 +19,8 @@ import ReviewsCard from './ReviewsCard';
 import {BiComment} from "react-icons/bi"
 import {TbMessageCircle2Filled} from "react-icons/tb"
 import RelatedAnime from './RelatedAnime';
-import axios from 'axios';
-import RecommendedAnime from './RecommendedAnime';
+// import axios from 'axios';
+// import RecommendedAnime from './RecommendedAnime';
 import Genre from '../common/GenreSection';
 import RecommendedAnimes from './RecommendedAnimes';
 import Footer from '../common/Footer';
@@ -30,7 +30,7 @@ import Footer from '../common/Footer';
 
 
 const FullReview = ({setReview, animeData, recommendedAnime}) => {
-    const location = useLocation()
+    // const location = useLocation()
     // console.log("Anime data",animeData)
     const [readMore, setReadMore] = useState(true)
     const userData = useSelector( state => state.auth)
@@ -287,7 +287,7 @@ const FullReview = ({setReview, animeData, recommendedAnime}) => {
                                 <div className=' text-socialMedia-twitter   overflow-hidden flex items-center gap-2  bg-richwhite-100 h-14 w-44  rounded-lg relative'>
                                     <TbMessageCircle2Filled size={35} className=' ml-2' />
                                     <p className=' text-lg font-bold'>{reviews && reviews.length}</p>
-                                    <img className=' absolute -top-4 right-0 h-24 ' src={commentsCount} />
+                                    <img className=' absolute -top-4 right-0 h-24 ' alt='full-review-img' src={commentsCount} />
                                 </div>
                             </div>
                 }

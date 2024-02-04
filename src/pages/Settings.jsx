@@ -1,7 +1,7 @@
 import React from 'react'
 import NavbarCommonComp from '../components/common/NavbarCommonComp'
 import Navbar from '../components/common/Navbar'
-import underConstruction from "../assets/underConstruction.gif"
+// import underConstruction from "../assets/underConstruction.gif"
 import {FaKey} from 'react-icons/fa'
 import { useState } from 'react'
 import {AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai'

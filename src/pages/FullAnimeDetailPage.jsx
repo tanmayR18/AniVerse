@@ -1,13 +1,13 @@
 import React from 'react'
-import { useContext } from 'react'
+// import { useContext } from 'react'
 import { useEffect } from 'react'
-import { AppContext } from '../context/AppContext'
+// import { AppContext } from '../context/AppContext'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import { useState } from 'react'
 import FullReview from '../components/animeFullDetails/FullReview'
 import FullAnimeDetails from '../components/animeFullDetails/FullAnimeDetails'
-import Navbar from '../components/common/Navbar'
+// import Navbar from '../components/common/Navbar'
 
 
 const FullAnimeDetailPage = () => {

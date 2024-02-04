@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import {FaStar, FaPlus, FaPlay} from "react-icons/fa"
+import { FaPlus, FaPlay} from "react-icons/fa"
 import {MdKeyboardDoubleArrowLeft, MdKeyboardArrowLeft, MdKeyboardArrowRight, MdKeyboardDoubleArrowRight} from "react-icons/md"
 import { useEffect } from 'react'
 
@@ -44,13 +44,13 @@ const RecommendedAnime = ({recommendedAnime}) => {
                         <div  className=' h-[20rem] group flex items-end justify-center relative overflow-hidden'>
                                 {/* Anime image */}
                                 <img 
-                                onClick={() => navigate(`/full-anime-detials/${anime.entry.mal_id}/${anime.entry.title.split(" "). join("-")}`)}
+                                onClick={() => navigate(`/full-anime-detials/${anime.entry.mal_id}/${anime.entry.title.split(" ").join("-")}`)}
                                 className=' absolute w-full cursor-pointer'
                                 src={anime.entry.images.jpg.image_url} alt='animePoster' />
                                 
                                 {/* Buttons */}
                                 <div className='w-[95%] z-10 opacity-0 group-hover:opacity-100 flex transition-all duration-300 text-richblack-90 items-start justify-between '>
-                                    <NavLink to={`/full-anime-detials/${anime.entry.mal_id}/${anime.entry.title.split(" "). join("-")}`} className={" flex mb-2 justify-center w-4/5"}>
+                                    <NavLink to={`/full-anime-detials/${anime.entry.mal_id}/${anime.entry.title.split(" ").join("-")}`} className={" flex mb-2 justify-center w-4/5"}>
                                         <div className='flex justify-center rounded-3xl gap-2  items-center py-2 w-full bg-richyellow-50'>
                                             <FaPlay />
                                             <p>View Now</p>

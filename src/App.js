@@ -1,4 +1,4 @@
-import { Route, Routes, useActionData } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import LandingPage from "./pages/LandingPage"
 import AnimeDetails from "./pages/AnimeSearchResult"
 import FilterPage from "./pages/FilterPage"
@@ -15,12 +15,12 @@ import Notification from "./pages/Notification"
 import Home from "./pages/Home"
 import SideBar from "./components/common/SideBar"
 import Modal from "./components/common/Modal"
-import { addModal } from "./slices/modalSlice"
+// import { addModal } from "./slices/modalSlice"
 
 
 const App = () => {
     
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     const userTest = useSelector( state => state.auth)
     const showModal = useSelector(state => state.modal)
     console.log("userTest inside app", userTest)

@@ -12,7 +12,7 @@ const NavbarCommonComp = () => {
     <div className=' w-full h-60 relative'>
         {/* Background image */}
         {
-            userData && <img className='absolute top-0 left-0 h-full w-full object-cover' src={userData.user.image}  />
+            userData && <img className='absolute top-0 left-0 h-full w-full object-cover' alt='nnn' src={userData.user.image}  />
         }
 
         {/* Name and navigation */}

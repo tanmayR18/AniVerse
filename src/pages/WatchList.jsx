@@ -40,7 +40,7 @@ const WatchList = () => {
                 <h1 className=' text-richwhite-100 font-bold text-[2rem]'>
                     OOP's no anime in the watchList
                 </h1>
-                <img className=' aspect-auto h-60 rounded-md' src={notFound} />
+                <img alt='not founf image' className=' aspect-auto h-60 rounded-md' src={notFound} />
             </div>
         }
 

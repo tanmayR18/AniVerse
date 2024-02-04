@@ -16,16 +16,16 @@ const Footer = () => {
             </div>
             {/* Social Media Icons */}
             <div className='flex gap-3 items-center  pl-10 border-l border-richwhite-10 h-full '>
-                <a href='https://discord.gg/m2zqAAhS' target='_blank' className='p-2 bg-socialMedia-discord rounded-full text-richwhite-100'>
+                <a href='https://discord.gg/m2zqAAhS' target='_blank' rel='noreferrer' className='p-2 bg-socialMedia-discord rounded-full text-richwhite-100'>
                     <FaDiscord />
                 </a>
-                <a href='https://www.reddit.com/user/tr__18' target='_blank' className='p-2 bg-socialMedia-reddit rounded-full text-richwhite-100'>
+                <a href='https://www.reddit.com/user/tr__18' target='_blank' rel='noreferrer' className='p-2 bg-socialMedia-reddit rounded-full text-richwhite-100'>
                     <FaRedditAlien />
                 </a>
-                <a href='https://t.me/+G_jkbzuj6SwwMThl' target='_blank' className='p-2 bg-socialMedia-telegram rounded-full text-richwhite-100'>
+                <a href='https://t.me/+G_jkbzuj6SwwMThl' target='_blank' rel='noreferrer' className='p-2 bg-socialMedia-telegram rounded-full text-richwhite-100'>
                     <FaTelegramPlane />
                 </a>
-                <a href='https://twitter.com/tanmayrane99' target='_blank' className='p-2 bg-socialMedia-twitter rounded-full text-richwhite-100'>
+                <a href='https://twitter.com/tanmayrane99' target='_blank' rel='noreferrer' className='p-2 bg-socialMedia-twitter rounded-full text-richwhite-100'>
                     <FaTwitter />
                 </a>
             </div>
