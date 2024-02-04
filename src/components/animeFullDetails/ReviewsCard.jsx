@@ -5,7 +5,7 @@ import { apiConnector } from '../../service/apiconnector'
 import { ratingAndReview } from '../../service/apis'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-hot-toast'
-//import unknowProfile from "../../assets/unknown-profile.png"
+import unknowProfile from "../../assets/unknown-profile.png"
 
 
 const ReviewsCard = ({review}) => {
