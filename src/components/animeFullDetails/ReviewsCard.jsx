@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import { toMMDDYYY } from '../../service/inFormalDate'
 import {AiFillLike} from "react-icons/ai"
 import { apiConnector } from '../../service/apiconnector'
 import { ratingAndReview } from '../../service/apis'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-hot-toast'
-import unknowProfile from "../../assets/unknown-profile.png"
+//import unknowProfile from "../../assets/unknown-profile.png"
 
 
 const ReviewsCard = ({review}) => {
@@ -35,7 +35,7 @@ const ReviewsCard = ({review}) => {
             token: userData.token
         }
         try{
-            const response = await apiConnector("PUT", ratingAndReview.ADD_OR_REMOVE_LIKE, urlBody)
+            //const response = await apiConnector("PUT", ratingAndReview.ADD_OR_REMOVE_LIKE, urlBody)
             // console.log("Liked response", response)
             liked ? setLikeCount((prevState) => prevState - 1) : setLikeCount((prevState) => prevState + 1)
             setLiked( (prevState) => !prevState)

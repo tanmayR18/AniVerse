@@ -11,7 +11,7 @@ import EmailVerification from './EmailVerification'
 
 const LoginOverlayer = ({loginVisible, setLoginVisible}) => {
     // const [isLogin, setIsLogin] = useState(true)
-    const [fadeUp, setFadeUp] = useState(false)
+    //const [fadeUp, setFadeUp] = useState(false)
     const [isLogin, setIsLogin] = useState(true)
     const [isRegister, setRegister] = useState(false)
     const [isforgotPassword, setForgotPassword] = useState(false)

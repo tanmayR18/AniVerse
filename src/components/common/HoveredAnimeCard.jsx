@@ -71,7 +71,7 @@ const HoveredAnimeCard = ({anime}) => {
             </div>
         </div>
         <div className='flex  text-richblack-90 items-center justify-between '>
-            <NavLink to={`/full-anime-detials/${anime.mal_id}/${anime.title.split(" "). join("-")}`} className={" w-4/5"}>
+            <NavLink to={`/full-anime-detials/${anime.mal_id}/${anime.title.split(" ").join("-")}`} className={" w-4/5"}>
                 <div className='flex justify-center rounded-3xl gap-2  items-center py-2 px-10 bg-richyellow-50'>
                     <FaPlay />
                     <p>View Now</p>

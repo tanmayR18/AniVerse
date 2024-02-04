@@ -11,7 +11,7 @@ import LoginOverLayer from "../LoginAndSignUp/LoginOverlayer"
 import { useDispatch, useSelector } from 'react-redux'
 import { logOut } from '../../slices/authSlice'
 import { useEffect } from 'react'
-import SideBar from './SideBar'
+// import SideBar from './SideBar'
 import { addModal } from '../../slices/modalSlice'
 
 
@@ -19,7 +19,7 @@ import { addModal } from '../../slices/modalSlice'
 const Navbar = ({bgColor}) => {
 
     const userData = useSelector( state => state.auth)
-    const [showSideBar, setShowSideBar] = useState(false)
+    //const [showSideBar, setShowSideBar] = useState(false)
     const [navbar, setNavbar] = useState(false)
     const [search, setSearch] = useState("")
     const [loginVisible, setLoginVisible] = useState()
@@ -74,6 +74,7 @@ const Navbar = ({bgColor}) => {
                         href={item.href}
                         alt = {item.alt}
                         target='_blank'
+                        rel='noreferrer'
                         className={`p-[10px] ${item.bgColor} rounded-full text-richwhite-100`}
                         >
                             {item.icon}
@@ -141,7 +142,7 @@ const Navbar = ({bgColor}) => {
                         <div className='w-9 flex items-center justify-center overflow-hidden rounded-full  h-9  top-0 left-0'>
                             {
                                 userData ? 
-                                <img className='' src={userData.user.image} /> :
+                                <img className='' alt='none' src={userData.user.image} /> :
                                 <BsFillPersonFill />
                             }
                             

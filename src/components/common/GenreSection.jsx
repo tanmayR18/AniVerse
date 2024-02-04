@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
+//import React, { useContext, useEffect, useState } from 'react'
 import { genres } from '../../data/filter/filter'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
-const Genre = ({}) => {
+const Genre = () => {
 
     // const [colorIndex, setColorIndex] = useState(0)
 

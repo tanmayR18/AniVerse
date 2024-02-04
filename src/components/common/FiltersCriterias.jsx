@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, {  } from 'react'
 import { type, status, rating, score, order_by, sort, sfw } from '../../data/filter/filter'
 import Datepicker from 'react-tailwindcss-datepicker'
-import Calendar from 'react-calendar'
+// import Calendar from 'react-calendar'
 
 const Filters = ({formData, changeHandler, start, setStart, end, setEnd}) => {
 

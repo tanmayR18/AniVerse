@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { removeModal } from '../../slices/modalSlice'
 import {ImCross} from "react-icons/im"
 import { NavLink, useNavigate } from 'react-router-dom'
-import { sideLink } from '../../data/sidebar/sidebar'
+// import { sideLink } from '../../data/sidebar/sidebar'
 
 const SideBar = () => {
-    const modal = useSelector(state => state.modal)
+    //const modal = useSelector(state => state.modal)
     const dispatch = useDispatch()
     const navigate = useNavigate()
   return (

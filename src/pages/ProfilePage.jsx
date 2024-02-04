@@ -11,11 +11,11 @@ import toast from 'react-hot-toast'
 import { apiConnector } from '../service/apiconnector'
 import { profile } from '../service/apis'
 import { logIn } from '../slices/authSlice'
-import {FaKey} from 'react-icons/fa'
+//import {FaKey} from 'react-icons/fa'
 import Footer from "../components/common/Footer"
 import Datepicker from 'react-tailwindcss-datepicker'
 import { genres } from '../data/filter/filter'
-import { isDisabled } from '@testing-library/user-event/dist/utils'
+//import { isDisabled } from '@testing-library/user-event/dist/utils'
 
 
 const ProfilePage = () => {
@@ -129,9 +129,12 @@ const ProfilePage = () => {
                             {
                                 editAble ?
                                 <img
+                                alt='none'
                                 src={image ? URL.createObjectURL(image) : profileImage}/> 
                                 :
-                                <img src={`
+                                <img
+                                alt='noen'
+                                src={`
                                     ${userData.user.image ? userData.user.image : profileImage}
                                 `} />
                             }

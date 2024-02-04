@@ -1,7 +1,7 @@
 import React from 'react'
 import ShareWithFriends from '../common/ShareWithFriends'
 import { NavLink, useLocation } from 'react-router-dom'
-import {BsCheckLg, BsCircleFill} from 'react-icons/bs'
+import {BsCircleFill} from 'react-icons/bs'
 import {MdRateReview} from 'react-icons/md'
 import {FaPlus} from 'react-icons/fa'
 import { useState } from 'react'
@@ -20,7 +20,7 @@ const FullAnimeDetails = ({animeData, setReview, recommendedAnime}) => {
     const watchList = useSelector( state => state.watchList)
 
     const animeId = location.pathname.split("/").at(-2)
-    const user = useSelector( state => state.auth)
+    // const user = useSelector( state => state.auth)
 
     // animeData && console.log(animeData.synopsis.slice(0,265)+"...")
     // console.log(animeData)
